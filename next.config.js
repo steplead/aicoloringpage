@@ -3,22 +3,13 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['ai-coloringpage.com', 'www.ai-coloringpage.com'],
-  },
-  async redirects() {
-    return [
-      {
-        source: '/',
-        has: [
-          {
-            type: 'host',
-            value: 'ai-coloringpage.com',
-          },
-        ],
-        destination: 'https://www.ai-coloringpage.com',
-        permanent: true,
-      },
-    ]
+    domains: [
+      'ai-coloringpage.com', 
+      'www.ai-coloringpage.com', 
+      'coloringpage-nine.vercel.app',
+      'coloringpage-ak8nv1oed-stepleads-projects.vercel.app',
+      'vercel.app'
+    ],
   },
   async headers() {
     return [
