@@ -5,6 +5,21 @@ const nextConfig = {
   images: {
     domains: ['ai-coloringpage.com', 'www.ai-coloringpage.com'],
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        has: [
+          {
+            type: 'host',
+            value: 'ai-coloringpage.com',
+          },
+        ],
+        destination: 'https://www.ai-coloringpage.com',
+        permanent: true,
+      },
+    ]
+  },
   async headers() {
     return [
       {
