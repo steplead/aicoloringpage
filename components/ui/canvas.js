@@ -145,6 +145,16 @@ const Canvas = ({
         applyPatternBrush(context, start, end);
         break;
         
+      case 'smart-adjust':
+        // Smart adjust for dynamic color adjustments
+        applySmartAdjustBrush(context, start, end);
+        break;
+        
+      case 'guided-coloring':
+        // Guided coloring with boundary detection
+        applyGuidedColoringBrush(context, start, end);
+        break;
+        
       default:
         // Default to standard brush
         context.moveTo(start.x, start.y);
@@ -339,6 +349,250 @@ const Canvas = ({
           break;
       }
     }
+  };
+  
+  // Smart Adjust brush implementation - NEW
+  const applySmartAdjustBrush = (context, start, end) => {
+    // Base color from user selection
+    const baseColor = brushColor;
+    
+    // Get HSL values from RGB color to make adjustments easier
+    const getHSL = (hexColor) => {
+      // Convert hex to RGB
+      let r = parseInt(hexColor.slice(1, 3), 16) / 255;
+      let g = parseInt(hexColor.slice(3, 5), 16) / 255;
+      let b = parseInt(hexColor.slice(5, 7), 16) / 255;
+      
+      // Find greatest and smallest color channels
+      let max = Math.max(r, g, b);
+      let min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+
+      if (max === min) {
+        h = s = 0; // achromatic
+      } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+      
+      return { h: h * 360, s: s * 100, l: l * 100 };
+    };
+    
+    // Convert HSL to hex color
+    const hslToHex = (h, s, l) => {
+      h /= 360;
+      s /= 100;
+      l /= 100;
+      
+      let r, g, b;
+      
+      if (s === 0) {
+        r = g = b = l; // achromatic
+      } else {
+        const hue2rgb = (p, q, t) => {
+          if (t < 0) t += 1;
+          if (t > 1) t -= 1;
+          if (t < 1/6) return p + (q - p) * 6 * t;
+          if (t < 1/2) return q;
+          if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+          return p;
+        };
+        
+        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        const p = 2 * l - q;
+        
+        r = hue2rgb(p, q, h + 1/3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1/3);
+      }
+      
+      const toHex = (x) => {
+        const hex = Math.round(x * 255).toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
+      };
+      
+      return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    };
+    
+    // Get base HSL values
+    const hsl = getHSL(baseColor);
+    
+    // Calculate distance and angle between points
+    const distance = Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2));
+    const steps = Math.max(Math.floor(distance), 1);
+    
+    // Draw the stroke with dynamic color adjustment
+    for (let i = 0; i < steps; i++) {
+      const t = i / steps;
+      const x = start.x + (end.x - start.x) * t;
+      const y = start.y + (end.y - start.y) * t;
+      
+      // Adjust hue, saturation, and lightness based on position
+      // This creates a dynamic color effect that varies across the stroke
+      const hueShift = Math.sin(t * Math.PI * 2) * 15 * aiBrush.intensity;
+      const satShift = Math.cos(t * Math.PI) * 10 * aiBrush.intensity;
+      const lightShift = (Math.sin(t * Math.PI * 3) * 10 * aiBrush.intensity) - (5 * aiBrush.intensity);
+      
+      // Create adjusted color
+      const adjustedColor = hslToHex(
+        (hsl.h + hueShift) % 360,
+        Math.max(0, Math.min(100, hsl.s + satShift)),
+        Math.max(0, Math.min(100, hsl.l + lightShift))
+      );
+      
+      // Draw a dot with the adjusted color
+      context.beginPath();
+      context.arc(x, y, brushSize * 0.8, 0, Math.PI * 2);
+      context.fillStyle = adjustedColor;
+      context.fill();
+      
+      // Add highlight/shadow dots for more dimension
+      if (Math.random() < 0.3 * aiBrush.intensity) {
+        const highlightSize = brushSize * 0.4 * Math.random() * aiBrush.intensity;
+        const offsetX = (Math.random() * 2 - 1) * brushSize * 0.3;
+        const offsetY = (Math.random() * 2 - 1) * brushSize * 0.3;
+        
+        // Highlight dot (lighter)
+        context.beginPath();
+        context.arc(x + offsetX, y + offsetY, highlightSize, 0, Math.PI * 2);
+        context.fillStyle = hslToHex(hsl.h, Math.max(0, hsl.s - 20), Math.min(100, hsl.l + 20));
+        context.fill();
+      }
+    }
+    
+    // Final stroke to connect everything smoothly
+    context.beginPath();
+    context.moveTo(start.x, start.y);
+    context.lineTo(end.x, end.y);
+    context.strokeStyle = baseColor;
+    context.globalAlpha = 0.3;
+    context.stroke();
+    context.globalAlpha = 1.0;
+  };
+  
+  // Guided Coloring brush implementation - NEW
+  const applyGuidedColoringBrush = (context, start, end) => {
+    const canvas = actualCanvasRef.current;
+    const ctx = canvas.getContext('2d');
+    
+    // Line detection parameters
+    const detectLineThreshold = 50; // RGB difference threshold for detecting lines
+    const guidanceRadius = brushSize * 3 * aiBrush.intensity; // Area to scan for boundaries
+    
+    // Draw basic line first
+    context.beginPath();
+    context.moveTo(start.x, start.y);
+    context.lineTo(end.x, end.y);
+    
+    // Calculate step positions along the line
+    const distance = Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2));
+    const steps = Math.max(Math.floor(distance * 2), 2); // Ensure enough samples along the line
+    
+    // Initialize boundary detection flags
+    let nearBoundary = false;
+    let boundaryDirection = { x: 0, y: 0 };
+    
+    // Find boundaries and adjust drawing
+    for (let i = 0; i <= steps; i++) {
+      const t = i / steps;
+      const x = Math.round(start.x + (end.x - start.x) * t);
+      const y = Math.round(start.y + (end.y - start.y) * t);
+      
+      // Sample in a small circle around the point to detect boundaries
+      nearBoundary = false;
+      
+      // Check pixels in a circle around the current point
+      for (let angle = 0; angle < Math.PI * 2; angle += Math.PI / 8) {
+        for (let rad = guidanceRadius * 0.5; rad <= guidanceRadius; rad += guidanceRadius * 0.25) {
+          const checkX = Math.round(x + Math.cos(angle) * rad);
+          const checkY = Math.round(y + Math.sin(angle) * rad);
+          
+          // Skip if out of bounds
+          if (checkX < 0 || checkY < 0 || checkX >= canvas.width || checkY >= canvas.height) {
+            continue;
+          }
+          
+          // Get pixel data at check position
+          const imageData = ctx.getImageData(checkX, checkY, 1, 1).data;
+          const r = imageData[0];
+          const g = imageData[1];
+          const b = imageData[2];
+          
+          // Calculate brightness (simplified)
+          const brightness = (r + g + b) / 3;
+          
+          // If we detect a dark pixel (likely a line), adjust our boundary detection
+          if (brightness < detectLineThreshold) {
+            nearBoundary = true;
+            
+            // Calculate direction from current point to boundary
+            boundaryDirection = {
+              x: checkX - x,
+              y: checkY - y
+            };
+            
+            // Normalize direction
+            const magnitude = Math.sqrt(boundaryDirection.x * boundaryDirection.x + boundaryDirection.y * boundaryDirection.y);
+            if (magnitude > 0) {
+              boundaryDirection.x /= magnitude;
+              boundaryDirection.y /= magnitude;
+            }
+            
+            break;
+          }
+        }
+        if (nearBoundary) break;
+      }
+      
+      // Adjust drawing based on boundary detection
+      let adjustedBrushSize = brushSize;
+      
+      if (nearBoundary) {
+        // Reduce brush size near boundaries
+        adjustedBrushSize = brushSize * 0.6;
+        
+        // Add visual feedback for guidance
+        context.save();
+        context.beginPath();
+        context.arc(x, y, adjustedBrushSize * 1.5, 0, Math.PI * 2);
+        context.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        context.fill();
+        context.restore();
+      }
+      
+      // Draw the color dot
+      context.beginPath();
+      context.arc(x, y, adjustedBrushSize, 0, Math.PI * 2);
+      context.fillStyle = brushColor;
+      context.fill();
+      
+      // Add subtle guidance for the user when near boundaries
+      if (nearBoundary && i % 3 === 0) {
+        // Draw a subtle guidance circle
+        const oppositeX = x - boundaryDirection.x * adjustedBrushSize * 2;
+        const oppositeY = y - boundaryDirection.y * adjustedBrushSize * 2;
+        
+        context.beginPath();
+        context.arc(oppositeX, oppositeY, adjustedBrushSize * 0.8, 0, Math.PI * 2);
+        context.fillStyle = `rgba(${parseInt(brushColor.slice(1, 3), 16)}, ${parseInt(brushColor.slice(3, 5), 16)}, ${parseInt(brushColor.slice(5, 7), 16)}, 0.3)`;
+        context.fill();
+      }
+    }
+    
+    // Connect all points with a thin line for continuity
+    context.beginPath();
+    context.moveTo(start.x, start.y);
+    context.lineTo(end.x, end.y);
+    context.strokeStyle = brushColor;
+    context.globalAlpha = 0.2;
+    context.stroke();
+    context.globalAlpha = 1.0;
   };
   
   // Calculate coordinates for both mouse and touch events

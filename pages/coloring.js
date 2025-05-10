@@ -442,7 +442,18 @@ export default function ColoringPage() {
         throw new Error(data.error || 'Failed to auto-color image');
       }
       
-      // Apply processed image to Canvas
+      // 检查是否有自动上色标记
+      let processedImageData = data.imageData;
+      const hasAutoColorMark = processedImageData.includes('#autoColored');
+      
+      if (hasAutoColorMark) {
+        // 移除标记
+        processedImageData = processedImageData.replace('#autoColored', '');
+        
+        // 使用前端处理：应用预设的彩色效果
+        applyFrontendAutoColorEffect(canvas);
+      } else {
+        // 正常应用处理后的图像
       const img = new Image();
       img.crossOrigin = "anonymous";
       
@@ -457,11 +468,263 @@ export default function ColoringPage() {
         setIsProcessing(false);
       };
       
-      img.src = data.imageData;
+        img.src = processedImageData;
+      }
       
     } catch (error) {
       console.error('Error auto-coloring image:', error);
       setIsProcessing(false);
+    }
+  };
+  
+  // 在前端应用自动上色效果（当后端返回标记时使用）
+  const applyFrontendAutoColorEffect = (canvas) => {
+    const context = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+    
+    // 获取当前画布内容
+    const imageData = context.getImageData(0, 0, width, height);
+    const data = imageData.data;
+    
+    // 吉卜力风格的颜色调色板
+    const ghibliColors = [
+      [74, 143, 221],   // 天空蓝
+      [140, 193, 82],   // 龙猫绿
+      [252, 187, 66],   // 魔女黄
+      [248, 244, 227],  // 暖白
+      [228, 238, 251],  // 淡蓝
+      [210, 180, 140],  // 浅棕
+      [115, 85, 58],    // 深棕
+      [237, 85, 101],   // 红色
+      [252, 110, 81],   // 橙色
+      [150, 122, 220]   // 紫色
+    ];
+    
+    // 创建一个访问标记数组，避免重复处理像素
+    const visited = new Array(width * height).fill(false);
+    
+    // 定义封闭区域的最小尺寸（小于此尺寸的区域不会被填充）
+    const minRegionSize = 100;
+    
+    // 智能区域检测和填充函数
+    const detectAndFillRegions = () => {
+      // 用于标识不同的区域
+      let regionId = 0;
+      // 存储所有区域及其像素
+      const regions = [];
+      
+      // 使用种子填充算法(flood fill)识别封闭区域
+      for (let y = 0; y < height; y += 5) {  // 每隔5个像素取样，提高性能
+        for (let x = 0; x < width; x += 5) {
+          const index = (y * width + x) * 4;
+          
+          // 如果是白色区域且未被访问过
+          if (!visited[y * width + x] && isWhitePixel(data, index)) {
+            // 开始新区域
+            const region = [];
+            // 使用广度优先搜索(BFS)填充区域
+            floodFill(x, y, region);
+            
+            // 如果区域足够大，保存它
+            if (region.length > minRegionSize) {
+              regions.push({
+                id: regionId++,
+                pixels: region,
+                color: selectColorForRegion(region, regionId),
+              });
+            }
+          }
+        }
+      }
+      
+      // 按区域大小排序，先填充大区域，再填充小区域
+      regions.sort((a, b) => b.pixels.length - a.pixels.length);
+      
+      // 填充所有区域
+      regions.forEach(region => {
+        fillRegionWithColor(region.pixels, region.color);
+      });
+    };
+    
+    // 广度优先搜索，寻找连通的白色区域
+    const floodFill = (startX, startY, region) => {
+      const queue = [{x: startX, y: startY}];
+      const maxQueueSize = 10000; // 限制队列大小，防止栈溢出
+      
+      // 方向数组：上、右、下、左、左上、右上、左下、右下
+      const directions = [
+        {dx: 0, dy: -1}, {dx: 1, dy: 0}, 
+        {dx: 0, dy: 1}, {dx: -1, dy: 0},
+        {dx: -1, dy: -1}, {dx: 1, dy: -1},
+        {dx: -1, dy: 1}, {dx: 1, dy: 1}
+      ];
+      
+      // 标记起始点为已访问
+      visited[startY * width + startX] = true;
+      region.push({x: startX, y: startY});
+      
+      // BFS遍历
+      while (queue.length > 0 && queue.length < maxQueueSize) {
+        const current = queue.shift();
+        const {x, y} = current;
+        
+        // 检查所有方向
+        for (const dir of directions) {
+          const newX = x + dir.dx;
+          const newY = y + dir.dy;
+          
+          // 确保新位置在画布内
+          if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
+            const newIndex = (newY * width + newX);
+            const dataIndex = newIndex * 4;
+            
+            // 如果是白色且未访问过
+            if (!visited[newIndex] && isWhitePixel(data, dataIndex)) {
+              visited[newIndex] = true;
+              queue.push({x: newX, y: newY});
+              region.push({x: newX, y: newY});
+            }
+          }
+        }
+      }
+    };
+    
+    // 检查是否为白色（或接近白色）像素
+    const isWhitePixel = (data, index) => {
+      const r = data[index];
+      const g = data[index + 1];
+      const b = data[index + 2];
+      // 判断是否为白色区域（避开黑色线条）
+      return r > 200 && g > 200 && b > 200;
+    };
+    
+    // 为区域选择合适的颜色
+    const selectColorForRegion = (region, regionId) => {
+      // 使用区域ID来选择颜色，确保相邻区域的颜色差异
+      // 同时引入一些随机性避免重复
+      const baseColorIndex = (regionId * 3) % ghibliColors.length;
+      const colorIndex = (baseColorIndex + Math.floor(Math.random() * 3)) % ghibliColors.length;
+      return ghibliColors[colorIndex];
+    };
+    
+    // 填充区域
+    const fillRegionWithColor = (pixels, color) => {
+      pixels.forEach(pixel => {
+        const idx = (pixel.y * width + pixel.x) * 4;
+        
+        // 如果像素仍然是白色，填充颜色（确保没有被其他操作改变）
+        if (isWhitePixel(data, idx)) {
+          // 添加一些随机变化，使颜色看起来更自然
+          const jitter = 15; // 颜色抖动程度
+          data[idx] = Math.min(255, color[0] + Math.random() * jitter * 2 - jitter);
+          data[idx + 1] = Math.min(255, color[1] + Math.random() * jitter * 2 - jitter);
+          data[idx + 2] = Math.min(255, color[2] + Math.random() * jitter * 2 - jitter);
+          
+          // 处理边缘区域，让颜色更自然地与线条过渡
+          const isNearBlackLine = checkNearBlackLine(pixel.x, pixel.y);
+          if (isNearBlackLine) {
+            // 边缘附近稍微变暗，增强边界效果
+            data[idx] = Math.max(0, data[idx] - 20);
+            data[idx + 1] = Math.max(0, data[idx + 1] - 20);
+            data[idx + 2] = Math.max(0, data[idx + 2] - 20);
+          }
+        }
+      });
+    };
+    
+    // 检查像素是否靠近黑色线条
+    const checkNearBlackLine = (x, y) => {
+      const searchDist = 2; // 搜索距离
+      for (let dy = -searchDist; dy <= searchDist; dy++) {
+        for (let dx = -searchDist; dx <= searchDist; dx++) {
+          const nx = x + dx;
+          const ny = y + dy;
+          
+          // 确保新位置在画布内
+          if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
+            const idx = (ny * width + nx) * 4;
+            const r = data[idx];
+            const g = data[idx + 1];
+            const b = data[idx + 2];
+            
+            // 检测是否为黑色或深色（线条）
+            if (r < 100 && g < 100 && b < 100) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    };
+    
+    // 执行区域检测和填充
+    detectAndFillRegions();
+    
+    // 应用平滑滤镜，减少像素化效果
+    smoothImage(data, width, height);
+    
+    // 将处理后的图像数据放回canvas
+    context.putImageData(imageData, 0, 0);
+    
+    // 更新历史
+    historyManagerRef.current.addToHistory(canvas);
+    updateHistoryState();
+    
+    setIsProcessing(false);
+  };
+  
+  // 图像平滑函数 - 简单的均值滤波
+  const smoothImage = (data, width, height) => {
+    // 创建一个临时数组存储平滑后的像素
+    const tempData = new Uint8ClampedArray(data.length);
+    
+    // 复制原始数据到临时数组
+    for (let i = 0; i < data.length; i++) {
+      tempData[i] = data[i];
+    }
+    
+    // 仅在非线条区域应用平滑
+    for (let y = 1; y < height - 1; y++) {
+      for (let x = 1; x < width - 1; x++) {
+        const idx = (y * width + x) * 4;
+        
+        // 检查是否为非线条区域
+        const r = data[idx];
+        const g = data[idx + 1];
+        const b = data[idx + 2];
+        
+        if (!(r < 100 && g < 100 && b < 100)) {
+          // 计算3x3区域的平均值
+          let sumR = 0, sumG = 0, sumB = 0, count = 0;
+          
+          for (let dy = -1; dy <= 1; dy++) {
+            for (let dx = -1; dx <= 1; dx++) {
+              const nx = x + dx;
+              const ny = y + dy;
+              const nidx = (ny * width + nx) * 4;
+              
+              // 确保新位置在画布内并且不是线条
+              const nr = tempData[nidx];
+              const ng = tempData[nidx + 1];
+              const nb = tempData[nidx + 2];
+              
+              if (!(nr < 100 && ng < 100 && nb < 100)) {
+                sumR += nr;
+                sumG += ng;
+                sumB += nb;
+                count++;
+              }
+            }
+          }
+          
+          if (count > 0) {
+            data[idx] = Math.round(sumR / count);
+            data[idx + 1] = Math.round(sumG / count);
+            data[idx + 2] = Math.round(sumB / count);
+          }
+        }
+      }
     }
   };
   

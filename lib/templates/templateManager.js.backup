@@ -1,0 +1,458 @@
+// 模板管理器
+// 负责加载、分类、标记和过滤模板
+
+import { categories, getAllCategories } from './categories';
+import { 
+  generateTagsFromDescription, 
+  getRecommendedTags, 
+  findTemplatesByTags 
+} from './tags';
+
+// 模板示例数据 (在实际实现中，这些会从API或服务器获取)
+// 每个模板包含基本信息、分类信息和标签信息
+const templates = [
+  {
+    id: 'template-1',
+    title: '龙猫的森林',
+    description: '宫崎骏风格的森林场景，龙猫和小梅在大树下玩耍',
+    imageUrl: '/ghibli-assets/templates/totoro-forest.png',
+    thumbnailUrl: '/ghibli-assets/templates/thumbnails/totoro-forest.png',
+    category: 'ghibli',
+    subcategory: 'characters',
+    difficulty: 'medium',
+    popularity: 98,
+    createdAt: '2024-05-01',
+    tags: [
+      { id: 'ghibli-style', name: '吉卜力风格' },
+      { id: 'forest', name: '森林元素' },
+      { id: 'cute', name: '可爱' },
+      { id: 'medium', name: '中等' }
+    ]
+  },
+  {
+    id: 'template-2',
+    title: '魔法城堡',
+    description: '悬浮在云端的奇幻魔法城堡，周围有飞龙环绕',
+    imageUrl: '/ghibli-assets/templates/magic-castle.png',
+    thumbnailUrl: '/ghibli-assets/templates/thumbnails/magic-castle.png',
+    category: 'fantasy',
+    subcategory: 'castle',
+    difficulty: 'hard',
+    popularity: 85,
+    createdAt: '2024-05-15',
+    tags: [
+      { id: 'cartoon', name: '卡通风格' },
+      { id: 'magic', name: '魔法元素' },
+      { id: 'buildings', name: '建筑元素' },
+      { id: 'hard', name: '复杂' }
+    ]
+  },
+  {
+    id: 'template-3',
+    title: '森林小鹿',
+    description: '卡通风格的可爱小鹿，站在花丛中的森林场景',
+    imageUrl: '/ghibli-assets/templates/forest-deer.png',
+    thumbnailUrl: '/ghibli-assets/templates/thumbnails/forest-deer.png',
+    category: 'animals',
+    subcategory: 'mammals',
+    difficulty: 'easy',
+    popularity: 92,
+    createdAt: '2024-06-01',
+    tags: [
+      { id: 'cartoon', name: '卡通风格' },
+      { id: 'forest', name: '森林元素' },
+      { id: 'animals', name: '动物元素' },
+      { id: 'cute', name: '可爱' },
+      { id: 'easy', name: '简单' }
+    ]
+  },
+  {
+    id: 'template-4',
+    title: '海边灯塔',
+    description: '平静海面上的白色灯塔，悬崖上的小屋，有水彩风格',
+    imageUrl: '/ghibli-assets/templates/seaside-lighthouse.png',
+    thumbnailUrl: '/ghibli-assets/templates/thumbnails/seaside-lighthouse.png',
+    category: 'nature',
+    subcategory: 'ocean',
+    difficulty: 'medium',
+    popularity: 78,
+    createdAt: '2024-06-10',
+    tags: [
+      { id: 'watercolor', name: '水彩风格' },
+      { id: 'water', name: '水元素' },
+      { id: 'buildings', name: '建筑元素' },
+      { id: 'calm', name: '平静' },
+      { id: 'medium', name: '中等' }
+    ]
+  },
+  {
+    id: 'template-5',
+    title: '樱花盛开',
+    description: '春天的花园场景，樱花树盛开，小径通向远方',
+    imageUrl: '/ghibli-assets/templates/cherry-blossom.png',
+    thumbnailUrl: '/ghibli-assets/templates/thumbnails/cherry-blossom.png',
+    category: 'seasons',
+    subcategory: 'spring',
+    difficulty: 'medium',
+    popularity: 88,
+    createdAt: '2024-07-01',
+    tags: [
+      { id: 'watercolor', name: '水彩风格' },
+      { id: 'flowers', name: '花卉元素' },
+      { id: 'happy', name: '快乐' },
+      { id: 'medium', name: '中等' }
+    ]
+  }
+];
+
+// 添加更多模板示例
+const extendedTemplates = [
+  ...templates,
+  {
+    id: 'nature-forest',
+    title: '森林与高大的树木和小径',
+    description: '线稿展示: 森林与高大的树木和小径',
+    imageUrl: '/ghibli-assets/templates/nature-forest.png',
+    thumbnailUrl: '/ghibli-assets/templates/thumbnails/nature-forest.png',
+    category: 'nature',
+    subcategory: 'forest',
+    difficulty: 'hard',
+    popularity: 77,
+    createdAt: '2025-05-06',
+    tags: [
+      { id: 'line-art', name: '线稿风格' },
+      { id: 'nature', name: '自然风景' },
+      { id: 'easy', name: '简单' },
+    ]
+  },
+  {
+    id: 'nature-mountain',
+    title: '雪峰与云雾缭绕的山脉',
+    description: '线稿展示: 雪峰与云雾缭绕的山脉',
+    imageUrl: '/ghibli-assets/templates/nature-mountain.png',
+    thumbnailUrl: '/ghibli-assets/templates/thumbnails/nature-mountain.png',
+    category: 'nature',
+    subcategory: 'mountain',
+    difficulty: 'easy',
+    popularity: 83,
+    createdAt: '2025-05-06',
+    tags: [
+      { id: 'line-art', name: '线稿风格' },
+      { id: 'nature', name: '自然风景' },
+      { id: 'hard', name: '复杂' },
+    ]
+  },
+  {
+    id: 'nature-ocean',
+    title: '海浪与沙滩的海洋景色',
+    description: '线稿展示: 海浪与沙滩的海洋景色',
+    imageUrl: '/ghibli-assets/templates/nature-ocean.png',
+    thumbnailUrl: '/ghibli-assets/templates/thumbnails/nature-ocean.png',
+    category: 'nature',
+    subcategory: 'ocean',
+    difficulty: 'easy',
+    popularity: 70,
+    createdAt: '2025-05-06',
+    tags: [
+      { id: 'line-art', name: '线稿风格' },
+      { id: 'nature', name: '自然风景' },
+      { id: 'easy', name: '简单' },
+    ]
+  },
+  {
+    id: 'nature-lake',
+    title: '被树木环绕的平静湖泊',
+    description: '线稿展示: 被树木环绕的平静湖泊',
+    imageUrl: '/ghibli-assets/templates/nature-lake.png',
+    thumbnailUrl: '/ghibli-assets/templates/thumbnails/nature-lake.png',
+    category: 'nature',
+    subcategory: 'lake',
+    difficulty: 'easy',
+    popularity: 76,
+    createdAt: '2025-05-06',
+    tags: [
+      { id: 'simple', name: '简约风格' },
+      { id: 'nature', name: '自然风景' },
+      { id: 'medium', name: '中等' },
+    ]
+  },
+  {
+    id: 'nature-garden',
+    title: '花园与蝴蝶飞舞',
+    description: '线稿展示: 花园与蝴蝶飞舞',
+    imageUrl: '/ghibli-assets/templates/nature-garden.png',
+    thumbnailUrl: '/ghibli-assets/templates/thumbnails/nature-garden.png',
+    category: 'nature',
+    subcategory: 'garden',
+    difficulty: 'easy',
+    popularity: 84,
+    createdAt: '2025-05-06',
+    tags: [
+      { id: 'line-art', name: '线稿风格' },
+      { id: 'nature', name: '自然风景' },
+      { id: 'easy', name: '简单' },
+    ]
+  },
+  {
+    id: 'animals-mammals',
+    title: '可爱的动物脸谱：兔子、狗、猫和熊',
+    description: '线稿展示: 可爱的动物脸谱：兔子、狗、猫和熊',
+    imageUrl: '/ghibli-assets/templates/animals-mammals.png',
+    thumbnailUrl: '/ghibli-assets/templates/thumbnails/animals-mammals.png',
+    category: 'animals',
+    subcategory: 'mammals',
+    difficulty: 'easy',
+    popularity: 74,
+    createdAt: '2025-05-06',
+    tags: [
+      { id: 'cartoon', name: '卡通风格' },
+      { id: 'animals', name: '动物元素' },
+      { id: 'easy', name: '简单' },
+    ]
+  },
+  {
+    id: 'animals-birds',
+    title: '栖息在树枝上的各种鸟类',
+    description: '线稿展示: 栖息在树枝上的各种鸟类',
+    imageUrl: '/ghibli-assets/templates/animals-birds.png',
+    thumbnailUrl: '/ghibli-assets/templates/thumbnails/animals-birds.png',
+    category: 'animals',
+    subcategory: 'birds',
+    difficulty: 'easy',
+    popularity: 85,
+    createdAt: '2025-05-06',
+    tags: [
+      { id: 'cartoon', name: '卡通风格' },
+      { id: 'animals', name: '动物元素' },
+      { id: 'medium', name: '中等' },
+    ]
+  },
+  {
+    id: 'animals-marine',
+    title: '鱼类和珊瑚的海底场景',
+    description: '线稿展示: 鱼类和珊瑚的海底场景',
+    imageUrl: '/ghibli-assets/templates/animals-marine.png',
+    thumbnailUrl: '/ghibli-assets/templates/thumbnails/animals-marine.png',
+    category: 'animals',
+    subcategory: 'marine',
+    difficulty: 'easy',
+    popularity: 74,
+    createdAt: '2025-05-06',
+    tags: [
+      { id: 'cartoon', name: '卡通风格' },
+      { id: 'animals', name: '动物元素' },
+      { id: 'medium', name: '中等' },
+    ]
+  },
+  {
+    id: 'animals-insects',
+    title: '花朵上的蝴蝶和瓢虫',
+    description: '线稿展示: 花朵上的蝴蝶和瓢虫',
+    imageUrl: '/ghibli-assets/templates/animals-insects.png',
+    thumbnailUrl: '/ghibli-assets/templates/thumbnails/animals-insects.png',
+    category: 'animals',
+    subcategory: 'insects',
+    difficulty: 'easy',
+    popularity: 74,
+    createdAt: '2025-05-06',
+    tags: [
+      { id: 'cartoon', name: '卡通风格' },
+      { id: 'animals', name: '动物元素' },
+      { id: 'easy', name: '简单' },
+    ]
+  },
+  {
+    id: 'animals-fantasy',
+    title: '奇幻森林中的龙和独角兽',
+    description: '线稿展示: 奇幻森林中的龙和独角兽',
+    imageUrl: '/ghibli-assets/templates/animals-fantasy.png',
+    thumbnailUrl: '/ghibli-assets/templates/thumbnails/animals-fantasy.png',
+    category: 'animals',
+    subcategory: 'fantasy',
+    difficulty: 'easy',
+    popularity: 96,
+    createdAt: '2025-05-06',
+    tags: [
+      { id: 'line-art', name: '线稿风格' },
+      { id: 'animals', name: '动物元素' },
+      { id: 'easy', name: '简单' },
+    ]
+  },
+];
+
+
+
+
+// 模板管理类
+class TemplateManager {
+  constructor() {
+    this.templates = extendedTemplates; // 使用扩展的模板集合
+    this.categories = categories;
+    this.popularTags = getRecommendedTags();
+    this.loadTemplates();
+  }
+  
+  // 加载所有模板（在实际实现中，这会从API获取）
+  async loadTemplates() {
+    // 可以在这里添加API调用逻辑
+    // 现在使用预定义的模板数据
+    
+    // 更新每个分类的计数
+    this.updateCategoryCounts();
+    
+    return this.templates;
+  }
+  
+  // 获取所有模板
+  getAllTemplates() {
+    return this.templates;
+  }
+  
+  // 获取热门模板（按流行度排序）
+  getPopularTemplates(limit = 6) {
+    return [...this.templates]
+      .sort((a, b) => b.popularity - a.popularity)
+      .slice(0, limit);
+  }
+  
+  // 获取最新模板（按创建日期排序）
+  getLatestTemplates(limit = 6) {
+    return [...this.templates]
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice(0, limit);
+  }
+  
+  // 根据分类获取模板
+  getTemplatesByCategory(categoryId, subcategoryId = null) {
+    if (!categoryId) return this.templates;
+    
+    return this.templates.filter(template => {
+      if (subcategoryId) {
+        return template.category === categoryId && template.subcategory === subcategoryId;
+      }
+      return template.category === categoryId;
+    });
+  }
+  
+  // 根据标签获取模板
+  getTemplatesByTags(tagIds, limit = 10) {
+    return findTemplatesByTags(this.templates, tagIds, limit);
+  }
+  
+  // 根据难度级别获取模板
+  getTemplatesByDifficulty(difficulty) {
+    return this.templates.filter(template => template.difficulty === difficulty);
+  }
+  
+  // 搜索模板
+  searchTemplates(query) {
+    if (!query || query.trim() === '') return this.templates;
+    
+    const normalizedQuery = query.toLowerCase().trim();
+    
+    return this.templates.filter(template => {
+      return (
+        template.title.toLowerCase().includes(normalizedQuery) ||
+        template.description.toLowerCase().includes(normalizedQuery) ||
+        template.tags.some(tag => tag.name.toLowerCase().includes(normalizedQuery))
+      );
+    });
+  }
+  
+  // 根据模板描述生成标签
+  generateTagsForTemplate(description) {
+    return generateTagsFromDescription(description);
+  }
+  
+  // 获取模板分类
+  getCategories() {
+    return this.categories;
+  }
+  
+  // 获取扁平化的所有分类
+  getFlatCategories() {
+    return getAllCategories();
+  }
+  
+  // 获取热门标签
+  getPopularTags() {
+    return this.popularTags;
+  }
+  
+  // 根据ID获取模板
+  getTemplateById(id) {
+    return this.templates.find(template => template.id === id);
+  }
+  
+  // 获取相似模板
+  getSimilarTemplates(templateId, limit = 4) {
+    const template = this.getTemplateById(templateId);
+    if (!template) return [];
+    
+    // 提取当前模板的标签ID
+    const tagIds = template.tags.map(tag => tag.id);
+    
+    // 基于标签查找相似模板
+    const similarTemplates = this.getTemplatesByTags(tagIds, limit + 1);
+    
+    // 排除当前模板自身
+    return similarTemplates.filter(t => t.id !== templateId).slice(0, limit);
+  }
+  
+  // 更新分类计数
+  updateCategoryCounts() {
+    // 重置计数
+    this.categories.forEach(category => {
+      category.subcategories.forEach(subcategory => {
+        subcategory.count = 0;
+      });
+    });
+    
+    // 计算每个分类和子分类下的模板数量
+    this.templates.forEach(template => {
+      const category = this.categories.find(c => c.id === template.category);
+      if (category) {
+        const subcategory = category.subcategories.find(sc => sc.id === template.subcategory);
+        if (subcategory) {
+          subcategory.count += 1;
+        }
+      }
+    });
+  }
+  
+  // 添加新模板（在实际实现中，这会发送到API）
+  addTemplate(template) {
+    // 生成唯一ID
+    const newId = `template-${this.templates.length + 1}`;
+    
+    // 添加创建日期
+    const now = new Date().toISOString().split('T')[0];
+    
+    // 如果没有标签，基于描述生成标签
+    let tags = template.tags || [];
+    if (tags.length === 0 && template.description) {
+      tags = this.generateTagsForTemplate(template.description);
+    }
+    
+    // 创建新模板
+    const newTemplate = {
+      id: newId,
+      createdAt: now,
+      popularity: 50, // 默认初始人气值
+      ...template,
+      tags
+    };
+    
+    // 添加到模板集合
+    this.templates.push(newTemplate);
+    
+    // 更新分类计数
+    this.updateCategoryCounts();
+    
+    return newTemplate;
+  }
+}
+
+// 导出单例实例
+const templateManager = new TemplateManager();
+export default templateManager; 

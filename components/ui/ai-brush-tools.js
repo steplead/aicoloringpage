@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 /**
  * AI Brush Tools Component
@@ -12,6 +12,8 @@ const AIBrushTools = ({
   isProcessing = false
 }) => {
   const [brushIntensity, setBrushIntensity] = useState(70);
+  const [showGuidance, setShowGuidance] = useState(false);
+  const [currentGuidance, setCurrentGuidance] = useState(null);
   
   // AI brush types
   const brushTypes = [
@@ -101,7 +103,84 @@ const AIBrushTools = ({
         </svg>
       )
     },
+    { 
+      id: 'smart-adjust', 
+      name: 'Smart Adjust', 
+      description: 'Dynamically adjusts color tone, saturation and brightness',
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 2v8"/>
+          <path d="m4.93 4.93 5.66 5.66"/>
+          <path d="M2 12h8"/>
+          <path d="m4.93 19.07 5.66-5.66"/>
+        </svg>
+      )
+    },
+    { 
+      id: 'guided-coloring', 
+      name: 'Guided Coloring', 
+      description: 'Provides interactive guidance with boundary detection',
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z"/>
+          <path d="M6 12h12"/>
+          <path d="M12 6v12"/>
+        </svg>
+      )
+    },
   ];
+  
+  // Guidance tips for advanced brushes
+  const brushGuidance = {
+    'smart-adjust': {
+      title: 'Smart Adjust Brush',
+      tips: [
+        'Dynamically adjusts color tones as you draw',
+        'Higher intensity creates more color variation',
+        'Great for adding depth and dimension',
+        'Try different base colors to see the effect'
+      ],
+      demoGif: '/ghibli-assets/demos/smart-adjust-demo.gif'
+    },
+    'guided-coloring': {
+      title: 'Guided Coloring Brush',
+      tips: [
+        'Automatically detects line boundaries',
+        'Helps you color within the lines',
+        'Adjusts brush size near edges',
+        'Higher intensity increases guidance strength'
+      ],
+      demoGif: '/ghibli-assets/demos/guided-coloring-demo.gif'
+    },
+    'smart-color': {
+      title: 'Smart Color Brush',
+      tips: [
+        'Adjusts colors based on surrounding areas',
+        'Creates more natural color transitions',
+        'Great for soft lighting effects',
+        'Try different intensity levels for varied results'
+      ],
+      demoGif: '/ghibli-assets/demos/smart-color-demo.gif'
+    }
+  };
+  
+  // Show guidance when selecting certain brushes
+  useEffect(() => {
+    if (['smart-adjust', 'guided-coloring', 'smart-color'].includes(activeBrush)) {
+      setCurrentGuidance(brushGuidance[activeBrush]);
+      setShowGuidance(true);
+      
+      // Auto-hide guidance after 8 seconds
+      const timer = setTimeout(() => {
+        setShowGuidance(false);
+      }, 8000);
+      
+      return () => clearTimeout(timer);
+    } else {
+      setShowGuidance(false);
+    }
+  }, [activeBrush]);
   
   // Apply brush selection
   const handleBrushSelect = (brushId) => {
@@ -171,6 +250,52 @@ const AIBrushTools = ({
       <div className="text-xs text-ghibli-dark-brown/70 italic mt-2">
         AI brushes analyze your drawing to provide enhanced coloring effects. Results may vary based on line art complexity.
       </div>
+      
+      {/* Interactive Guidance Popup */}
+      <AnimatePresence>
+        {showGuidance && currentGuidance && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 10 }}
+            className="fixed z-50 bottom-24 right-8 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border-2 border-ghibli-primary/20 max-w-xs"
+          >
+            <div className="flex justify-between items-start mb-2">
+              <h4 className="font-bold text-ghibli-primary">{currentGuidance.title}</h4>
+              <button 
+                onClick={() => setShowGuidance(false)}
+                className="text-ghibli-dark-brown/50 hover:text-ghibli-dark-brown"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 6 6 18"></path><path d="m6 6 12 12"></path>
+                </svg>
+              </button>
+            </div>
+            
+            {currentGuidance.demoGif && (
+              <div className="mb-2 bg-ghibli-light-brown/10 rounded-lg overflow-hidden">
+                <img 
+                  src={currentGuidance.demoGif} 
+                  alt={`${currentGuidance.title} demonstration`} 
+                  className="w-full h-24 object-cover" 
+                />
+              </div>
+            )}
+            
+            <div className="text-sm text-ghibli-dark-brown">
+              <ul className="list-disc pl-4 space-y-1">
+                {currentGuidance.tips.map((tip, index) => (
+                  <li key={index}>{tip}</li>
+                ))}
+              </ul>
+            </div>
+            
+            <div className="mt-3 text-xs text-ghibli-dark-brown/70 italic">
+              Tip: Adjust intensity to control the strength of the effect
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };

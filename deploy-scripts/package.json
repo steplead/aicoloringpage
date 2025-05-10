@@ -1,0 +1,19 @@
+{
+  "name": "auto-deploy-scripts",
+  "version": "1.0.0",
+  "description": "自动部署脚本，将项目更新部署到Vercel",
+  "main": "auto-deploy.js",
+  "scripts": {
+    "start": "node auto-deploy.js",
+    "deploy": "node manual-deploy.js",
+    "deploy:prod": "node manual-deploy.js --prod",
+    "setup": "node setup.js"
+  },
+  "dependencies": {
+    "chokidar": "^3.5.3",
+    "lodash.debounce": "^4.0.8",
+    "inquirer": "^8.2.5",
+    "chalk": "^4.1.2",
+    "commander": "^10.0.0"
+  }
+} 

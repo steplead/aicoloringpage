@@ -1,0 +1,8 @@
+{
+  "autoDeploy": true,
+  "confirmBeforeDeploy": false,
+  "alwaysDeployToProd": true,
+  "enableGitHooks": true,
+  "watchMode": "all",
+  "debounceDelay": 3000
+}

@@ -6,22 +6,31 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "node deploy-scripts/manual-deploy.js",
+    "deploy:prod": "node deploy-scripts/manual-deploy.js --prod",
+    "auto-deploy": "node deploy-scripts/auto-deploy.js"
   },
   "dependencies": {
     "@fal-ai/client": "^1.4.0",
     "@fal-ai/server-proxy": "^1.1.1",
+    "@headlessui/react": "^2.2.2",
     "@radix-ui/react-icons": "^1.3.0",
     "@supabase/auth-helpers-nextjs": "^0.8.1",
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/auth-ui-shared": "^0.1.8",
-    "@supabase/supabase-js": "^2.39.0",
+    "@supabase/supabase-js": "^2.49.4",
     "@tailwindcss/forms": "^0.5.7",
-    "axios": "^1.6.2",
-    "dotenv": "^16.3.1",
+    "@vercel/fetch-retry": "^5.1.3",
+    "axios": "^1.9.0",
+    "dotenv": "^16.5.0",
     "framer-motion": "^10.16.4",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.292.0",
+    "mkdirp": "^3.0.1",
     "next": "14.0.3",
+    "next-seo": "^6.6.0",
+    "node-fetch": "^2.7.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwindcss-animate": "^1.0.7",
@@ -32,5 +41,21 @@
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.5",
     "vercel": "^41.7.0"
-  }
+  },
+  "description": "这是一个使用Next.js和Fal.ai API构建的儿童着色页面生成应用。该应用可以根据文本描述生成适合儿童着色的黑白线稿图像。",
+  "main": "check-db.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aquamo/aicoloringpage.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aquamo/aicoloringpage/issues"
+  },
+  "homepage": "https://github.com/aquamo/aicoloringpage#readme"
 }
