@@ -37,7 +37,7 @@ export default function Home() {
       }
     } catch (err) {
       console.error(err)
-      setError('Failed to generate image. Please try again.')
+      setError(err instanceof Error ? err.message : 'Failed to generate image. Please try again.')
     } finally {
       setLoading(false)
     }
