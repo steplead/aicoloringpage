@@ -8,8 +8,8 @@ export async function generateImage(prompt: string, style: string = 'kawaii') {
         throw new Error('GOOGLE_GENERATIVE_AI_API_KEY is not set')
     }
 
-    // Reverting to the model that worked locally
-    const modelName = "gemini-2.0-flash-exp";
+    // User provided documentation showing this specific model name
+    const modelName = "gemini-2.5-flash-image";
 
     let stylePrompt = "";
     switch (style) {
