@@ -49,6 +49,12 @@ export async function generateImage(prompt: string, style: string = 'kawaii') {
 
         const candidate = data.candidates?.[0];
 
+        // Check for prompt blocking (e.g. Safety)
+        if (data.promptFeedback?.blockReason) {
+            console.warn(`Prompt blocked: ${data.promptFeedback.blockReason}`);
+            return { success: false, error: `Request blocked by safety filters: ${data.promptFeedback.blockReason}. Please try a different prompt.` };
+        }
+
         if (!candidate) {
             console.error('No candidates returned:', JSON.stringify(data));
             return { success: false, error: 'AI returned no results. Please try again.' };
