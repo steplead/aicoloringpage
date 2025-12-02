@@ -36,13 +36,7 @@ export async function generateImage(prompt: string, style: string = 'kawaii') {
     }
 
     // Explicitly request an IMAGE generation
-    const fullPrompt = `Generate a high-quality black and white coloring page image of: ${prompt}.
-  Rules:
-  1. Output ONLY the image.
-  ${stylePrompt}
-  6. Pure white background.
-  7. High contrast black lines. No gray areas.
-  8. Do NOT output text, only the image.`;
+    const fullPrompt = `Generate a black and white coloring page of ${prompt}. Do not include any text in the image.`;
 
     try {
         const data = await generateContent(apiKey, fullPrompt, modelName);
@@ -57,14 +51,13 @@ export async function generateImage(prompt: string, style: string = 'kawaii') {
 
         if (!candidate) {
             console.error('No candidates returned:', JSON.stringify(data));
-            // Return the RAW response for debugging
             return { success: false, error: `Debug Error: No results. Raw API Response: ${JSON.stringify(data)}` };
         }
 
         // Check for non-STOP finish reasons (e.g., SAFETY, RECITATION)
         if (candidate.finishReason && candidate.finishReason !== 'STOP') {
             console.warn(`Gemini finished with reason: ${candidate.finishReason}`);
-            return { success: false, error: `Generation failed: ${candidate.finishReason}. Please try a different prompt.` };
+            return { success: false, error: `Generation failed: ${candidate.finishReason}. Raw: ${JSON.stringify(data)}` };
         }
 
         // Check for Image (PNG) response
@@ -77,10 +70,11 @@ export async function generateImage(prompt: string, style: string = 'kawaii') {
         // Handle Text response (Error case for Image Gen)
         else if (candidate.content?.parts?.[0]?.text) {
             console.warn("Gemini returned text instead of image:", candidate.content.parts[0].text);
-            return { success: false, error: `AI returned text instead of image: ${candidate.content.parts[0].text.substring(0, 100)}...` };
+            // Include RAW JSON for debugging
+            return { success: false, error: `AI returned text: "${candidate.content.parts[0].text}". Raw Response: ${JSON.stringify(data)}` };
         } else {
             console.error('Unexpected response format:', JSON.stringify(data));
-            return { success: false, error: 'Failed to generate image. Unexpected response format.' };
+            return { success: false, error: `Unexpected response. Raw: ${JSON.stringify(data)}` };
         }
     } catch (error) {
         console.error('Error generating image:', error);
