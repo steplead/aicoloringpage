@@ -34,13 +34,17 @@ export async function generateImage(prompt: string, style: string = 'kawaii') {
             break;
     }
 
-    const fullPrompt = `You are an expert SVG artist. Create a high-quality black and white coloring page of: ${prompt}.
-  Rules:
+    const fullPrompt = `You are an expert SVG artist. Create a high-quality, detailed black and white coloring page of: ${prompt}.
+  
+  CRITICAL RULES:
   1. Output ONLY the raw SVG code. No markdown backticks, no explanations.
-  ${stylePrompt}
-  6. Pure white background.
-  7. High contrast black lines. No gray areas.
-  8. Use <svg> tag with viewBox="0 0 512 724" (A4 aspect ratio).`;
+  2. The image MUST be a representational drawing, NOT abstract shapes.
+  3. Use complex paths and detailed strokes to create a professional illustration.
+  4. ${stylePrompt}
+  5. Pure white background.
+  6. High contrast black lines (stroke="black" stroke-width="2"). No gray areas.
+  7. Use <svg> tag with viewBox="0 0 512 724" (A4 aspect ratio).
+  8. Ensure the subject is centered and fills the page appropriately.`;
 
     try {
         const data = await generateContent(apiKey, fullPrompt, modelName);
