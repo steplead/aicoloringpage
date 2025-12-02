@@ -75,7 +75,7 @@ export default function Home() {
         <div className="text-center space-y-4 max-w-3xl animate-in fade-in slide-in-from-bottom-4 duration-700">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-2">
             <Sparkles className="w-4 h-4" />
-            <span>Powered by Google AI (Gemini 2.5)</span>
+            <span>Powered by Google AI</span>
           </div>
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900 leading-tight">
             Turn Ideas into <br className="hidden md:block" />
