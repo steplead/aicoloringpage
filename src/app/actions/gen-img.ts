@@ -8,8 +8,8 @@ export async function generateImage(prompt: string, style: string = 'kawaii') {
         throw new Error('GOOGLE_GENERATIVE_AI_API_KEY is not set')
     }
 
-    // Switching to stable Gemini 1.5 Flash to fix production "No results" error
-    const modelName = "gemini-1.5-flash";
+    // Reverting to the model that worked locally
+    const modelName = "gemini-2.0-flash-exp";
 
     let stylePrompt = "";
     switch (style) {
@@ -57,7 +57,8 @@ export async function generateImage(prompt: string, style: string = 'kawaii') {
 
         if (!candidate) {
             console.error('No candidates returned:', JSON.stringify(data));
-            return { success: false, error: 'AI returned no results. Please try again.' };
+            // Return the RAW response for debugging
+            return { success: false, error: `Debug Error: No results. Raw API Response: ${JSON.stringify(data)}` };
         }
 
         // Check for non-STOP finish reasons (e.g., SAFETY, RECITATION)
