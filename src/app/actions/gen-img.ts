@@ -47,20 +47,33 @@ export async function generateImage(prompt: string, style: string = 'kawaii') {
     try {
         const data = await generateContent(apiKey, fullPrompt, modelName);
 
+        const candidate = data.candidates?.[0];
+
+        if (!candidate) {
+            console.error('No candidates returned:', JSON.stringify(data));
+            return { success: false, error: 'AI returned no results. Please try again.' };
+        }
+
+        // Check for non-STOP finish reasons (e.g., SAFETY, RECITATION)
+        if (candidate.finishReason && candidate.finishReason !== 'STOP') {
+            console.warn(`Gemini finished with reason: ${candidate.finishReason}`);
+            return { success: false, error: `Generation failed: ${candidate.finishReason}. Please try a different prompt.` };
+        }
+
         // Check for Image (PNG) response
-        if (data.candidates && data.candidates[0].content.parts[0].inlineData) {
-            const imagePart = data.candidates[0].content.parts[0].inlineData;
+        if (candidate.content?.parts?.[0]?.inlineData) {
+            const imagePart = candidate.content.parts[0].inlineData;
             const base64Image = imagePart.data;
             const mimeType = imagePart.mimeType || 'image/png';
             return { success: true, data: [`data:${mimeType};base64,${base64Image}`] };
         }
         // Handle Text response (Error case for Image Gen)
-        else if (data.candidates && data.candidates[0].content.parts[0].text) {
-            console.warn("Gemini returned text instead of image:", data.candidates[0].content.parts[0].text);
-            return { success: false, error: `AI returned text instead of image: ${data.candidates[0].content.parts[0].text.substring(0, 100)}...` };
+        else if (candidate.content?.parts?.[0]?.text) {
+            console.warn("Gemini returned text instead of image:", candidate.content.parts[0].text);
+            return { success: false, error: `AI returned text instead of image: ${candidate.content.parts[0].text.substring(0, 100)}...` };
         } else {
             console.error('Unexpected response format:', JSON.stringify(data));
-            return { success: false, error: 'Failed to generate image. The AI did not return a valid image.' };
+            return { success: false, error: 'Failed to generate image. Unexpected response format.' };
         }
     } catch (error) {
         console.error('Error generating image:', error);
