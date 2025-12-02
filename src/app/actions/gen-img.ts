@@ -8,8 +8,8 @@ export async function generateImage(prompt: string, style: string = 'kawaii') {
         throw new Error('GOOGLE_GENERATIVE_AI_API_KEY is not set')
     }
 
-    // Switch to Gemini 1.5 Pro for better SVG quality
-    const modelName = "gemini-1.5-pro";
+    // User requested "2.5 flash" (Gemini 2.0 Flash)
+    const modelName = "gemini-2.0-flash-exp";
 
     let stylePrompt = "";
     switch (style) {
@@ -35,42 +35,29 @@ export async function generateImage(prompt: string, style: string = 'kawaii') {
             break;
     }
 
-    const fullPrompt = `You are an expert SVG artist. Create a high-quality, detailed black and white coloring page of: ${prompt}.
-  
-  CRITICAL RULES:
-  1. Output ONLY the raw SVG code. No markdown backticks, no explanations.
-  2. The image MUST be a representational drawing, NOT abstract shapes.
-  3. Use complex paths and detailed strokes to create a professional illustration.
-  4. ${stylePrompt}
-  5. Pure white background.
-  6. High contrast black lines (stroke="black" stroke-width="2"). No gray areas.
-  7. Use <svg> tag with viewBox="0 0 512 724" (A4 aspect ratio).
-  8. Ensure the subject is centered and fills the page appropriately.`;
+    // Explicitly request an IMAGE generation
+    const fullPrompt = `Generate a high-quality black and white coloring page image of: ${prompt}.
+  Rules:
+  1. Output ONLY the image.
+  ${stylePrompt}
+  6. Pure white background.
+  7. High contrast black lines. No gray areas.
+  8. Do NOT output text, only the image.`;
 
     try {
         const data = await generateContent(apiKey, fullPrompt, modelName);
 
-        if (data.candidates && data.candidates[0].content.parts[0].text) {
-            let svgCode = data.candidates[0].content.parts[0].text;
-
-            // Clean up markdown if present
-            svgCode = svgCode.replace(/```svg/g, '').replace(/```/g, '').trim();
-
-            if (!svgCode.startsWith('<svg')) {
-                // Fallback search for svg tag
-                const match = svgCode.match(/<svg[\s\S]*<\/svg>/);
-                if (match) {
-                    svgCode = match[0];
-                } else {
-                    console.error("Invalid SVG returned:", svgCode);
-                    throw new Error('AI returned invalid SVG code. Please try again.');
-                }
-            }
-
-            // Convert to base64 data URL
-            const base64Svg = Buffer.from(svgCode).toString('base64');
-            return [`data:image/svg+xml;base64,${base64Svg}`];
-
+        // Check for Image (PNG) response
+        if (data.candidates && data.candidates[0].content.parts[0].inlineData) {
+            const imagePart = data.candidates[0].content.parts[0].inlineData;
+            const base64Image = imagePart.data;
+            const mimeType = imagePart.mimeType || 'image/png';
+            return [`data:${mimeType};base64,${base64Image}`];
+        }
+        // Handle Text response (Error case for Image Gen)
+        else if (data.candidates && data.candidates[0].content.parts[0].text) {
+            console.warn("Gemini returned text instead of image:", data.candidates[0].content.parts[0].text);
+            throw new Error(`AI returned text instead of image: ${data.candidates[0].content.parts[0].text.substring(0, 100)}...`);
         } else {
             console.error('Unexpected response format:', JSON.stringify(data));
             throw new Error('Failed to generate image. The AI did not return a valid image.');
