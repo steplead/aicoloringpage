@@ -32,8 +32,10 @@ export default function Home() {
 
     try {
       const result = await generateImage(prompt, style)
-      if (Array.isArray(result) && result.length > 0) {
-        setImageUrl(String(result[0]))
+      if (result.success && result.data) {
+        setImageUrl(String(result.data[0]))
+      } else {
+        throw new Error(result.error || 'Failed to generate image')
       }
     } catch (err) {
       console.error(err)

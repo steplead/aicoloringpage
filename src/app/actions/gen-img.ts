@@ -52,18 +52,18 @@ export async function generateImage(prompt: string, style: string = 'kawaii') {
             const imagePart = data.candidates[0].content.parts[0].inlineData;
             const base64Image = imagePart.data;
             const mimeType = imagePart.mimeType || 'image/png';
-            return [`data:${mimeType};base64,${base64Image}`];
+            return { success: true, data: [`data:${mimeType};base64,${base64Image}`] };
         }
         // Handle Text response (Error case for Image Gen)
         else if (data.candidates && data.candidates[0].content.parts[0].text) {
             console.warn("Gemini returned text instead of image:", data.candidates[0].content.parts[0].text);
-            throw new Error(`AI returned text instead of image: ${data.candidates[0].content.parts[0].text.substring(0, 100)}...`);
+            return { success: false, error: `AI returned text instead of image: ${data.candidates[0].content.parts[0].text.substring(0, 100)}...` };
         } else {
             console.error('Unexpected response format:', JSON.stringify(data));
-            throw new Error('Failed to generate image. The AI did not return a valid image.');
+            return { success: false, error: 'Failed to generate image. The AI did not return a valid image.' };
         }
     } catch (error) {
         console.error('Error generating image:', error);
-        throw error;
+        return { success: false, error: error instanceof Error ? error.message : 'Unknown error occurred' };
     }
 }
