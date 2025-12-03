@@ -37,7 +37,10 @@ async function getAllPages() {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const pages = await getAllPages()
+    const allPages = await getAllPages()
+    // SAFETY LIMIT: Only index the top 1000 pages initially to avoid "thin content" penalties from Google.
+    // We will increase this limit as we add real content/images to these pages.
+    const pages = allPages.slice(0, 1000)
 
     const dynamicRoutes = pages.map((page: any) => ({
         url: `${BASE_URL}/printable/${page.slug}`,
