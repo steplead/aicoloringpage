@@ -60,18 +60,21 @@ export async function generateImage(prompt: string, style: string = 'kawaii') {
             return { success: false, error: `Generation failed: ${candidate.finishReason}. Raw: ${JSON.stringify(data)}` };
         }
 
-        // Check for Image (PNG) response
-        if (candidate.content?.parts?.[0]?.inlineData) {
-            const imagePart = candidate.content.parts[0].inlineData;
-            const base64Image = imagePart.data;
-            const mimeType = imagePart.mimeType || 'image/png';
+        // Find the part with the image
+        const parts = candidate.content?.parts || [];
+        const imagePart = parts.find((part: any) => part.inlineData);
+
+        if (imagePart) {
+            const base64Image = imagePart.inlineData.data;
+            const mimeType = imagePart.inlineData.mimeType || 'image/png';
             return { success: true, data: [`data:${mimeType};base64,${base64Image}`] };
         }
-        // Handle Text response (Error case for Image Gen)
-        else if (candidate.content?.parts?.[0]?.text) {
-            console.warn("Gemini returned text instead of image:", candidate.content.parts[0].text);
-            // Include RAW JSON for debugging
-            return { success: false, error: `AI returned text: "${candidate.content.parts[0].text}". Raw Response: ${JSON.stringify(data)}` };
+
+        // Handle Text-only response (Error case for Image Gen)
+        const textPart = parts.find((part: any) => part.text);
+        if (textPart) {
+            console.warn("Gemini returned text instead of image:", textPart.text);
+            return { success: false, error: `AI returned text: "${textPart.text}". Raw Response: ${JSON.stringify(data)}` };
         } else {
             console.error('Unexpected response format:', JSON.stringify(data));
             return { success: false, error: `Unexpected response. Raw: ${JSON.stringify(data)}` };
