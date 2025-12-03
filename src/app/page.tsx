@@ -10,8 +10,14 @@ import { Header } from '@/components/Header'
 import { Download, Sparkles, Loader2, Image as ImageIcon, BookOpen, Plus, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 
-export default function Home() {
-  const [prompt, setPrompt] = useState('')
+import { Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
+
+function HomeContent() {
+  const searchParams = useSearchParams()
+  const initialPrompt = searchParams.get('prompt') || ''
+
+  const [prompt, setPrompt] = useState(initialPrompt)
   const [imageUrl, setImageUrl] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -282,5 +288,13 @@ export default function Home() {
         © 2025 AI Coloring Page. All rights reserved.
       </footer>
     </div>
+  )
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-blue-500" /></div>}>
+      <HomeContent />
+    </Suspense>
   )
 }

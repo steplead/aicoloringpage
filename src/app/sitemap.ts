@@ -24,7 +24,7 @@ async function getAllPages() {
 
     // 2. Fallback to Local JSON
     try {
-        const filePath = path.join(process.cwd(), 'data', 'seo-pages.json')
+        const filePath = path.join(process.cwd(), 'src', 'data', 'seo-pages.json')
         if (fs.existsSync(filePath)) {
             const fileContent = fs.readFileSync(filePath, 'utf8')
             return JSON.parse(fileContent)

@@ -6,7 +6,7 @@ import { createClient } from '@supabase/supabase-js'
 import { Header } from '@/components/Header'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Download, Printer, ArrowLeft } from 'lucide-react'
+import { Download, Printer, ArrowLeft, Sparkles } from 'lucide-react'
 import fs from 'fs'
 import path from 'path'
 
@@ -32,7 +32,7 @@ async function getPageData(slug: string) {
 
     // 2. Fallback to Local JSON (for dev/demo)
     try {
-        const filePath = path.join(process.cwd(), 'data', 'seo-pages.json')
+        const filePath = path.join(process.cwd(), 'src', 'data', 'seo-pages.json')
         if (fs.existsSync(filePath)) {
             const fileContent = fs.readFileSync(filePath, 'utf8')
             const pages = JSON.parse(fileContent)
@@ -116,6 +116,13 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                                 Print Now
                             </Button>
                         </div>
+
+                        <Link href={`/?prompt=${encodeURIComponent(page.prompt)}`} className="block">
+                            <Button className="w-full h-14 text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg transform hover:scale-[1.02] transition-all">
+                                <Sparkles className="w-6 h-6 mr-2 animate-pulse" />
+                                Generate This Now (Free)
+                            </Button>
+                        </Link>
                     </div>
 
                     {/* Right: Content */}
@@ -180,12 +187,12 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
 
                     </div>
                 </div>
-            </main>
+            </main >
 
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
-        </div>
+        </div >
     )
 }
