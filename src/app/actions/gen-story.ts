@@ -17,11 +17,16 @@ export async function generatePlot(character: string, theme: string) {
     - Keep the character consistent.
     - Return ONLY the JSON array. No markdown, no code blocks.`;
 
+    const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY || '';
+
     try {
-        const response = await generateContent(prompt);
+        const response = await generateContent(apiKey, prompt);
+
+        // Extract text from Gemini response structure
+        const text = response.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
         // Clean up response to ensure valid JSON
-        let cleanResponse = response.text().trim();
+        let cleanResponse = text.trim();
         if (cleanResponse.startsWith('```json')) {
             cleanResponse = cleanResponse.replace(/```json/g, '').replace(/```/g, '');
         }
