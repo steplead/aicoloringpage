@@ -9,8 +9,8 @@ export async function generateImage(prompt: string, style: string = 'kawaii', im
         throw new Error('GOOGLE_GENERATIVE_AI_API_KEY is not set')
     }
 
-    // Turbo Mode: Use faster experimental model
-    const modelName = turbo ? "gemini-2.0-flash-exp" : "gemini-2.5-flash-image";
+    // Always use the image generation model
+    const modelName = "gemini-2.5-flash-image";
 
     let stylePrompt = "";
     switch (style) {
