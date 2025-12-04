@@ -14,7 +14,7 @@ export function Header() {
                     height={32}
                     className="w-8 h-8 rounded-md"
                 />
-                <span>AI Coloring Page</span>
+                <span className="hidden sm:inline">AI Coloring Page</span>
             </Link>
             <nav className="hidden md:flex items-center gap-6">
                 <Link href="/directory" className="text-sm font-medium text-gray-600 hover:text-black">
