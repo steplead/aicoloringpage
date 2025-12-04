@@ -114,11 +114,25 @@ async function main() {
 
     let postedCount = 0;
 
+    // Random Daily Limit (20-40)
+    const minPins = 20;
+    const maxPins = 40;
+    const dailyLimit = Math.floor(Math.random() * (maxPins - minPins + 1)) + minPins;
+    console.log(`\n🎯 Daily Safety Target: ${dailyLimit} Pins (Randomized 20-40)`);
+
     for (let i = 0; i < pages.length; i++) {
         const page = pages[i];
 
         if (page.pinterest_posted) {
             continue;
+        }
+
+        // Safety Cap check at start of loop
+        if (postedCount >= dailyLimit) {
+            console.log(`\n🛑 DAILY SAFETY LIMIT REACHED (${dailyLimit} Pins)`);
+            console.log('   Stopping to protect your Pinterest account health.');
+            console.log('   Run this script again tomorrow!');
+            break;
         }
 
         console.log(`Processing [${i + 1}/${pages.length}]: ${page.title}`);
@@ -194,14 +208,6 @@ async function main() {
 
             console.log(`  - Waiting ${Math.round(delay / 1000)}s (Safety Jitter)...`);
             await new Promise(resolve => setTimeout(resolve, delay));
-
-            // Safety Cap: Stop after 50 pins to prevent account ban
-            if (postedCount >= 50) {
-                console.log('\n🛑 DAILY SAFETY LIMIT REACHED (50 Pins)');
-                console.log('   Stopping to protect your Pinterest account health.');
-                console.log('   Run this script again tomorrow!');
-                break;
-            }
 
         } catch (error: any) {
             const errorMessage = error.toString();
