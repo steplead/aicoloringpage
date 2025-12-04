@@ -2,7 +2,7 @@
 
 import { generateContent } from '@/lib/gemini-client'
 
-export async function generateImage(prompt: string, style: string = 'kawaii') {
+export async function generateImage(prompt: string, style: string = 'kawaii', image: string | null = null) {
     const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY
     if (!apiKey) {
         throw new Error('GOOGLE_GENERATIVE_AI_API_KEY is not set')
@@ -36,10 +36,23 @@ export async function generateImage(prompt: string, style: string = 'kawaii') {
     }
 
     // Explicitly request an IMAGE generation
-    const fullPrompt = `Generate a black and white coloring page of ${prompt}. Do not include any text in the image.`;
+    let fullPrompt = `Generate a black and white coloring page of ${prompt}. Do not include any text in the image.`;
+
+    // If image is provided, adjust prompt for Image-to-Image
+    if (image) {
+        fullPrompt = `Turn this image into a high-quality black and white coloring page. 
+        Subject: ${prompt || "the main subject of the photo"}.
+        Style: ${style}.
+        Requirements:
+        - Pure black outlines on white background.
+        - No greyscale, no shading.
+        - Clear, distinct lines suitable for coloring.
+        - Remove background clutter.`;
+    }
 
     try {
-        const data = await generateContent(apiKey, fullPrompt, modelName);
+        const images = image ? [image] : [];
+        const data = await generateContent(apiKey, fullPrompt, modelName, images);
 
         const candidate = data.candidates?.[0];
 
