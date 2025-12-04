@@ -47,12 +47,12 @@ export async function generateImage(prompt: string, style: string = 'kawaii', im
         CRITICAL INSTRUCTIONS:
         1. OUTPUT MUST BE PURE LINE ART ONLY.
         2. NO SHADING, NO GREYSCALE, NO GRADIENTS.
-        3. NO TEXTURE or FILL. White inside the lines.
-        4. Thick, bold black outlines.
+        3. SIMPLIFY COMPLEX DETAILS. Do not trace every tiny line.
+        4. Thick, bold black outlines (Marker style).
         5. Remove background clutter. Keep the main subject.
-        6. Style: ${style === 'realistic' ? 'Realistic proportions but LINE ART ONLY' : style}.
+        6. Style: ${style === 'realistic' ? 'Realistic proportions but SIMPLIFIED LINE ART' : style}.
         
-        Convert the photo into a drawing suitable for a child to color.`;
+        Convert the photo into a bold, simple coloring page suitable for children.`;
     }
 
     try {

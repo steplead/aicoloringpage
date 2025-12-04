@@ -9,7 +9,7 @@ export async function processImage(imageBuffer: Buffer): Promise<Buffer> {
     try {
         const processed = await sharp(imageBuffer)
             .grayscale() // Convert to grayscale
-            .threshold(128) // Force pixels to black or white (0 or 255)
+            .threshold(160) // Higher threshold = Bolder lines (more grays become black)
             .toFormat('png')
             .toBuffer();
 
