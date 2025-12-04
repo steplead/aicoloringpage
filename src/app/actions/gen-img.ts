@@ -1,6 +1,7 @@
 'use server'
 
 import { generateContent } from '@/lib/gemini-client'
+import { processImage } from '@/lib/image-processing'
 
 export async function generateImage(prompt: string, style: string = 'kawaii', image: string | null = null) {
     const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY
@@ -83,8 +84,13 @@ export async function generateImage(prompt: string, style: string = 'kawaii', im
 
         if (imagePart) {
             const base64Image = imagePart.inlineData.data;
-            const mimeType = imagePart.inlineData.mimeType || 'image/png';
-            return { success: true, data: [`data:${mimeType};base64,${base64Image}`] };
+
+            // Post-process the image to ensure it's pure black and white
+            const buffer = Buffer.from(base64Image, 'base64');
+            const processedBuffer = await processImage(buffer);
+            const processedBase64 = processedBuffer.toString('base64');
+
+            return { success: true, data: [`data:image/png;base64,${processedBase64}`] };
         }
 
         // Handle Text-only response (Error case for Image Gen)
