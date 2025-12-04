@@ -7,6 +7,7 @@ import { Header } from '@/components/Header'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Download, Printer, ArrowLeft, Sparkles } from 'lucide-react'
+import { RemixClient } from '@/components/RemixClient'
 import fs from 'fs'
 import path from 'path'
 
@@ -163,12 +164,7 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                             </Button>
                         </div>
 
-                        <Link href={`/?prompt=${encodeURIComponent(page.prompt)}`} className="block">
-                            <Button className="w-full h-14 text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg transform hover:scale-[1.02] transition-all">
-                                <Sparkles className="w-6 h-6 mr-2 animate-pulse" />
-                                Generate This Now (Free)
-                            </Button>
-                        </Link>
+                        <RemixClient prompt={page.prompt} />
                     </div>
 
                     {/* Right: Content */}
