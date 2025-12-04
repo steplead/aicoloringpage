@@ -23,10 +23,37 @@ export default function MagicCameraPage() {
         const file = e.target.files?.[0]
         if (file) {
             const reader = new FileReader()
-            reader.onloadend = () => {
-                setSelectedImage(reader.result as string)
-                setGeneratedImage(null)
-                setError('')
+            reader.onload = (event) => {
+                const img = new window.Image()
+                img.onload = () => {
+                    const canvas = document.createElement('canvas')
+                    let width = img.width
+                    let height = img.height
+                    const MAX_SIZE = 1024
+
+                    if (width > height) {
+                        if (width > MAX_SIZE) {
+                            height *= MAX_SIZE / width
+                            width = MAX_SIZE
+                        }
+                    } else {
+                        if (height > MAX_SIZE) {
+                            width *= MAX_SIZE / height
+                            height = MAX_SIZE
+                        }
+                    }
+
+                    canvas.width = width
+                    canvas.height = height
+                    const ctx = canvas.getContext('2d')
+                    ctx?.drawImage(img, 0, 0, width, height)
+
+                    const resizedDataUrl = canvas.toDataURL('image/jpeg', 0.8) // Compress to 80% JPEG
+                    setSelectedImage(resizedDataUrl)
+                    setGeneratedImage(null)
+                    setError('')
+                }
+                img.src = event.target?.result as string
             }
             reader.readAsDataURL(file)
         }
