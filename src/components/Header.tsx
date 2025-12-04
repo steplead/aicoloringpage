@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Camera } from 'lucide-react'
+import { Camera, BookOpen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export function Header() {
@@ -26,6 +26,10 @@ export function Header() {
                 <Link href="/create/photo" className="text-sm font-medium text-purple-600 hover:text-purple-700 flex items-center gap-1">
                     <Camera className="w-4 h-4" />
                     Magic Camera
+                </Link>
+                <Link href="/create/story" className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1">
+                    <BookOpen className="w-4 h-4" />
+                    Story Mode
                 </Link>
                 <Button size="sm" variant="outline">Sign In</Button>
                 <Button size="sm">Get Started</Button>
