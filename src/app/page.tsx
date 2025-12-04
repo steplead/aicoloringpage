@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { generateImage } from './actions/gen-img'
 import { generateSinglePagePDF, generateBookPDF } from '@/lib/pdf-utils'
 import { Button } from '@/components/ui/button'
