@@ -3,7 +3,7 @@
 import { generateContent } from '@/lib/gemini-client'
 import { processImage } from '@/lib/image-processing'
 
-export async function generateImage(prompt: string, style: string = 'kawaii', image: string | null = null, turbo: boolean = false) {
+export async function generateImage(prompt: string, style: string = 'kawaii', image: string | null = null) {
     const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY
     if (!apiKey) {
         throw new Error('GOOGLE_GENERATIVE_AI_API_KEY is not set')
@@ -85,15 +85,9 @@ export async function generateImage(prompt: string, style: string = 'kawaii', im
         if (imagePart) {
             const base64Image = imagePart.inlineData.data;
 
-            // Post-process the image to ensure it's pure black and white
-            // Turbo Mode: Skip this heavy step for speed (result might be slightly grayer)
-            let processedBase64 = base64Image;
-
-            if (!turbo) {
-                const buffer = Buffer.from(base64Image, 'base64');
-                const processedBuffer = await processImage(buffer);
-                processedBase64 = processedBuffer.toString('base64');
-            }
+            // Optimization: Skip heavy post-processing (thresholding) for speed.
+            // We rely on the strong prompt ("Thick, bold black outlines") for quality.
+            const processedBase64 = base64Image;
 
             return { success: true, data: [`data:image/png;base64,${processedBase64}`] };
         }
