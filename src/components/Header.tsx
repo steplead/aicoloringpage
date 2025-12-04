@@ -15,8 +15,8 @@ export function Header() {
                 <Link href="/directory" className="text-sm font-medium text-gray-600 hover:text-black">
                     Directory
                 </Link>
-                <Link href="#" className="text-sm font-medium text-gray-600 hover:text-black">
-                    Pricing
+                <Link href="/blog" className="text-sm font-medium text-gray-600 hover:text-black">
+                    Blog
                 </Link>
                 <Button size="sm" variant="outline">Sign In</Button>
                 <Button size="sm">Get Started</Button>

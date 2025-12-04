@@ -44,9 +44,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const dynamicRoutes = pages.map((page: any) => ({
         url: `${BASE_URL}/printable/${page.slug}`,
-        lastModified: new Date(page.created_at || Date.now()),
+        lastModified: new Date(),
         changeFrequency: 'weekly' as const,
         priority: 0.8,
+    }))
+
+    // Add Blog Posts
+    const blogPosts = [
+        'benefits-of-coloring-for-adults',
+        'how-to-print-coloring-pages',
+        'best-markers-for-coloring'
+    ]
+
+    const blogRoutes = blogPosts.map(slug => ({
+        url: `${BASE_URL}/blog/${slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly' as const,
+        priority: 0.9,
     }))
 
     return [
