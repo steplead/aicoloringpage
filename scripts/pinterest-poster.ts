@@ -187,9 +187,21 @@ async function main() {
             console.log('  - Success! ✅');
             postedCount++;
 
-            // Rate Limit Delay (45 seconds to be safe)
-            console.log('  - Waiting 45s...');
-            await new Promise(resolve => setTimeout(resolve, 45000));
+            // Rate Limit Delay (45s + Random 0-30s Jitter)
+            // This makes the posting pattern look more human and less robotic.
+            const jitter = Math.floor(Math.random() * 30000);
+            const delay = 45000 + jitter;
+
+            console.log(`  - Waiting ${Math.round(delay / 1000)}s (Safety Jitter)...`);
+            await new Promise(resolve => setTimeout(resolve, delay));
+
+            // Safety Cap: Stop after 50 pins to prevent account ban
+            if (postedCount >= 50) {
+                console.log('\n🛑 DAILY SAFETY LIMIT REACHED (50 Pins)');
+                console.log('   Stopping to protect your Pinterest account health.');
+                console.log('   Run this script again tomorrow!');
+                break;
+            }
 
         } catch (error: any) {
             const errorMessage = error.toString();
