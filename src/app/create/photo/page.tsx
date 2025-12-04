@@ -17,6 +17,7 @@ export default function MagicCameraPage() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [prompt, setPrompt] = useState('')
+    const [turbo, setTurbo] = useState(false)
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +41,7 @@ export default function MagicCameraPage() {
         setGeneratedImage(null)
 
         try {
-            const result = await generateImage(prompt, 'realistic', selectedImage)
+            const result = await generateImage(prompt, 'realistic', selectedImage, turbo)
 
             if (result.success && result.data) {
                 setGeneratedImage(result.data[0])
@@ -120,20 +121,39 @@ export default function MagicCameraPage() {
                                 />
                             </div>
 
+                            <div className="flex items-center justify-between bg-yellow-50 p-3 rounded-lg border border-yellow-100">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-xl">⚡️</span>
+                                    <div>
+                                        <Label htmlFor="turbo-mode" className="font-bold text-gray-900 cursor-pointer">Turbo Mode</Label>
+                                        <p className="text-xs text-gray-500">Faster generation, slightly less detail.</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center">
+                                    <input
+                                        id="turbo-mode"
+                                        type="checkbox"
+                                        checked={turbo}
+                                        onChange={(e) => setTurbo(e.target.checked)}
+                                        className="w-5 h-5 text-yellow-600 rounded focus:ring-yellow-500 border-gray-300"
+                                    />
+                                </div>
+                            </div>
+
                             <Button
-                                className="w-full h-12 text-lg"
+                                className={`w-full h-12 text-lg ${turbo ? 'bg-yellow-500 hover:bg-yellow-600 text-black' : ''}`}
                                 onClick={handleGenerate}
                                 disabled={!selectedImage || loading}
                             >
                                 {loading ? (
                                     <>
                                         <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                                        Transforming...
+                                        {turbo ? 'Turbo Charging...' : 'Transforming...'}
                                     </>
                                 ) : (
                                     <>
-                                        <ImageIcon className="mr-2 h-5 w-5" />
-                                        Turn into Coloring Page
+                                        {turbo ? <span className="mr-2">⚡️</span> : <ImageIcon className="mr-2 h-5 w-5" />}
+                                        {turbo ? 'Turbo Generate' : 'Turn into Coloring Page'}
                                     </>
                                 )}
                             </Button>

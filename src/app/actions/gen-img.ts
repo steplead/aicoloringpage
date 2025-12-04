@@ -3,14 +3,14 @@
 import { generateContent } from '@/lib/gemini-client'
 import { processImage } from '@/lib/image-processing'
 
-export async function generateImage(prompt: string, style: string = 'kawaii', image: string | null = null) {
+export async function generateImage(prompt: string, style: string = 'kawaii', image: string | null = null, turbo: boolean = false) {
     const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY
     if (!apiKey) {
         throw new Error('GOOGLE_GENERATIVE_AI_API_KEY is not set')
     }
 
-    // User provided documentation showing this specific model name
-    const modelName = "gemini-2.5-flash-image";
+    // Turbo Mode: Use faster experimental model
+    const modelName = turbo ? "gemini-2.0-flash-exp" : "gemini-2.5-flash-image";
 
     let stylePrompt = "";
     switch (style) {
@@ -86,9 +86,14 @@ export async function generateImage(prompt: string, style: string = 'kawaii', im
             const base64Image = imagePart.inlineData.data;
 
             // Post-process the image to ensure it's pure black and white
-            const buffer = Buffer.from(base64Image, 'base64');
-            const processedBuffer = await processImage(buffer);
-            const processedBase64 = processedBuffer.toString('base64');
+            // Turbo Mode: Skip this heavy step for speed (result might be slightly grayer)
+            let processedBase64 = base64Image;
+
+            if (!turbo) {
+                const buffer = Buffer.from(base64Image, 'base64');
+                const processedBuffer = await processImage(buffer);
+                processedBase64 = processedBuffer.toString('base64');
+            }
 
             return { success: true, data: [`data:image/png;base64,${processedBase64}`] };
         }
