@@ -187,14 +187,27 @@ async function main() {
             console.log('  - Success! ✅');
             postedCount++;
 
-            // Rate Limit Delay (30 seconds)
-            console.log('  - Waiting 30s...');
-            await new Promise(resolve => setTimeout(resolve, 30000));
+            // Rate Limit Delay (45 seconds to be safe)
+            console.log('  - Waiting 45s...');
+            await new Promise(resolve => setTimeout(resolve, 45000));
 
-        } catch (error) {
-            console.error(`  - Failed: ${error}`);
-            console.log('  - Waiting 20s after error...');
-            await new Promise(resolve => setTimeout(resolve, 20000));
+        } catch (error: any) {
+            const errorMessage = error.toString();
+            console.error(`  - Failed: ${errorMessage}`);
+
+            // Check for Pinterest Spam Block (Code 9)
+            if (errorMessage.includes('"code":9') || errorMessage.includes('spam')) {
+                console.log('\n⚠️  PINTEREST SPAM BLOCK DETECTED! ⚠️');
+                console.log('   The script is posting too fast. Cooling down for 10 minutes...');
+                console.log('   (Go grab a coffee ☕️)\n');
+
+                // Wait 10 minutes
+                await new Promise(resolve => setTimeout(resolve, 10 * 60 * 1000));
+                console.log('   Resuming...\n');
+            } else {
+                console.log('  - Waiting 20s after error...');
+                await new Promise(resolve => setTimeout(resolve, 20000));
+            }
         }
     }
 
