@@ -1,14 +1,18 @@
 import Link from 'next/link'
-import { Pencil } from 'lucide-react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 
 export function Header() {
     return (
         <header className="flex items-center justify-between px-6 py-4 border-b bg-white sticky top-0 z-50">
             <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-                <div className="bg-black text-white p-1 rounded-md">
-                    <Pencil className="w-5 h-5" />
-                </div>
+                <Image
+                    src="/icon.png"
+                    alt="AI Coloring Page Logo"
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 rounded-md"
+                />
                 <span>AI Coloring Page</span>
             </Link>
             <nav className="flex items-center gap-6">
