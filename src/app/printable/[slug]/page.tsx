@@ -4,9 +4,8 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
 import { Header } from '@/components/Header'
-import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Download, Printer, ArrowLeft, Sparkles } from 'lucide-react'
+import { DownloadButtons } from '@/components/DownloadButtons'
 import { RemixClient } from '@/components/RemixClient'
 import fs from 'fs'
 import path from 'path'
@@ -153,16 +152,7 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                             </div>
                         </div>
 
-                        <div className="flex gap-4">
-                            <Button className="flex-1 h-12 text-lg bg-blue-600 hover:bg-blue-700">
-                                <Download className="w-5 h-5 mr-2" />
-                                Download PDF
-                            </Button>
-                            <Button variant="outline" className="flex-1 h-12 text-lg">
-                                <Printer className="w-5 h-5 mr-2" />
-                                Print Now
-                            </Button>
-                        </div>
+                        <DownloadButtons imageUrl={page.image_url} title={page.title} />
 
                         <RemixClient prompt={page.prompt} />
                     </div>
