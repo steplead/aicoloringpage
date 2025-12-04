@@ -12,8 +12,8 @@ export function Header() {
                 <span>AI Coloring Page</span>
             </Link>
             <nav className="flex items-center gap-6">
-                <Link href="#" className="text-sm font-medium text-gray-600 hover:text-black">
-                    Gallery
+                <Link href="/directory" className="text-sm font-medium text-gray-600 hover:text-black">
+                    Directory
                 </Link>
                 <Link href="#" className="text-sm font-medium text-gray-600 hover:text-black">
                     Pricing
