@@ -7,8 +7,10 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
 import { Header } from '@/components/Header'
+import { GallerySection } from '@/components/GallerySection'
 import { Download, Sparkles, Loader2, Image as ImageIcon, BookOpen, Plus, Trash2 } from 'lucide-react'
-import Image from 'next/image'
+
+
 
 import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
@@ -223,6 +225,9 @@ function HomeContent() {
             )}
           </Card>
         </div>
+
+        {/* Community Gallery */}
+        <GallerySection />
 
       </main>
 
