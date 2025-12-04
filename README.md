@@ -29,6 +29,20 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+
+## Features
+
+### 🎨 AI Coloring Page Generator
+- **Text-to-Page:** Enter any prompt (e.g., "A cute dragon") and get a high-quality coloring page.
+- **Magic Camera:** Upload a photo and turn it into a clean, black-and-white coloring page.
+- **Story Mode:** Create a 5-page coloring book with a consistent character.
+- **Remix Engine:** Take any existing page and change its style or add details.
+
+### 🚀 Growth & SEO
+- **Programmatic SEO:** 15,000+ landing pages generated dynamically.
+- **Pinterest Automation:** Auto-posts daily pins to drive traffic.
+- **Directory:** A searchable library of generated pages.
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
