@@ -4,6 +4,7 @@ import path from 'path'
 import fs from 'fs'
 import { Header } from '@/components/Header'
 import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { Calendar, User } from 'lucide-react'
 
 // Helper to get data
@@ -40,6 +41,36 @@ export default function BlogPage() {
                     <p className="text-lg text-gray-600">
                         Tips, tutorials, and inspiration for your coloring journey.
                     </p>
+                </div>
+
+                <div className="mb-12">
+                    <Card className="overflow-hidden shadow-xl border-purple-100 bg-gradient-to-r from-purple-50 to-white">
+                        <div className="md:flex">
+                            <div className="md:w-1/3 bg-purple-200 min-h-[200px] flex items-center justify-center">
+                                <span className="text-6xl">🚀</span>
+                            </div>
+                            <div className="p-8 md:w-2/3 flex flex-col justify-center">
+                                <div className="text-sm font-bold text-purple-600 mb-2 uppercase tracking-wide">
+                                    New Update
+                                </div>
+                                <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
+                                    <Link href="/blog/launch" className="hover:text-purple-700">
+                                        Introducing Magic Camera & Story Mode
+                                    </Link>
+                                </h2>
+                                <p className="text-lg text-gray-600 mb-6">
+                                    Turn photos into coloring pages and create your own storybooks. Discover the biggest update yet.
+                                </p>
+                                <div>
+                                    <Link href="/blog/launch">
+                                        <Button className="bg-purple-600 hover:bg-purple-700">
+                                            Read Announcement
+                                        </Button>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </Card>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
