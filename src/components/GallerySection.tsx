@@ -18,7 +18,12 @@ export function GallerySection() {
 
     useEffect(() => {
         async function fetchImages() {
-            if (!supabase) return
+            console.log('Gallery: Fetching images...')
+            if (!supabase) {
+                console.error('Gallery: Supabase not initialized')
+                setLoading(false)
+                return
+            }
 
             // Fetch latest 12 images that have been posted
             const { data, error } = await supabase
@@ -28,7 +33,12 @@ export function GallerySection() {
                 .order('created_at', { ascending: false })
                 .limit(12)
 
+            if (error) {
+                console.error('Gallery: Error fetching images', error)
+            }
+
             if (data) {
+                console.log(`Gallery: Found ${data.length} images`)
                 setImages(data)
             }
             setLoading(false)
@@ -37,7 +47,16 @@ export function GallerySection() {
         fetchImages()
     }, [])
 
-    if (!supabase) return null // Don't show if no DB connection
+    if (!supabase) return <div className="p-4 text-center text-red-500">Error: Database connection missing.</div>
+
+    if (!loading && images.length === 0) {
+        return (
+            <section className="w-full max-w-6xl mx-auto py-12 text-center text-gray-500">
+                <TrendingUp className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                <p>No community creations yet. Be the first!</p>
+            </section>
+        )
+    }
 
     return (
         <section className="w-full max-w-6xl mx-auto space-y-8 animate-in fade-in duration-700 delay-300">
