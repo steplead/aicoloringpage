@@ -9,32 +9,7 @@ export async function generateImage(prompt: string, style: string = 'kawaii', im
         throw new Error('GOOGLE_GENERATIVE_AI_API_KEY is not set')
     }
 
-    // Always use the image generation model
-    const modelName = "gemini-2.5-flash-image";
 
-    let stylePrompt = "";
-    switch (style) {
-        case 'intricate':
-            stylePrompt = `
-      2. Style: Adult Coloring Book, Mandala style.
-      3. Content: A highly detailed, intricate black and white outline of the subject.
-      4. Fill the inside with complex floral or geometric patterns.
-      5. Ensure lines are crisp and clear.`;
-            break;
-        case 'realistic':
-            stylePrompt = `
-      2. Style: Realistic scientific illustration, pen and ink sketch.
-      3. Content: A realistic depiction with fine hatching and shading details.
-      4. Proportions must be accurate.`;
-            break;
-        case 'kawaii':
-        default:
-            stylePrompt = `
-      2. Style: Kawaii, Chibi, Cute for Kids.
-      3. Content: Simple, bold outlines. Big eyes, rounded shapes.
-      4. Minimal details, easy to color.`;
-            break;
-    }
 
     // Explicitly request an IMAGE generation
     let fullPrompt = `Generate a black and white coloring page of ${prompt}. Do not include any text in the image.`;
@@ -55,54 +30,68 @@ export async function generateImage(prompt: string, style: string = 'kawaii', im
         Convert the photo into a bold, simple coloring page suitable for children.`;
     }
 
-    try {
-        const images = image ? [image] : [];
-        const data = await generateContent(apiKey, fullPrompt, modelName, images);
+    // Strategy: Try Fast Model (2.0-flash-exp) first for ~2s speed.
+    // If it fails (returns text or error), fallback to Stable Model (2.5-flash-image).
+    const models = ["gemini-2.0-flash-exp", "gemini-2.5-flash-image"];
 
-        const candidate = data.candidates?.[0];
+    for (const modelName of models) {
+        try {
+            console.log(`Attempting generation with model: ${modelName}`);
 
-        // Check for prompt blocking (e.g. Safety)
-        if (data.promptFeedback?.blockReason) {
-            console.warn(`Prompt blocked: ${data.promptFeedback.blockReason}`);
-            return { success: false, error: `Request blocked by safety filters: ${data.promptFeedback.blockReason}. Please try a different prompt.` };
+            // For the fast model, we need to be extra strict to prevent "chatting"
+            let currentPrompt = fullPrompt;
+            if (modelName === "gemini-2.0-flash-exp") {
+                currentPrompt = "STRICT INSTRUCTION: GENERATE AN IMAGE. DO NOT RETURN TEXT. " + fullPrompt;
+            }
+
+            const images = image ? [image] : [];
+            const data = await generateContent(apiKey, currentPrompt, modelName, images);
+
+            const candidate = data.candidates?.[0];
+
+            // Check for prompt blocking
+            if (data.promptFeedback?.blockReason) {
+                console.warn(`[${modelName}] Prompt blocked: ${data.promptFeedback.blockReason}`);
+                if (modelName === models[models.length - 1]) {
+                    return { success: false, error: `Request blocked: ${data.promptFeedback.blockReason}` };
+                }
+                continue; // Try next model
+            }
+
+            if (!candidate) {
+                console.warn(`[${modelName}] No candidates returned.`);
+                if (modelName === models[models.length - 1]) {
+                    return { success: false, error: 'No results generated.' };
+                }
+                continue;
+            }
+
+            // Find the part with the image
+            const parts = candidate.content?.parts || [];
+            const imagePart = parts.find((part: any) => part.inlineData);
+
+            if (imagePart) {
+                const base64Image = imagePart.inlineData.data;
+                const processedBase64 = base64Image; // Skip processing for speed
+                return { success: true, data: [`data:image/png;base64,${processedBase64}`] };
+            }
+
+            // If we got here, the model returned text instead of an image
+            const textPart = parts.find((part: any) => part.text);
+            console.warn(`[${modelName}] Returned text instead of image: "${textPart?.text?.substring(0, 100)}..."`);
+
+            // If this was the last model, fail. Otherwise, continue to fallback.
+            if (modelName === models[models.length - 1]) {
+                return { success: false, error: `AI returned text instead of image. Try a different photo.` };
+            }
+
+        } catch (error) {
+            console.error(`[${modelName}] Error:`, error);
+            if (modelName === models[models.length - 1]) {
+                return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
+            }
         }
-
-        if (!candidate) {
-            console.error('No candidates returned:', JSON.stringify(data));
-            return { success: false, error: `Debug Error: No results. Raw API Response: ${JSON.stringify(data)}` };
-        }
-
-        // Check for non-STOP finish reasons (e.g., SAFETY, RECITATION)
-        if (candidate.finishReason && candidate.finishReason !== 'STOP') {
-            console.warn(`Gemini finished with reason: ${candidate.finishReason}`);
-            return { success: false, error: `Generation failed: ${candidate.finishReason}. Raw: ${JSON.stringify(data)}` };
-        }
-
-        // Find the part with the image
-        const parts = candidate.content?.parts || [];
-        const imagePart = parts.find((part: any) => part.inlineData);
-
-        if (imagePart) {
-            const base64Image = imagePart.inlineData.data;
-
-            // Optimization: Skip heavy post-processing (thresholding) for speed.
-            // We rely on the strong prompt ("Thick, bold black outlines") for quality.
-            const processedBase64 = base64Image;
-
-            return { success: true, data: [`data:image/png;base64,${processedBase64}`] };
-        }
-
-        // Handle Text-only response (Error case for Image Gen)
-        const textPart = parts.find((part: any) => part.text);
-        if (textPart) {
-            console.warn("Gemini returned text instead of image:", textPart.text);
-            return { success: false, error: `AI returned text: "${textPart.text}". Raw Response: ${JSON.stringify(data)}` };
-        } else {
-            console.error('Unexpected response format:', JSON.stringify(data));
-            return { success: false, error: `Unexpected response. Raw: ${JSON.stringify(data)}` };
-        }
-    } catch (error) {
-        console.error('Error generating image:', error);
-        return { success: false, error: error instanceof Error ? error.message : 'Unknown error occurred' };
     }
+
+    return { success: false, error: 'All models failed.' };
 }
