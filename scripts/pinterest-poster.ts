@@ -129,22 +129,22 @@ async function main() {
             const base64Image = await generateImage(page.prompt);
             const buffer = Buffer.from(base64Image, 'base64');
 
-            // Optimize with Sharp (Resize & Compress)
-            // Convert to JPEG, 80% quality, max width 1024px
-            // This reduces file size from ~500KB to ~50KB (10x savings)
+            // Optimize with Sharp (Best for Line Art)
+            // Format: WebP (Lossless-ish) - No JPEG artifacts, tiny file size
+            // Size: 1024x1024 (Native AI)
             const optimizedBuffer = await sharp(buffer)
                 .resize(1024, 1024, { fit: 'inside' })
-                .jpeg({ quality: 80 })
+                .webp({ quality: 80, effort: 6 }) // Effort 6 = Max compression
                 .toBuffer();
 
             // 2. Upload to Supabase
             console.log('  - Uploading to Supabase...');
-            const fileName = `${page.slug}-${Date.now()}.jpg`; // Note: Changed to .jpg
+            const fileName = `${page.slug}-${Date.now()}.webp`; // Changed to .webp
             const { data: uploadData, error: uploadError } = await supabase
                 .storage
                 .from('seo-images')
                 .upload(fileName, optimizedBuffer, {
-                    contentType: 'image/jpeg',
+                    contentType: 'image/webp',
                     upsert: true
                 });
 
