@@ -69,7 +69,7 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
 
     // Dynamic Related Pages (Mock logic: In real app, query DB for same subject)
     // For now, we'll just pick random ones from a hardcoded list to simulate discovery
-    const allTags = ['Cute Cat', 'Space Dog', 'Unicorn', 'Dinosaur', 'Mandala', 'Flower', 'Car', 'Robot'];
+    const allTags = ['Cat', 'Dog', 'Owl', 'Lion', 'Tiger', 'Bear', 'Fox', 'Wolf'];
     const relatedTags = allTags.sort(() => 0.5 - Math.random()).slice(0, 4);
 
     // Schema Markup
@@ -208,7 +208,7 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                                 {relatedTags.map(tag => (
                                     <Link
                                         key={tag}
-                                        href={`/printable/${tag.toLowerCase().replace(' ', '-')}`}
+                                        href={`/printable/${tag.toLowerCase()}-coloring-page-for-kids`}
                                         className="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 transition-all"
                                     >
                                         {tag}
