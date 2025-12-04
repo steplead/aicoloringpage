@@ -64,9 +64,9 @@ export function RemixModal({ isOpen, onClose, originalPrompt }: RemixModalProps)
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200">
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
                 {/* Header */}
-                <div className="p-4 border-b flex items-center justify-between bg-gradient-to-r from-purple-50 to-blue-50">
+                <div className="p-4 border-b flex items-center justify-between bg-gradient-to-r from-purple-50 to-blue-50 flex-shrink-0">
                     <div className="flex items-center gap-2 text-purple-700">
                         <Wand2 className="w-5 h-5" />
                         <h3 className="font-bold text-lg">Remix Magic</h3>
@@ -76,7 +76,7 @@ export function RemixModal({ isOpen, onClose, originalPrompt }: RemixModalProps)
                     </Button>
                 </div>
 
-                <div className="p-6 space-y-6">
+                <div className="p-6 space-y-6 overflow-y-auto flex-1">
                     {/* Input Section */}
                     <div className="space-y-4">
                         <div className="text-sm text-gray-500">
@@ -123,7 +123,7 @@ export function RemixModal({ isOpen, onClose, originalPrompt }: RemixModalProps)
 
                     {remixedImage ? (
                         <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
-                            <div className="relative aspect-square w-full bg-gray-50 rounded-xl overflow-hidden border-2 border-purple-100">
+                            <div className="relative aspect-square w-full max-h-[50vh] bg-gray-50 rounded-xl overflow-hidden border-2 border-purple-100">
                                 <Image
                                     src={remixedImage}
                                     alt="Remixed Result"
