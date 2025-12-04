@@ -57,7 +57,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     </Link>
 
                     <article className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                        <div className="aspect-video relative bg-gray-200">
+                        <div className="h-64 md:h-96 relative bg-gray-200">
                             <img
                                 src={post.image_url}
                                 alt={post.title}

@@ -45,7 +45,7 @@ export default function BlogPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {posts.map((post: any) => (
                         <Card key={post.slug} className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
-                            <div className="aspect-video relative bg-gray-200">
+                            <div className="h-56 relative bg-gray-200">
                                 <img
                                     src={post.image_url}
                                     alt={post.title}
