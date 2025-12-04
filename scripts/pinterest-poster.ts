@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
+import sharp from 'sharp';
 
 // Load environment variables
 dotenv.config({ path: '.env.local' });
@@ -128,14 +129,22 @@ async function main() {
             const base64Image = await generateImage(page.prompt);
             const buffer = Buffer.from(base64Image, 'base64');
 
+            // Optimize with Sharp (Resize & Compress)
+            // Convert to JPEG, 80% quality, max width 1024px
+            // This reduces file size from ~500KB to ~50KB (10x savings)
+            const optimizedBuffer = await sharp(buffer)
+                .resize(1024, 1024, { fit: 'inside' })
+                .jpeg({ quality: 80 })
+                .toBuffer();
+
             // 2. Upload to Supabase
             console.log('  - Uploading to Supabase...');
-            const fileName = `${page.slug}-${Date.now()}.png`;
+            const fileName = `${page.slug}-${Date.now()}.jpg`; // Note: Changed to .jpg
             const { data: uploadData, error: uploadError } = await supabase
                 .storage
                 .from('seo-images')
-                .upload(fileName, buffer, {
-                    contentType: 'image/png',
+                .upload(fileName, optimizedBuffer, {
+                    contentType: 'image/jpeg',
                     upsert: true
                 });
 
