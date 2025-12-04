@@ -67,6 +67,11 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
         notFound()
     }
 
+    // Dynamic Related Pages (Mock logic: In real app, query DB for same subject)
+    // For now, we'll just pick random ones from a hardcoded list to simulate discovery
+    const allTags = ['Cute Cat', 'Space Dog', 'Unicorn', 'Dinosaur', 'Mandala', 'Flower', 'Car', 'Robot'];
+    const relatedTags = allTags.sort(() => 0.5 - Math.random()).slice(0, 4);
+
     // Schema Markup
     const jsonLd = {
         '@context': 'https://schema.org',
@@ -82,15 +87,53 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
         }
     }
 
+    // Breadcrumb Schema
+    const breadcrumbLd = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: 'https://ai-coloringpage.com'
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Directory',
+                item: 'https://ai-coloringpage.com/directory'
+            },
+            {
+                '@type': 'ListItem',
+                position: 3,
+                name: page.title,
+                item: `https://ai-coloringpage.com/printable/${slug}`
+            }
+        ]
+    }
+
     return (
         <div className="min-h-screen bg-gray-50 font-sans">
             <Header />
 
-            <main className="container mx-auto px-4 py-12">
-                <Link href="/" className="inline-flex items-center text-gray-500 hover:text-gray-900 mb-8 transition-colors">
-                    <ArrowLeft className="w-4 h-4 mr-2" />
-                    Back to Generator
-                </Link>
+            <main className="container mx-auto px-4 py-8">
+                {/* Breadcrumbs */}
+                <nav className="text-sm text-gray-500 mb-6">
+                    <ol className="list-none p-0 inline-flex">
+                        <li className="flex items-center">
+                            <Link href="/" className="hover:text-blue-600">Home</Link>
+                            <span className="mx-2">/</span>
+                        </li>
+                        <li className="flex items-center">
+                            <Link href="/directory" className="hover:text-blue-600">Directory</Link>
+                            <span className="mx-2">/</span>
+                        </li>
+                        <li className="text-gray-800 font-medium truncate max-w-[200px]">
+                            {page.title}
+                        </li>
+                    </ol>
+                </nav>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
 
@@ -98,10 +141,13 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                     <div className="space-y-6">
                         <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-100">
                             <div className="aspect-[1/1.414] relative bg-white rounded-lg overflow-hidden border border-gray-100">
-                                <img
+                                <Image
                                     src={page.image_url}
                                     alt={page.title}
-                                    className="w-full h-full object-contain p-4"
+                                    fill
+                                    className="object-contain p-4"
+                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                    priority
                                 />
                             </div>
                         </div>
@@ -170,10 +216,10 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
 
                         <div className="pt-8 border-t border-gray-200">
                             <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
-                                Related Pages
+                                You Might Also Like
                             </h3>
                             <div className="flex flex-wrap gap-2">
-                                {['Cute Cat', 'Space Dog', 'Unicorn', 'Dinosaur'].map(tag => (
+                                {relatedTags.map(tag => (
                                     <Link
                                         key={tag}
                                         href={`/printable/${tag.toLowerCase().replace(' ', '-')}`}
@@ -191,7 +237,7 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
 
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify([jsonLd, breadcrumbLd]) }}
             />
         </div >
     )

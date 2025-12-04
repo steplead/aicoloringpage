@@ -5,6 +5,18 @@ const nextConfig: NextConfig = {
     config.resolve.alias['@google/generative-ai'] = false;
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
+  },
 };
 
 export default nextConfig;
