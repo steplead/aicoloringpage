@@ -40,14 +40,18 @@ export async function generateImage(prompt: string, style: string = 'kawaii', im
 
     // If image is provided, adjust prompt for Image-to-Image
     if (image) {
-        fullPrompt = `Turn this image into a high-quality black and white coloring page. 
+        fullPrompt = `Create a clean, black-and-white line art coloring page based on this image.
         Subject: ${prompt || "the main subject of the photo"}.
-        Style: ${style}.
-        Requirements:
-        - Pure black outlines on white background.
-        - No greyscale, no shading.
-        - Clear, distinct lines suitable for coloring.
-        - Remove background clutter.`;
+        
+        CRITICAL INSTRUCTIONS:
+        1. OUTPUT MUST BE PURE LINE ART ONLY.
+        2. NO SHADING, NO GREYSCALE, NO GRADIENTS.
+        3. NO TEXTURE or FILL. White inside the lines.
+        4. Thick, bold black outlines.
+        5. Remove background clutter. Keep the main subject.
+        6. Style: ${style === 'realistic' ? 'Realistic proportions but LINE ART ONLY' : style}.
+        
+        Convert the photo into a drawing suitable for a child to color.`;
     }
 
     try {
