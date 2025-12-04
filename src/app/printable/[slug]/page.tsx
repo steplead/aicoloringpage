@@ -7,6 +7,7 @@ import { Header } from '@/components/Header'
 import { Card } from '@/components/ui/card'
 import { DownloadButtons } from '@/components/DownloadButtons'
 import { RemixClient } from '@/components/RemixClient'
+import { SocialShare } from '@/components/SocialShare'
 import fs from 'fs'
 import path from 'path'
 
@@ -153,6 +154,15 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                         </div>
 
                         <DownloadButtons imageUrl={page.image_url} title={page.title} />
+
+                        <div className="pt-4">
+                            <h3 className="text-sm font-semibold text-gray-500 mb-2">Share this Page</h3>
+                            <SocialShare
+                                url={`https://ai-coloringpage.com/printable/${slug}`}
+                                title={page.title}
+                                image={page.image_url}
+                            />
+                        </div>
 
                         <RemixClient prompt={page.prompt} />
                     </div>
