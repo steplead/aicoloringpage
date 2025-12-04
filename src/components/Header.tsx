@@ -16,7 +16,7 @@ export function Header() {
                 />
                 <span>AI Coloring Page</span>
             </Link>
-            <nav className="flex items-center gap-6">
+            <nav className="hidden md:flex items-center gap-6">
                 <Link href="/directory" className="text-sm font-medium text-gray-600 hover:text-black">
                     Directory
                 </Link>
@@ -34,6 +34,10 @@ export function Header() {
                 <Button size="sm" variant="outline">Sign In</Button>
                 <Button size="sm">Get Started</Button>
             </nav>
+            {/* Mobile Menu Placeholder (Simple button for now) */}
+            <div className="md:hidden">
+                <Button size="sm">Menu</Button>
+            </div>
         </header>
     )
 }
