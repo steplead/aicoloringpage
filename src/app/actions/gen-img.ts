@@ -49,7 +49,7 @@ export async function generateImage(prompt: string, style: string = 'kawaii', im
         2. NO SHADING, NO GREYSCALE, NO GRADIENTS.
         3. SIMPLIFY COMPLEX DETAILS. Do not trace every tiny line.
         4. Thick, bold black outlines (Marker style).
-        5. Remove background clutter. Keep the main subject.
+        5. KEEP ALL MAIN SUBJECTS (People, Animals, Objects). Only remove distant background clutter.
         6. Style: ${style === 'realistic' ? 'Realistic proportions but SIMPLIFIED LINE ART' : style}.
         
         Convert the photo into a bold, simple coloring page suitable for children.`;
