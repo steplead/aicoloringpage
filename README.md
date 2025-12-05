@@ -42,6 +42,11 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 - **Programmatic SEO:** 15,000+ landing pages generated dynamically.
 - **Pinterest Automation:** Auto-posts daily pins to drive traffic.
 - **Directory:** A searchable library of generated pages.
+- **SEO Mega Footer:** Hub & Spoke architecture linking to top keywords and legal pages.
+
+### ⚖️ Legal & Compliance
+- **Pages:** About Us, Privacy Policy, Terms of Service.
+- **Trust:** Fully compliant footer with trust signals.
 
 ## Deploy on Vercel
 
