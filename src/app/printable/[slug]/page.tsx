@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/card'
 import { DownloadButtons } from '@/components/DownloadButtons'
 import { RemixClient } from '@/components/RemixClient'
 import { SocialShare } from '@/components/SocialShare'
+import { RecommendedSupplies } from '@/components/RecommendedSupplies' // Added this import
 import fs from 'fs'
 import path from 'path'
 
@@ -162,6 +163,21 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                                 title={page.title}
                                 image={page.image_url}
                             />
+                        </div>
+
+                        {/* 💰 Monetization Block */}
+                        <RecommendedSupplies />
+
+                        <div className="mt-12 prose max-w-none">
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">About this Coloring Page</h2>
+                            <p className="text-gray-600 leading-relaxed">
+                                {page.description}
+                            </p>
+                            <p className="text-gray-600 leading-relaxed mt-4">
+                                This <strong>{page.subject}</strong> coloring page is perfect for <strong>{page.audience}</strong>.
+                                It features clean lines designed for easy coloring.
+                                Use your favorite crayons, markers, or colored pencils to bring it to life!
+                            </p>
                         </div>
 
                         <RemixClient prompt={page.prompt} />
