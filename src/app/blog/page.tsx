@@ -23,7 +23,13 @@ function getPosts() {
 
 export const metadata = {
     title: 'Coloring Blog - Tips, Tricks & Inspiration',
-    description: 'Learn about coloring techniques, best art supplies, and the benefits of coloring for mindfulness.'
+    description: 'Learn about coloring techniques, best art supplies, and the benefits of coloring for mindfulness.',
+    openGraph: {
+        title: 'Coloring Blog - Tips, Tricks & Inspiration',
+        description: 'Learn about coloring techniques, best art supplies, and the benefits of coloring for mindfulness.',
+        url: 'https://ai-coloringpage.com/blog',
+        type: 'website',
+    }
 }
 
 export default function BlogPage() {

@@ -20,7 +20,13 @@ function getPages() {
 
 export const metadata = {
     title: 'Coloring Page Directory - Browse All Categories',
-    description: 'Browse our extensive collection of free printable coloring pages. Find pages for kids, adults, and every subject imaginable.'
+    description: 'Browse our extensive collection of free printable coloring pages. Find pages for kids, adults, and every subject imaginable.',
+    openGraph: {
+        title: 'Coloring Page Directory - Browse All Categories',
+        description: 'Browse extensive collection of free printable coloring pages.',
+        url: 'https://ai-coloringpage.com/directory',
+        type: 'website',
+    }
 }
 
 export default function DirectoryPage() {
