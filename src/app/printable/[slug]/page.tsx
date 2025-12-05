@@ -56,7 +56,26 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         title: `${page.title} - Free Printable Coloring Page`,
         description: page.description,
         openGraph: {
-            images: [page.image_url] // Note: Data URIs might not work in OG tags, but good for structure
+            title: `${page.title} - Free Printable Coloring Page`,
+            description: page.description,
+            url: `https://ai-coloringpage.com/printable/${slug}`,
+            images: [
+                {
+                    url: page.image_url,
+                    width: 1024, // Assuming generated images are square-ish or standard
+                    height: 1024,
+                    alt: `${page.title} - Coloring Page Preview`
+                }
+            ],
+            type: 'article',
+            publishedTime: page.created_at,
+            authors: ['AI Coloring Page Generator']
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: page.title,
+            description: page.description,
+            images: [page.image_url],
         }
     }
 }
