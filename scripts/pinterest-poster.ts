@@ -114,11 +114,34 @@ async function main() {
 
     let postedCount = 0;
 
-    // Random Daily Limit (20-40)
-    const minPins = 20;
-    const maxPins = 40;
+    // Dynamic limits based on "Project Age" (as requested)
+    // First 2 months: 10-20 pins (Warm up)
+    // After 2 months: 20-40 pins (Full speed)
+
+    // Hardcoded Launch Date (Today)
+    const LAUNCH_DATE = new Date('2025-12-05');
+    const now = new Date();
+
+    // Calculate difference in months
+    const diffTime = Math.abs(now.getTime() - LAUNCH_DATE.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const isWarmupPeriod = diffDays <= 60; // Approx 2 months
+
+    let minPins = 20;
+    let maxPins = 40;
+
+    if (isWarmupPeriod) {
+        console.log(`🌱 WARMUP PHASE (Day ${diffDays}/60)`);
+        minPins = 10;
+        maxPins = 20;
+    } else {
+        console.log(`🚀 GROWTH PHASE (Day ${diffDays})`);
+        minPins = 20;
+        maxPins = 40;
+    }
+
     const dailyLimit = Math.floor(Math.random() * (maxPins - minPins + 1)) + minPins;
-    console.log(`\n🎯 Daily Safety Target: ${dailyLimit} Pins (Randomized 20-40)`);
+    console.log(`🎯 Daily Target: ${dailyLimit} Pins (Randomized between ${minPins}-${maxPins})`);
 
     for (let i = 0; i < pages.length; i++) {
         const page = pages[i];

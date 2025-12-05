@@ -11,42 +11,40 @@ export async function generateImage(prompt: string, style: string = 'kawaii', im
 
 
 
-    // Explicitly request an IMAGE generation
-    let fullPrompt = `Generate a black and white coloring page of ${prompt}. Do not include any text in the image.`;
+    let styleInstructions = "";
+    let simplifyInstruction = "";
 
-    // If image is provided, adjust prompt for Image-to-Image
+    switch (style) {
+        case 'intricate':
+            styleInstructions = `
+            - Style: Adult Coloring Book, Mandala/Zentangle style.
+            - Content: Keep the main subject realistic but FILL the interior and background with complex floral or geometric patterns.
+            - Line Weight: Fine, delicate lines for detail.
+            - Vibe: Meditative, complex, highly detailed.`;
+            simplifyInstruction = "3. DO NOT SIMPLIFY. Keep all details and add MORE patterns.";
+            break;
+        case 'realistic':
+            styleInstructions = `
+            - Style: Scientific Illustration / Pen and Ink Sketch.
+            - Content: Realistic proportions, accurate anatomy/structure.
+            - Line Weight: Varied line weight to show depth. Use hatching/stippling for shading (converted to black lines).
+            - Vibe: Educational, serious, detailed.`;
+            simplifyInstruction = "3. SIMPLIFY ONLY NOISE. Keep texture and structural details.";
+            break;
+        case 'kawaii':
+        default:
+            styleInstructions = `
+            - Style: Kawaii / Chibi / Cute for Kids.
+            - Content: Big eyes, rounded shapes, large heads (chibi proportions). Remove complex details.
+            - Line Weight: THICK, BOLD, UNIFORM lines (like a marker).
+            - Vibe: Playful, sweet, simple.`;
+            simplifyInstruction = "3. SIMPLIFY AGGRESSIVELY. Remove all textures, shading, and small details. Make it look like a cartoon.";
+            break;
+    }
+
+    let fullPrompt = "";
+
     if (image) {
-        let styleInstructions = "";
-        let simplifyInstruction = "";
-
-        switch (style) {
-            case 'intricate':
-                styleInstructions = `
-                - Style: Adult Coloring Book, Mandala/Zentangle style.
-                - Content: Keep the main subject realistic but FILL the interior and background with complex floral or geometric patterns.
-                - Line Weight: Fine, delicate lines for detail.
-                - Vibe: Meditative, complex, highly detailed.`;
-                simplifyInstruction = "3. DO NOT SIMPLIFY. Keep all details and add MORE patterns.";
-                break;
-            case 'realistic':
-                styleInstructions = `
-                - Style: Scientific Illustration / Pen and Ink Sketch.
-                - Content: Realistic proportions, accurate anatomy/structure.
-                - Line Weight: Varied line weight to show depth. Use hatching/stippling for shading (converted to black lines).
-                - Vibe: Educational, serious, detailed.`;
-                simplifyInstruction = "3. SIMPLIFY ONLY NOISE. Keep texture and structural details.";
-                break;
-            case 'kawaii':
-            default:
-                styleInstructions = `
-                - Style: Kawaii / Chibi / Cute for Kids.
-                - Content: Big eyes, rounded shapes, large heads (chibi proportions). Remove complex details.
-                - Line Weight: THICK, BOLD, UNIFORM lines (like a marker).
-                - Vibe: Playful, sweet, simple.`;
-                simplifyInstruction = "3. SIMPLIFY AGGRESSIVELY. Remove all textures, shading, and small details. Make it look like a cartoon.";
-                break;
-        }
-
         fullPrompt = `Create a clean, black-and-white line art coloring page based on this image.
         Subject: ${prompt || "the main subject of the photo"}.
         
@@ -60,6 +58,20 @@ export async function generateImage(prompt: string, style: string = 'kawaii', im
         ${styleInstructions}
         
         Convert the photo into a coloring page matching this style perfectly.`;
+    } else {
+        // Text-to-Image Prompt
+        fullPrompt = `Generate a black and white coloring page of ${prompt}.
+        
+        CRITICAL INSTRUCTIONS:
+        1. OUTPUT MUST BE PURE LINE ART ONLY.
+        2. NO SHADING, NO GREYSCALE, NO GRADIENTS.
+        3. Do not include any text in the image.
+        ${simplifyInstruction}
+        
+        SPECIFIC STYLE INSTRUCTIONS:
+        ${styleInstructions}
+        
+        Ensure the image is a high-quality, printable coloring page.`;
     }
 
     // Use the stable model that supports image generation
