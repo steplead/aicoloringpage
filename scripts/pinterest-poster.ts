@@ -28,8 +28,55 @@ async function generateImage(prompt: string) {
     const model = 'gemini-2.5-flash-image';
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GOOGLE_API_KEY}`;
 
-    // Use the EXACT prompt structure from the working web app
-    const fullPrompt = `Generate a black and white coloring page of ${prompt}. Do not include any text in the image.`;
+    // Randomly select one of the 6 styles
+    const styles = ['kawaii', 'intricate', 'realistic', 'stained-glass', 'abstract', 'fantasy'];
+    const randomStyle = styles[Math.floor(Math.random() * styles.length)];
+    console.log(`  - Style: ${randomStyle.toUpperCase()}`);
+
+    let styleInstructions = "";
+    let simplifyInstruction = "";
+
+    switch (randomStyle) {
+        case 'intricate':
+            styleInstructions = "Style: Adult Coloring Book, Mandala/Zentangle style. Content: Fill the interior with complex patterns. Line Weight: Fine, delicate.";
+            simplifyInstruction = "3. DO NOT SIMPLIFY. Keep all details and add MORE patterns.";
+            break;
+        case 'stained-glass':
+            styleInstructions = "Style: Stained Glass / Mosaic. Content: Fragment subject into large, bold geometric segments. Line Weight: EXTRA THICK, BOLD black outlines.";
+            simplifyInstruction = "3. SIMPLIFY into geometric segments. No tiny details.";
+            break;
+        case 'abstract':
+            styleInstructions = "Style: 3D Geometric Abstract. Content: Merge subject with 3D floating shapes and interlocking geometry. Line Weight: Clean, precise.";
+            simplifyInstruction = "3. Focus on GEOMETRY and PATTERNS over realism.";
+            break;
+        case 'fantasy':
+            styleInstructions = "Style: Cozy Fantasy / RPG Concept Art. Content: Magical atmosphere, soft organic shapes, whimsical details. Line Weight: Flowing, organic.";
+            simplifyInstruction = "3. Simplify realism into illustrative storybook style.";
+            break;
+        case 'realistic':
+            styleInstructions = "Style: Scientific Illustration. Content: Realistic proportions, accurate anatomy. Line Weight: Varied with hatching/stippling texture.";
+            simplifyInstruction = "3. SIMPLIFY ONLY NOISE. Keep texture and structural details.";
+            break;
+        case 'kawaii':
+        default:
+            styleInstructions = "Style: Kawaii / Chibi for Kids. Content: Big eyes, rounded shapes, simple. Line Weight: THICK, BOLD, UNIFORM.";
+            simplifyInstruction = "3. SIMPLIFY AGGRESSIVELY. Remove all textures and shading.";
+            break;
+    }
+
+    // Use the optimized prompt structure
+    const fullPrompt = `Generate a black and white coloring page of ${prompt}.
+        
+    CRITICAL INSTRUCTIONS:
+    1. OUTPUT MUST BE PURE LINE ART ONLY.
+    2. NO SHADING, NO GREYSCALE, NO GRADIENTS.
+    3. Do not include any text.
+    ${simplifyInstruction}
+    
+    SPECIFIC STYLE INSTRUCTIONS:
+    - ${styleInstructions}
+    
+    Ensure the image is a high-quality, printable coloring page.`;
 
     const response = await fetch(url, {
         method: 'POST',
