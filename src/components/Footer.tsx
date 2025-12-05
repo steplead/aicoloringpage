@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Rainbow } from 'lucide-react';
+import Image from 'next/image';
 
 export function Footer() {
     return (
@@ -10,7 +10,13 @@ export function Footer() {
                     {/* Column 1: Brand Authority & Trust */}
                     <div className="space-y-4">
                         <div className="flex items-center space-x-2">
-                            <Rainbow className="w-6 h-6 text-purple-600" />
+                            <Image
+                                src="/logo.png"
+                                alt="AI Coloring Page Logo"
+                                width={32}
+                                height={32}
+                                className="w-8 h-8 rounded-md"
+                            />
                             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
                                 AI Coloring Page
                             </span>
@@ -95,17 +101,17 @@ export function Footer() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#" className="hover:text-purple-600 transition-colors block">
+                                <Link href="/about" className="hover:text-purple-600 transition-colors block">
                                     About Us
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#" className="hover:text-purple-600 transition-colors block">
+                                <Link href="/privacy" className="hover:text-purple-600 transition-colors block">
                                     Privacy Policy
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#" className="hover:text-purple-600 transition-colors block">
+                                <Link href="/terms" className="hover:text-purple-600 transition-colors block">
                                     Terms of Service
                                 </Link>
                             </li>
