@@ -8,6 +8,14 @@ import { Button } from '@/components/ui/button'
 
 export function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false)
+
+    const categories = {
+        "Animals": ["Cat", "Dog", "Lion", "Tiger", "Bear", "Wolf", "Fox", "Owl", "Butterfly"],
+        "Fantasy": ["Dragon", "Unicorn", "Mermaid", "Fairy", "Robot", "Alien", "Monster"],
+        "Styles": ["Stained Glass", "Mandala", "Kawaii", "Realistic", "3D Abstract", "Steampunk"],
+        "Themes": ["Christmas", "Halloween", "Easter", "Spring", "Space", "Underwater"]
+    }
 
     return (
         <header className="flex flex-col border-b bg-white sticky top-0 z-50">
@@ -25,9 +33,45 @@ export function Header() {
 
                 {/* Desktop Nav */}
                 <nav className="hidden md:flex items-center gap-6">
-                    <Link href="/directory" className="text-sm font-medium text-gray-600 hover:text-black">
-                        Directory
-                    </Link>
+                    {/* Mega Menu Dropdown */}
+                    <div
+                        className="relative group"
+                        onMouseEnter={() => setIsMegaMenuOpen(true)}
+                        onMouseLeave={() => setIsMegaMenuOpen(false)}
+                    >
+                        <button className="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-black py-2">
+                            Explore <BookOpen className="w-3 h-3 ml-0.5 opacity-50" />
+                        </button>
+
+                        {/* Dropdown Panel */}
+                        {isMegaMenuOpen && (
+                            <div className="absolute top-full left-1/2 -translate-x-1/2 w-[600px] bg-white shadow-xl border border-gray-100 rounded-xl p-6 grid grid-cols-4 gap-6 animate-in fade-in slide-in-from-top-2 duration-200">
+                                {Object.entries(categories).map(([category, items]) => (
+                                    <div key={category}>
+                                        <h4 className="font-bold text-gray-900 mb-3 text-sm border-b pb-1">{category}</h4>
+                                        <ul className="space-y-2">
+                                            {items.slice(0, 6).map(item => (
+                                                <li key={item}>
+                                                    <Link
+                                                        href={`/printable/${item.toLowerCase().replace(/ /g, '-')}-coloring-page-for-kids`}
+                                                        className="text-xs text-gray-600 hover:text-purple-600 block truncate"
+                                                    >
+                                                        {item}
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                ))}
+                                <div className="col-span-4 pt-4 border-t text-center">
+                                    <Link href="/directory" className="text-sm font-bold text-blue-600 hover:underline">
+                                        View All 15,000+ Pages →
+                                    </Link>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
                     <Link href="/blog" className="text-sm font-medium text-gray-600 hover:text-black">
                         Blog
                     </Link>
@@ -54,9 +98,16 @@ export function Header() {
             {/* Mobile Menu Dropdown */}
             {isMenuOpen && (
                 <div className="md:hidden border-t p-4 bg-gray-50 flex flex-col gap-4 animate-in slide-in-from-top-5">
-                    <Link href="/directory" className="text-sm font-medium p-2 hover:bg-gray-100 rounded-md" onClick={() => setIsMenuOpen(false)}>
-                        Directory
-                    </Link>
+                    <div className="space-y-2">
+                        <p className="font-bold text-gray-900 text-sm pl-2">Explore</p>
+                        <div className="grid grid-cols-2 gap-2 pl-2">
+                            {["Animals", "Fantasy", "Styles", "Themes"].map(cat => (
+                                <Link key={cat} href="/directory" className="text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsMenuOpen(false)}>
+                                    {cat}
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
                     <Link href="/blog" className="text-sm font-medium p-2 hover:bg-gray-100 rounded-md" onClick={() => setIsMenuOpen(false)}>
                         Blog
                     </Link>
