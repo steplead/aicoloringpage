@@ -17,6 +17,7 @@ export default function MagicCameraPage() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [prompt, setPrompt] = useState('')
+    const [style, setStyle] = useState('realistic')
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +68,7 @@ export default function MagicCameraPage() {
         setGeneratedImage(null)
 
         try {
-            const result = await generateImage(prompt, 'realistic', selectedImage)
+            const result = await generateImage(prompt, style, selectedImage)
 
             if (result.success && result.data) {
                 setGeneratedImage(result.data[0])
@@ -147,6 +148,68 @@ export default function MagicCameraPage() {
                                 />
                             </div>
 
+                            <div className="space-y-2">
+                                <Label>Choose Style</Label>
+                                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                                    <button
+                                        onClick={() => setStyle('kawaii')}
+                                        className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${style === 'kawaii'
+                                            ? 'border-blue-500 bg-blue-50 text-blue-700'
+                                            : 'border-gray-200 hover:border-gray-300 text-gray-600'
+                                            }`}
+                                    >
+                                        🧸 Kawaii / Kids
+                                    </button>
+                                    <button
+                                        onClick={() => setStyle('intricate')}
+                                        className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${style === 'intricate'
+                                            ? 'border-purple-500 bg-purple-50 text-purple-700'
+                                            : 'border-gray-200 hover:border-gray-300 text-gray-600'
+                                            }`}
+                                    >
+                                        🌸 Intricate
+                                    </button>
+                                    <button
+                                        onClick={() => setStyle('realistic')}
+                                        className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${style === 'realistic'
+                                            ? 'border-green-500 bg-green-50 text-green-700'
+                                            : 'border-gray-200 hover:border-gray-300 text-gray-600'
+                                            }`}
+                                    >
+                                        ✏️ Realistic
+                                    </button>
+
+                                    {/* New Styles */}
+                                    <button
+                                        onClick={() => setStyle('stained-glass')}
+                                        className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${style === 'stained-glass'
+                                            ? 'border-orange-500 bg-orange-50 text-orange-700'
+                                            : 'border-gray-200 hover:border-gray-300 text-gray-600'
+                                            }`}
+                                    >
+                                        🧩 Stained Glass
+                                    </button>
+                                    <button
+                                        onClick={() => setStyle('abstract')}
+                                        className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${style === 'abstract'
+                                            ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
+                                            : 'border-gray-200 hover:border-gray-300 text-gray-600'
+                                            }`}
+                                    >
+                                        🔮 3D Abstract
+                                    </button>
+                                    <button
+                                        onClick={() => setStyle('fantasy')}
+                                        className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${style === 'fantasy'
+                                            ? 'border-pink-500 bg-pink-50 text-pink-700'
+                                            : 'border-gray-200 hover:border-gray-300 text-gray-600'
+                                            }`}
+                                    >
+                                        🍄 Fantasy / RPG
+                                    </button>
+                                </div>
+                            </div>
+
                             <Button
                                 className="w-full h-12 text-lg"
                                 onClick={handleGenerate}
@@ -170,6 +233,7 @@ export default function MagicCameraPage() {
                     {/* Output Section */}
                     <Card className="p-6 flex flex-col min-h-[500px]">
                         <Label className="text-lg font-semibold mb-4">2. Your Coloring Page</Label>
+
 
                         <div className="flex-1 bg-white rounded-xl border border-gray-200 flex items-center justify-center relative overflow-hidden">
                             {generatedImage ? (

@@ -23,6 +23,31 @@ export async function generateImage(prompt: string, style: string = 'kawaii', im
             - Vibe: Meditative, complex, highly detailed.`;
             simplifyInstruction = "3. DO NOT SIMPLIFY. Keep all details and add MORE patterns.";
             break;
+        case 'stained-glass':
+            styleInstructions = `
+            - Style: Stained Glass / Mosaic style.
+            - Content: Fragment the subject into large, bold geometric segments. Like a stained glass window.
+            - Line Weight: EXTRA THICK, BOLD black outlines to separate segments.
+            - Vibe: Satisfying, "Bold and Easy", segmented.
+            - Detail Level: Low detail, focus on shapes.`;
+            simplifyInstruction = "3. SIMPLIFY into geometric segments. No tiny details.";
+            break;
+        case 'abstract':
+            styleInstructions = `
+            - Style: 3D Geometric Abstract / Optical Illusion.
+            - Content: If a subject is provided, merge it with 3D floating shapes and interlocking geometry. If generic, create a pure 3D pattern.
+            - Line Weight: Clean, precise lines.
+            - Vibe: Trippy, mathematical, immersive.`;
+            simplifyInstruction = "3. Focus on GEOMETRY and PATTERNS over realism.";
+            break;
+        case 'fantasy':
+            styleInstructions = `
+            - Style: Cozy Fantasy / RPG Concept Art.
+            - Content: Magical atmosphere, soft organic shapes, whimsical details (mushrooms, sparkles, vines).
+            - Line Weight: Flowing, organic lines.
+            - Vibe: Magical, ethereal, storybook.`;
+            simplifyInstruction = "3. Simplify realism into illustrative storybook style.";
+            break;
         case 'realistic':
             styleInstructions = `
             - Style: Scientific Illustration / Pen and Ink Sketch.

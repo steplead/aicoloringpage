@@ -123,7 +123,7 @@ function HomeContent() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Choose Style
                 </label>
-                <div className="grid grid-cols-3 gap-2 mb-4">
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
                   <button
                     onClick={() => setStyle('kawaii')}
                     className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${style === 'kawaii'
@@ -140,7 +140,7 @@ function HomeContent() {
                       : 'border-gray-200 hover:border-gray-300 text-gray-600'
                       }`}
                   >
-                    🌸 Intricate / Adult
+                    🌸 Intricate
                   </button>
                   <button
                     onClick={() => setStyle('realistic')}
@@ -150,6 +150,35 @@ function HomeContent() {
                       }`}
                   >
                     ✏️ Realistic
+                  </button>
+
+                  {/* New Styles */}
+                  <button
+                    onClick={() => setStyle('stained-glass')}
+                    className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${style === 'stained-glass'
+                      ? 'border-orange-500 bg-orange-50 text-orange-700'
+                      : 'border-gray-200 hover:border-gray-300 text-gray-600'
+                      }`}
+                  >
+                    🧩 Stained Glass
+                  </button>
+                  <button
+                    onClick={() => setStyle('abstract')}
+                    className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${style === 'abstract'
+                      ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
+                      : 'border-gray-200 hover:border-gray-300 text-gray-600'
+                      }`}
+                  >
+                    🔮 3D Abstract
+                  </button>
+                  <button
+                    onClick={() => setStyle('fantasy')}
+                    className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${style === 'fantasy'
+                      ? 'border-pink-500 bg-pink-50 text-pink-700'
+                      : 'border-gray-200 hover:border-gray-300 text-gray-600'
+                      }`}
+                  >
+                    🍄 Fantasy / RPG
                   </button>
                 </div>
 
