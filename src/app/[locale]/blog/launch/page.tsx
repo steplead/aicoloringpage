@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
-import Link from 'next/link'
+import { Link } from '@/i18n/routing'
 import { Header } from '@/components/Header'
 import { Button } from '@/components/ui/button'
 import { Camera, BookOpen, Sparkles } from 'lucide-react'
