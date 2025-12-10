@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Check, Sparkles, Zap } from 'lucide-react'
 import { useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/routing'
 import { useTranslations } from 'next-intl'
 
 export default function PricingPage() {
