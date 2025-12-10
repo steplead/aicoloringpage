@@ -1,0 +1,54 @@
+{
+    "HomePage": {
+        "title": "Turn Photos into Coloring Pages",
+        "subtitle": "Use AI to convert any image into a printable coloring page.",
+        "heroTitle": "Turn Ideas into",
+        "heroTitleHighlight": "Printable Coloring Pages",
+        "heroSubtitle": "Create high-quality, black & white coloring sheets for kids and adults in seconds. Just describe it, and our AI draws it.",
+        "poweredBy": "Powered by Google AI",
+        "inputLabel": "What do you want to color?",
+        "inputPlaceholder": "e.g. A cute baby dragon eating ice cream...",
+        "styleLabel": "Choose Style",
+        "generateButton": "Generate Page",
+        "loadingButton": "Creating Magic...",
+        "downloadPdf": "Download PDF",
+        "addToBook": "Add to Book",
+        "myBook": "My Coloring Book",
+        "emptyBook": "Your book is empty.",
+        "downloadFullBook": "Download Full Book PDF",
+        "styles": {
+            "kawaii": "🧸 Kawaii / Kids",
+            "intricate": "🌸 Intricate",
+            "realistic": "✏️ Realistic",
+            "stainedGlass": "🧩 Stained Glass",
+            "abstract": "🔮 3D Abstract",
+            "fantasy": "🍄 Fantasy / RPG"
+        }
+    },
+    "Header": {
+        "explore": "Explore",
+        "blog": "Blog",
+        "magicCamera": "Magic Camera",
+        "storyMode": "Story Mode",
+        "signIn": "Sign In",
+        "getStarted": "Get Started",
+        "viewAll": "View All 15,000+ Pages"
+    },
+    "Footer": {
+        "description": "The world's most advanced AI coloring page generator. Turn photos into coloring pages, create custom storybooks, and explore thousands of free printable sheets.",
+        "trustedBy": "Trusted by",
+        "trustedByText": "Parents, Teachers & Artists Worldwide",
+        "create": "Create",
+        "popularThemes": "Popular Themes",
+        "resources": "Resources",
+        "photoToPage": "Turn Photo to Coloring Page",
+        "textToPage": "Text to Coloring Page",
+        "createBook": "Create Coloring Book",
+        "browseAll": "Browse All 15,000+ Pages",
+        "tipsBlog": "Coloring Tips & Blog",
+        "about": "About Us",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service",
+        "copyright": "All rights reserved."
+    }
+}

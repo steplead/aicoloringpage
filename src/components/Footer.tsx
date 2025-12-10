@@ -1,7 +1,10 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 
-export function Footer() {
+import { getTranslations } from 'next-intl/server';
+
+export async function Footer() {
+    const t = await getTranslations('Footer');
     return (
         <footer className="bg-white border-t border-gray-100 pt-16 pb-8 mt-24">
             <div className="container mx-auto px-4">
@@ -22,38 +25,36 @@ export function Footer() {
                             </span>
                         </div>
                         <p className="text-sm text-gray-500 leading-relaxed">
-                            The world's most advanced AI coloring page generator.
-                            Turn photos into coloring pages, create custom storybooks,
-                            and explore thousands of free printable sheets.
+                            {t('description')}
                         </p>
                         <div className="pt-4">
-                            <p className="text-xs text-gray-400 font-medium tracking-wide uppercase">Trusted by</p>
-                            <p className="text-sm text-gray-500 mt-1">Parents, Teachers & Artists Worldwide</p>
+                            <p className="text-xs text-gray-400 font-medium tracking-wide uppercase">{t('trustedBy')}</p>
+                            <p className="text-sm text-gray-500 mt-1">{t('trustedByText')}</p>
                         </div>
                     </div>
 
                     {/* Column 2: Core Tools (Action Keywords) */}
                     <div>
-                        <h3 className="font-semibold text-gray-900 mb-4">Create</h3>
+                        <h3 className="font-semibold text-gray-900 mb-4">{t('create')}</h3>
                         <ul className="space-y-3 text-sm text-gray-600">
                             <li>
                                 <Link href="/create/photo" className="hover:text-purple-600 transition-colors block">
-                                    Turn Photo to Coloring Page
+                                    {t('photoToPage')}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/" className="hover:text-purple-600 transition-colors block">
-                                    Text to Coloring Page
+                                    {t('textToPage')}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/create/story" className="hover:text-purple-600 transition-colors block">
-                                    Create Coloring Book
+                                    {t('createBook')}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/directory" className="hover:text-purple-600 transition-colors block">
-                                    Browse All 15,000+ Pages
+                                    {t('browseAll')}
                                 </Link>
                             </li>
                         </ul>
@@ -61,7 +62,7 @@ export function Footer() {
 
                     {/* Column 3: Keyword Clusters (Semantic Silos) */}
                     <div>
-                        <h3 className="font-semibold text-gray-900 mb-4">Popular Themes</h3>
+                        <h3 className="font-semibold text-gray-900 mb-4">{t('popularThemes')}</h3>
                         <ul className="space-y-3 text-sm text-gray-600">
                             <li>
                                 <Link href="/printable/cat-coloring-page-for-kids" className="hover:text-purple-600 transition-colors block">
@@ -93,26 +94,26 @@ export function Footer() {
 
                     {/* Column 4: Resources & Legal (Trust Signals) */}
                     <div>
-                        <h3 className="font-semibold text-gray-900 mb-4">Resources</h3>
+                        <h3 className="font-semibold text-gray-900 mb-4">{t('resources')}</h3>
                         <ul className="space-y-3 text-sm text-gray-600">
                             <li>
                                 <Link href="/blog" className="hover:text-purple-600 transition-colors block">
-                                    Coloring Tips & Blog
+                                    {t('tipsBlog')}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/about" className="hover:text-purple-600 transition-colors block">
-                                    About Us
+                                    {t('about')}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/privacy" className="hover:text-purple-600 transition-colors block">
-                                    Privacy Policy
+                                    {t('privacy')}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/terms" className="hover:text-purple-600 transition-colors block">
-                                    Terms of Service
+                                    {t('terms')}
                                 </Link>
                             </li>
                         </ul>
@@ -168,7 +169,7 @@ export function Footer() {
                 {/* Bottom Bar: Copyright & Micro-text */}
                 <div className="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-xs text-gray-400">
-                        © {new Date().getFullYear()} AI Coloring Page. All rights reserved.
+                        © {new Date().getFullYear()} AI Coloring Page. {t('copyright')}
                     </p>
                     <div className="flex gap-4">
                         {/* Social Links could go here */}

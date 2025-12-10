@@ -1,0 +1,54 @@
+{
+    "HomePage": {
+        "title": "Convierte Fotos en Dibujos para Colorear",
+        "subtitle": "Usa IA para convertir cualquier imagen en una página para colorear imprimible.",
+        "heroTitle": "Convierte Ideas en",
+        "heroTitleHighlight": "Dibujos para Colorear",
+        "heroSubtitle": "Crea hojas para colorear en blanco y negro de alta calidad para niños y adultos en segundos. Solo descríbelo y nuestra IA lo dibujará.",
+        "poweredBy": "Impulsado por Google AI",
+        "inputLabel": "¿Qué quieres colorear?",
+        "inputPlaceholder": "ej. Un lindo dragón bebé comiendo helado...",
+        "styleLabel": "Elige un Estilo",
+        "generateButton": "Generar Página",
+        "loadingButton": "Creando Magia...",
+        "downloadPdf": "Descargar PDF",
+        "addToBook": "Añadir al Libro",
+        "myBook": "Mi Libro de Colorear",
+        "emptyBook": "Tu libro está vacío.",
+        "downloadFullBook": "Descargar Libro Completo",
+        "styles": {
+            "kawaii": "🧸 Kawaii / Niños",
+            "intricate": "🌸 Detallado",
+            "realistic": "✏️ Realista",
+            "stainedGlass": "🧩 Vitral",
+            "abstract": "🔮 Abstracto 3D",
+            "fantasy": "🍄 Fantasía / RPG"
+        }
+    },
+    "Header": {
+        "explore": "Explorar",
+        "blog": "Blog",
+        "magicCamera": "Cámara Mágica",
+        "storyMode": "Modo Historia",
+        "signIn": "Iniciar Sesión",
+        "getStarted": "Empezar",
+        "viewAll": "Ver las 15,000+ Páginas"
+    },
+    "Footer": {
+        "description": "El generador de páginas para colorear con IA más avanzado del mundo. Convierte fotos en dibujos, crea libros de cuentos personalizados y explora miles de hojas imprimibles gratuitas.",
+        "trustedBy": "Confiado por",
+        "trustedByText": "Padres, Maestros y Artistas en todo el mundo",
+        "create": "Crear",
+        "popularThemes": "Temas Populares",
+        "resources": "Recursos",
+        "photoToPage": "Foto a Dibujo",
+        "textToPage": "Texto a Dibujo",
+        "createBook": "Crear Libro",
+        "browseAll": "Explorar Todo",
+        "tipsBlog": "Consejos y Blog",
+        "about": "Sobre Nosotros",
+        "privacy": "Privacidad",
+        "terms": "Términos",
+        "copyright": "Todos los derechos reservados."
+    }
+}

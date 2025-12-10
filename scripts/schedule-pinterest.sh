@@ -12,16 +12,12 @@ echo "----------------------------------------" >> "$LOG_FILE"
 echo "Starting Pinterest Automation: $(date)" >> "$LOG_FILE"
 
 # Run the script using npx (assuming node is in path, or use absolute path to node if needed)
-# Source .zshrc to ensure nvm/node are loaded if run from cron
-if [ -f "$HOME/.zshrc" ]; then
-    source "$HOME/.zshrc"
-elif [ -f "$HOME/.bashrc" ]; then
-    source "$HOME/.bashrc"
-fi
+# Ensure Homebrew binaries (npm, node) are in PATH
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 
 # Execute and capture output
-# 'npx tsx' is used to run the TypeScript file directly
-/usr/local/bin/npx tsx scripts/pinterest-poster.ts >> "$LOG_FILE" 2>&1
+# Uses the 'pinterest' script defined in package.json
+/opt/homebrew/bin/npm run pinterest >> "$LOG_FILE" 2>&1
 
 EXIT_CODE=$?
 

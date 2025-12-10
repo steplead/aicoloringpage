@@ -9,6 +9,7 @@ import { Loader2, Upload, Camera, Image as ImageIcon, Download, Printer } from '
 import Image from 'next/image'
 import { generateImage } from '@/app/actions/gen-img'
 import { Header } from '@/components/Header'
+import { SocialShare } from '@/components/SocialShare'
 
 export default function MagicCameraClient() {
     const [selectedImage, setSelectedImage] = useState<string | null>(null)
@@ -260,20 +261,32 @@ export default function MagicCameraClient() {
                         </div>
 
                         {generatedImage && (
-                            <div className="grid grid-cols-2 gap-4 mt-6">
-                                <Button variant="outline" onClick={() => window.print()}>
-                                    <Printer className="mr-2 h-4 w-4" />
-                                    Print
-                                </Button>
-                                <Button onClick={() => {
-                                    const link = document.createElement('a');
-                                    link.href = generatedImage;
-                                    link.download = 'coloring-page.png';
-                                    link.click();
-                                }}>
-                                    <Download className="mr-2 h-4 w-4" />
-                                    Download
-                                </Button>
+                            <div className="space-y-4 mt-6">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <Button variant="outline" onClick={() => window.print()}>
+                                        <Printer className="mr-2 h-4 w-4" />
+                                        Print
+                                    </Button>
+                                    <Button onClick={() => {
+                                        const link = document.createElement('a');
+                                        link.href = generatedImage;
+                                        link.download = 'coloring-page.png';
+                                        link.click();
+                                    }}>
+                                        <Download className="mr-2 h-4 w-4" />
+                                        Download
+                                    </Button>
+                                </div>
+
+                                <div className="pt-4 border-t">
+                                    <p className="text-sm font-medium text-gray-500 mb-2 text-center">Share your masterpiece!</p>
+                                    <div className="flex justify-center">
+                                        <SocialShare
+                                            url="https://ai-coloringpage.com/create/photo"
+                                            title="I just turned my photo into a coloring page with AI! 📸✨"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         )}
 

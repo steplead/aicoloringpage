@@ -1,0 +1,54 @@
+{
+    "HomePage": {
+        "title": "Transformez vos Photos en Coloriages",
+        "subtitle": "Utilisez l'IA pour convertir n'importe quelle image en coloriage imprimable.",
+        "heroTitle": "Transformez vos Idées en",
+        "heroTitleHighlight": "Coloriages Imprimables",
+        "heroSubtitle": "Créez des feuilles de coloriage noir et blanc de haute qualité pour enfants et adultes en quelques secondes. Décrivez simplement et notre IA dessine.",
+        "poweredBy": "Propulsé par Google AI",
+        "inputLabel": "Que voulez-vous colorier ?",
+        "inputPlaceholder": "ex: Un bébé dragon mignon mangeant une glace...",
+        "styleLabel": "Choisir un Style",
+        "generateButton": "Générer la Page",
+        "loadingButton": "Création Magique...",
+        "downloadPdf": "Télécharger PDF",
+        "addToBook": "Ajouter au Livre",
+        "myBook": "Mon Livre de Coloriage",
+        "emptyBook": "Votre livre est vide.",
+        "downloadFullBook": "Télécharger le Livre Complet",
+        "styles": {
+            "kawaii": "🧸 Kawaii / Enfants",
+            "intricate": "🌸 Complexe",
+            "realistic": "✏️ Réaliste",
+            "stainedGlass": "🧩 Vitrail",
+            "abstract": "🔮 Abstrait 3D",
+            "fantasy": "🍄 Fantaisie / RPG"
+        }
+    },
+    "Header": {
+        "explore": "Explorer",
+        "blog": "Blog",
+        "magicCamera": "Caméra Magique",
+        "storyMode": "Mode Histoire",
+        "signIn": "Connexion",
+        "getStarted": "Commencer",
+        "viewAll": "Voir les 15 000+ Pages"
+    },
+    "Footer": {
+        "description": "Le générateur de coloriages IA le plus avancé au monde. Transformez des photos en coloriages, créez des livres d'histoires personnalisés et explorez des milliers de feuilles imprimables gratuites.",
+        "trustedBy": "Recommandé par",
+        "trustedByText": "Parents, Enseignants et Artistes du monde entier",
+        "create": "Créer",
+        "popularThemes": "Thèmes Populaires",
+        "resources": "Ressources",
+        "photoToPage": "Photo en Coloriage",
+        "textToPage": "Texte en Coloriage",
+        "createBook": "Créer un Livre",
+        "browseAll": "Tout Parcourir",
+        "tipsBlog": "Conseils et Blog",
+        "about": "À Propos",
+        "privacy": "Confidentialité",
+        "terms": "Conditions",
+        "copyright": "Tous droits réservés."
+    }
+}

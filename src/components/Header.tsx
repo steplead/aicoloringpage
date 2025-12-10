@@ -1,12 +1,16 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
+import { Link } from '@/i18n/routing'
 import Image from 'next/image'
 import { Camera, BookOpen, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
+
+import { useTranslations } from 'next-intl'
 
 export function Header() {
+    const t = useTranslations('Header')
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false)
 
@@ -40,7 +44,7 @@ export function Header() {
                         onMouseLeave={() => setIsMegaMenuOpen(false)}
                     >
                         <button className="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-black py-2">
-                            Explore <BookOpen className="w-3 h-3 ml-0.5 opacity-50" />
+                            {t('explore')} <BookOpen className="w-3 h-3 ml-0.5 opacity-50" />
                         </button>
 
                         {/* Dropdown Panel */}
@@ -65,7 +69,7 @@ export function Header() {
                                 ))}
                                 <div className="col-span-4 pt-4 border-t text-center">
                                     <Link href="/directory" className="text-sm font-bold text-blue-600 hover:underline">
-                                        View All 15,000+ Pages →
+                                        {t('viewAll')} →
                                     </Link>
                                 </div>
                             </div>
@@ -73,18 +77,19 @@ export function Header() {
                     </div>
 
                     <Link href="/blog" className="text-sm font-medium text-gray-600 hover:text-black">
-                        Blog
+                        {t('blog')}
                     </Link>
                     <Link href="/create/photo" className="text-sm font-medium text-purple-600 hover:text-purple-700 flex items-center gap-1">
                         <Camera className="w-4 h-4" />
-                        Magic Camera
+                        {t('magicCamera')}
                     </Link>
                     <Link href="/create/story" className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1">
                         <BookOpen className="w-4 h-4" />
-                        Story Mode
+                        {t('storyMode')}
                     </Link>
-                    <Button size="sm" variant="outline">Sign In</Button>
-                    <Button size="sm">Get Started</Button>
+                    <LanguageSwitcher />
+                    <Button size="sm" variant="outline">{t('signIn')}</Button>
+                    <Button size="sm">{t('getStarted')}</Button>
                 </nav>
 
                 {/* Mobile Menu Toggle */}
@@ -99,7 +104,7 @@ export function Header() {
             {isMenuOpen && (
                 <div className="md:hidden border-t p-4 bg-gray-50 flex flex-col gap-4 animate-in slide-in-from-top-5">
                     <div className="space-y-2">
-                        <p className="font-bold text-gray-900 text-sm pl-2">Explore</p>
+                        <p className="font-bold text-gray-900 text-sm pl-2">{t('explore')}</p>
                         <div className="grid grid-cols-2 gap-2 pl-2">
                             {["Animals", "Fantasy", "Styles", "Themes"].map(cat => (
                                 <Link key={cat} href="/directory" className="text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsMenuOpen(false)}>
@@ -109,7 +114,7 @@ export function Header() {
                         </div>
                     </div>
                     <Link href="/blog" className="text-sm font-medium p-2 hover:bg-gray-100 rounded-md" onClick={() => setIsMenuOpen(false)}>
-                        Blog
+                        {t('blog')}
                     </Link>
                     <Link href="/create/photo" className="text-sm font-medium text-purple-600 p-2 hover:bg-purple-50 rounded-md flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
                         <Camera className="w-4 h-4" />
@@ -117,11 +122,15 @@ export function Header() {
                     </Link>
                     <Link href="/create/story" className="text-sm font-medium text-blue-600 p-2 hover:bg-blue-50 rounded-md flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
                         <BookOpen className="w-4 h-4" />
-                        Story Mode
+                        {t('storyMode')}
                     </Link>
+                    <div className="flex items-center justify-between p-2">
+                        <span className="text-sm font-medium text-gray-600">Language</span>
+                        <LanguageSwitcher />
+                    </div>
                     <div className="flex gap-2 pt-2">
-                        <Button size="sm" variant="outline" className="w-full">Sign In</Button>
-                        <Button size="sm" className="w-full">Get Started</Button>
+                        <Button size="sm" variant="outline" className="w-full">{t('signIn')}</Button>
+                        <Button size="sm" className="w-full">{t('getStarted')}</Button>
                     </div>
                 </div>
             )}

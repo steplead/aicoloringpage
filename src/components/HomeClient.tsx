@@ -12,8 +12,10 @@ import { GallerySection } from '@/components/GallerySection'
 import { Download, Sparkles, Loader2, Image as ImageIcon, BookOpen, Plus, Trash2 } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { Suspense } from 'react'
+import { useTranslations } from 'next-intl'
 
 function HomeContent() {
+    const t = useTranslations('HomePage')
     const searchParams = useSearchParams()
     const initialPrompt = searchParams.get('prompt') || ''
 
@@ -82,17 +84,16 @@ function HomeContent() {
                 <div className="text-center space-y-4 max-w-3xl animate-in fade-in slide-in-from-bottom-4 duration-700">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-2">
                         <Sparkles className="w-4 h-4" />
-                        <span>Powered by Google AI</span>
+                        <span>{t('poweredBy')}</span>
                     </div>
                     <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900 leading-tight">
-                        Turn Ideas into <br className="hidden md:block" />
+                        {t('heroTitle')} <br className="hidden md:block" />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                            Printable Coloring Pages
+                            {t('heroTitleHighlight')}
                         </span>
                     </h1>
                     <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                        Create high-quality, black & white coloring sheets for kids and adults in seconds.
-                        Just describe it, and our AI draws it.
+                        {t('heroSubtitle')}
                     </p>
                 </div>
 
@@ -104,11 +105,11 @@ function HomeContent() {
                         <div className="space-y-6">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    What do you want to color?
+                                    {t('inputLabel')}
                                 </label>
                                 <div className="flex gap-2 mb-4">
                                     <Input
-                                        placeholder="e.g. A cute baby dragon eating ice cream..."
+                                        placeholder={t('inputPlaceholder')}
                                         value={prompt}
                                         onChange={(e) => setPrompt(e.target.value)}
                                         className="h-12 text-lg"
@@ -117,7 +118,7 @@ function HomeContent() {
                                 </div>
 
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Choose Style
+                                    {t('styleLabel')}
                                 </label>
                                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
                                     <button
@@ -127,7 +128,7 @@ function HomeContent() {
                                             : 'border-gray-200 hover:border-gray-300 text-gray-600'
                                             }`}
                                     >
-                                        🧸 Kawaii / Kids
+                                        {t('styles.kawaii')}
                                     </button>
                                     <button
                                         onClick={() => setStyle('intricate')}
@@ -136,7 +137,7 @@ function HomeContent() {
                                             : 'border-gray-200 hover:border-gray-300 text-gray-600'
                                             }`}
                                     >
-                                        🌸 Intricate
+                                        {t('styles.intricate')}
                                     </button>
                                     <button
                                         onClick={() => setStyle('realistic')}
@@ -145,7 +146,7 @@ function HomeContent() {
                                             : 'border-gray-200 hover:border-gray-300 text-gray-600'
                                             }`}
                                     >
-                                        ✏️ Realistic
+                                        {t('styles.realistic')}
                                     </button>
 
                                     {/* New Styles */}
@@ -156,7 +157,7 @@ function HomeContent() {
                                             : 'border-gray-200 hover:border-gray-300 text-gray-600'
                                             }`}
                                     >
-                                        🧩 Stained Glass
+                                        {t('styles.stainedGlass')}
                                     </button>
                                     <button
                                         onClick={() => setStyle('abstract')}
@@ -165,7 +166,7 @@ function HomeContent() {
                                             : 'border-gray-200 hover:border-gray-300 text-gray-600'
                                             }`}
                                     >
-                                        🔮 3D Abstract
+                                        {t('styles.abstract')}
                                     </button>
                                     <button
                                         onClick={() => setStyle('fantasy')}
@@ -174,7 +175,7 @@ function HomeContent() {
                                             : 'border-gray-200 hover:border-gray-300 text-gray-600'
                                             }`}
                                     >
-                                        🍄 Fantasy / RPG
+                                        {t('styles.fantasy')}
                                     </button>
                                 </div>
 
@@ -191,12 +192,12 @@ function HomeContent() {
                                 {loading ? (
                                     <>
                                         <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                                        Creating Magic...
+                                        {t('loadingButton')}
                                     </>
                                 ) : (
                                     <>
                                         <Sparkles className="w-5 h-5 mr-2" />
-                                        Generate Page
+                                        {t('generateButton')}
                                     </>
                                 )}
                             </Button>
@@ -232,11 +233,11 @@ function HomeContent() {
                                 <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex justify-center gap-2">
                                     <Button onClick={handleDownloadPDF} className="shadow-lg">
                                         <Download className="w-4 h-4 mr-2" />
-                                        Download PDF
+                                        {t('downloadPdf')}
                                     </Button>
                                     <Button onClick={addToBook} variant="secondary" className="shadow-lg">
                                         <Plus className="w-4 h-4 mr-2" />
-                                        Add to Book
+                                        {t('addToBook')}
                                     </Button>
                                 </div>
                             </div>
@@ -279,14 +280,14 @@ function HomeContent() {
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-2xl font-bold flex items-center gap-2">
                                 <BookOpen className="w-6 h-6" />
-                                My Coloring Book
+                                {t('myBook')}
                             </h2>
                             <Button variant="ghost" onClick={() => setShowBook(false)}>Close</Button>
                         </div>
 
                         <div className="flex-1 overflow-y-auto space-y-4">
                             {book.length === 0 ? (
-                                <p className="text-gray-500 text-center mt-10">Your book is empty.</p>
+                                <p className="text-gray-500 text-center mt-10">{t('emptyBook')}</p>
                             ) : (
                                 book.map((item, idx) => (
                                     <div key={idx} className="flex gap-4 items-center p-3 border rounded-lg hover:bg-gray-50">
@@ -308,7 +309,7 @@ function HomeContent() {
                         <div className="pt-6 border-t mt-4">
                             <Button onClick={downloadBook} className="w-full h-12 text-lg" disabled={book.length === 0}>
                                 <Download className="w-5 h-5 mr-2" />
-                                Download Full Book PDF
+                                {t('downloadFullBook')}
                             </Button>
                         </div>
                     </div>

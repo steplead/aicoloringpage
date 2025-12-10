@@ -9,6 +9,7 @@ import { Loader2, BookOpen, Sparkles, Download, Printer } from 'lucide-react'
 import { generatePlot } from '@/app/actions/gen-story'
 import { generateImage } from '@/app/actions/gen-img'
 import Image from 'next/image'
+import { SocialShare } from '@/components/SocialShare'
 
 export default function StoryModeClient() {
     const [step, setStep] = useState(1)
@@ -165,10 +166,22 @@ export default function StoryModeClient() {
                         <div className="text-center p-8 bg-green-50 rounded-xl border border-green-100">
                             <h3 className="text-2xl font-bold text-green-800 mb-2">Book Complete! 🎉</h3>
                             <p className="text-green-600 mb-6">Your 5-page storybook is ready to print.</p>
-                            <Button className="h-12 px-8 text-lg" onClick={() => window.print()}>
-                                <Download className="w-5 h-5 mr-2" />
-                                Download / Print PDF
-                            </Button>
+                            <div className="flex flex-col items-center gap-6">
+                                <Button className="h-12 px-8 text-lg" onClick={() => window.print()}>
+                                    <Download className="w-5 h-5 mr-2" />
+                                    Download / Print PDF
+                                </Button>
+
+                                <div className="w-full max-w-md border-t border-green-200 pt-6">
+                                    <p className="text-sm font-medium text-green-700 mb-3">Share your story with the world!</p>
+                                    <div className="flex justify-center">
+                                        <SocialShare
+                                            url="https://ai-coloringpage.com/create/story"
+                                            title="I just created my own coloring book with AI! 📖✨"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     )}
                 </div>
