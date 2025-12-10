@@ -169,7 +169,7 @@ export async function Footer() {
                 {/* Bottom Bar: Copyright & Micro-text */}
                 <div className="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-xs text-gray-400">
-                        © {new Date().getFullYear()} AI Coloring Page. {t('copyright')}
+                        © {new Date().getFullYear()} AI Coloring Page. {t('copyright')} (v2.0)
                     </p>
                     <div className="flex gap-4">
                         {/* Social Links could go here */}
