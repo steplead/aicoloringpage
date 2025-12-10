@@ -215,7 +215,7 @@ function HomeContent() {
                         {loading ? (
                             <div className="flex flex-col items-center gap-4 text-gray-400 animate-pulse">
                                 <div className="w-16 h-16 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin"></div>
-                                <p>Drawing your masterpiece...</p>
+                                <p>{t('drawingMasterpiece')}</p>
                             </div>
                         ) : imageUrl ? (
                             <div className="relative w-full aspect-square flex flex-col items-center">
@@ -246,8 +246,8 @@ function HomeContent() {
                                 <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                     <ImageIcon className="w-10 h-10 text-gray-300" />
                                 </div>
-                                <p className="font-medium">No image generated yet</p>
-                                <p className="text-sm">Enter a prompt to start creating!</p>
+                                <p className="font-medium">{t('noImageGenerated')}</p>
+                                <p className="text-sm">{t('enterPrompt')}</p>
                             </div>
                         )}
                     </Card>
@@ -282,7 +282,7 @@ function HomeContent() {
                                 <BookOpen className="w-6 h-6" />
                                 {t('myBook')}
                             </h2>
-                            <Button variant="ghost" onClick={() => setShowBook(false)}>Close</Button>
+                            <Button variant="ghost" onClick={() => setShowBook(false)}>{t('close')}</Button>
                         </div>
 
                         <div className="flex-1 overflow-y-auto space-y-4">

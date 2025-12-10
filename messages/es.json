@@ -23,7 +23,14 @@
             "stainedGlass": "🧩 Vitral",
             "abstract": "🔮 Abstracto 3D",
             "fantasy": "🍄 Fantasía / RPG"
-        }
+        },
+        "drawingMasterpiece": "Dibujando tu obra maestra...",
+        "noImageGenerated": "Aún no se ha generado ninguna imagen",
+        "enterPrompt": "¡Ingresa una descripción para comenzar a crear!",
+        "communityCreations": "Creaciones de la Comunidad",
+        "latestPages": "Últimas páginas generadas",
+        "noCommunityCreations": "Aún no hay creaciones de la comunidad. ¡Sé el primero!",
+        "close": "Cerrar"
     },
     "Header": {
         "explore": "Explorar",

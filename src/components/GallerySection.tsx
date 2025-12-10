@@ -7,12 +7,15 @@ import Link from 'next/link'
 import { Card } from '@/components/ui/card'
 import { Loader2, TrendingUp } from 'lucide-react'
 
+import { useTranslations } from 'next-intl'
+
 // Initialize Supabase (Client Side)
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 const supabase = (supabaseUrl && supabaseKey) ? createClient(supabaseUrl, supabaseKey) : null
 
 export function GallerySection() {
+    const t = useTranslations('HomePage')
     const [images, setImages] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
 
@@ -53,8 +56,8 @@ export function GallerySection() {
         <section className="w-full max-w-6xl mx-auto space-y-8 animate-in fade-in duration-700 delay-300">
             <div className="flex items-center gap-2 border-b border-gray-200 pb-4">
                 <TrendingUp className="w-6 h-6 text-purple-600" />
-                <h2 className="text-2xl font-bold text-gray-900">Community Creations</h2>
-                <span className="text-sm text-gray-500 ml-auto">Latest generated pages</span>
+                <h2 className="text-2xl font-bold text-gray-900">{t('communityCreations')}</h2>
+                <span className="text-sm text-gray-500 ml-auto">{t('latestPages')}</span>
             </div>
 
             {loading ? (
@@ -63,7 +66,7 @@ export function GallerySection() {
                 </div>
             ) : images.length === 0 ? (
                 <div className="text-center py-12 text-gray-500">
-                    <p>No community creations yet. Be the first!</p>
+                    <p>{t('noCommunityCreations')}</p>
                 </div>
             ) : (
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

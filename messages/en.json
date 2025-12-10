@@ -23,7 +23,14 @@
             "stainedGlass": "🧩 Stained Glass",
             "abstract": "🔮 3D Abstract",
             "fantasy": "🍄 Fantasy / RPG"
-        }
+        },
+        "drawingMasterpiece": "Drawing your masterpiece...",
+        "noImageGenerated": "No image generated yet",
+        "enterPrompt": "Enter a prompt to start creating!",
+        "communityCreations": "Community Creations",
+        "latestPages": "Latest generated pages",
+        "noCommunityCreations": "No community creations yet. Be the first!",
+        "close": "Close"
     },
     "Header": {
         "explore": "Explore",
