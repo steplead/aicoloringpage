@@ -10,8 +10,10 @@ import { generatePlot } from '@/app/actions/gen-story'
 import { generateImage } from '@/app/actions/gen-img'
 import Image from 'next/image'
 import { SocialShare } from '@/components/SocialShare'
+import { useTranslations } from 'next-intl'
 
 export default function StoryModeClient() {
+    const t = useTranslations('StoryMode')
     const [step, setStep] = useState(1)
     const [loading, setLoading] = useState(false)
 
@@ -64,34 +66,34 @@ export default function StoryModeClient() {
             <div className="text-center mb-12">
                 <h1 className="text-4xl font-extrabold mb-4 flex items-center justify-center gap-3">
                     <BookOpen className="w-10 h-10 text-purple-600" />
-                    Story Mode
+                    {t('title')}
                 </h1>
-                <p className="text-xl text-gray-600">Create a 5-page coloring book starring your own character!</p>
+                <p className="text-xl text-gray-600">{t('subtitle')}</p>
             </div>
 
             {/* Step 1: Define Character */}
             {step === 1 && (
                 <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 max-w-xl mx-auto space-y-6">
                     <div className="space-y-2">
-                        <Label>Character Name</Label>
+                        <Label>{t('charNameLabel')}</Label>
                         <Input
-                            placeholder="e.g. Barnaby"
+                            placeholder={t('charNamePlaceholder')}
                             value={characterName}
                             onChange={(e) => setCharacterName(e.target.value)}
                         />
                     </div>
                     <div className="space-y-2">
-                        <Label>Character Description</Label>
+                        <Label>{t('charDescLabel')}</Label>
                         <Textarea
-                            placeholder="e.g. A cute blue robot with a propeller hat"
+                            placeholder={t('charDescPlaceholder')}
                             value={characterDesc}
                             onChange={(e) => setCharacterDesc(e.target.value)}
                         />
                     </div>
                     <div className="space-y-2">
-                        <Label>Theme / Setting</Label>
+                        <Label>{t('themeLabel')}</Label>
                         <Input
-                            placeholder="e.g. Space Adventure, Underwater, Magic Forest"
+                            placeholder={t('themePlaceholder')}
                             value={theme}
                             onChange={(e) => setTheme(e.target.value)}
                         />
@@ -102,7 +104,7 @@ export default function StoryModeClient() {
                         disabled={loading || !characterName || !characterDesc}
                     >
                         {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <Sparkles className="w-5 h-5 mr-2" />}
-                        Generate Story Plot
+                        {t('generatePlotBtn')}
                     </Button>
                 </div>
             )}
@@ -110,11 +112,11 @@ export default function StoryModeClient() {
             {/* Step 2: Review Plot */}
             {step === 2 && (
                 <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 space-y-6">
-                    <h2 className="text-2xl font-bold text-center">Your Story Outline</h2>
+                    <h2 className="text-2xl font-bold text-center">{t('outlineTitle')}</h2>
                     <div className="space-y-4">
                         {scenes.map((scene, idx) => (
                             <div key={idx} className="p-4 bg-gray-50 rounded-lg border flex gap-4">
-                                <span className="font-bold text-purple-600 text-lg">Page {idx + 1}</span>
+                                <span className="font-bold text-purple-600 text-lg">{t('page')} {idx + 1}</span>
                                 <p className="text-gray-700 text-lg">{scene}</p>
                             </div>
                         ))}
@@ -124,7 +126,7 @@ export default function StoryModeClient() {
                         onClick={handleGenerateBook}
                     >
                         <Printer className="w-6 h-6 mr-2" />
-                        Generate Coloring Book
+                        {t('generateBookBtn')}
                     </Button>
                 </div>
             )}
@@ -148,7 +150,7 @@ export default function StoryModeClient() {
                                         {generatingIndex === idx ? (
                                             <>
                                                 <Loader2 className="w-10 h-10 animate-spin text-purple-600 mb-4" />
-                                                <p className="text-sm font-medium text-purple-600">Drawing Page {idx + 1}...</p>
+                                                <p className="text-sm font-medium text-purple-600">{t('drawingPage')} {idx + 1}...</p>
                                             </>
                                         ) : (
                                             <>
@@ -164,16 +166,16 @@ export default function StoryModeClient() {
 
                     {generatedPages.length === 5 && (
                         <div className="text-center p-8 bg-green-50 rounded-xl border border-green-100">
-                            <h3 className="text-2xl font-bold text-green-800 mb-2">Book Complete! 🎉</h3>
-                            <p className="text-green-600 mb-6">Your 5-page storybook is ready to print.</p>
+                            <h3 className="text-2xl font-bold text-green-800 mb-2">{t('completeTitle')}</h3>
+                            <p className="text-green-600 mb-6">{t('completeMsg')}</p>
                             <div className="flex flex-col items-center gap-6">
                                 <Button className="h-12 px-8 text-lg" onClick={() => window.print()}>
                                     <Download className="w-5 h-5 mr-2" />
-                                    Download / Print PDF
+                                    {t('downloadPrintBtn')}
                                 </Button>
 
                                 <div className="w-full max-w-md border-t border-green-200 pt-6">
-                                    <p className="text-sm font-medium text-green-700 mb-3">Share your story with the world!</p>
+                                    <p className="text-sm font-medium text-green-700 mb-3">{t('shareStoryMsg')}</p>
                                     <div className="flex justify-center">
                                         <SocialShare
                                             url="https://ai-coloringpage.com/create/story"

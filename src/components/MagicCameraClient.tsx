@@ -10,8 +10,11 @@ import Image from 'next/image'
 import { generateImage } from '@/app/actions/gen-img'
 import { Header } from '@/components/Header'
 import { SocialShare } from '@/components/SocialShare'
+import { useTranslations } from 'next-intl'
 
 export default function MagicCameraClient() {
+    const t = useTranslations('MagicCamera')
+    const tHome = useTranslations('HomePage') // For styles
     const [selectedImage, setSelectedImage] = useState<string | null>(null)
     const [generatedImage, setGeneratedImage] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
@@ -90,10 +93,10 @@ export default function MagicCameraClient() {
             <main className="container mx-auto px-4 py-8 max-w-4xl">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
-                        Magic Camera 📸
+                        {t('title')}
                     </h1>
                     <p className="text-xl text-gray-600">
-                        Turn your photos into coloring pages instantly.
+                        {t('subtitle')}
                     </p>
                 </div>
 
@@ -101,7 +104,7 @@ export default function MagicCameraClient() {
                     {/* Input Section */}
                     <Card className="p-6 space-y-6">
                         <div className="space-y-4">
-                            <Label className="text-lg font-semibold">1. Upload a Photo</Label>
+                            <Label className="text-lg font-semibold">{t('uploadStep')}</Label>
 
                             <div
                                 className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:bg-gray-50 transition-colors cursor-pointer relative"
@@ -116,7 +119,7 @@ export default function MagicCameraClient() {
                                             className="object-contain rounded-lg"
                                         />
                                         <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 hover:opacity-100 transition-opacity rounded-lg">
-                                            <p className="text-white font-medium">Click to change</p>
+                                            <p className="text-white font-medium">{t('changeImage')}</p>
                                         </div>
                                     </div>
                                 ) : (
@@ -125,8 +128,8 @@ export default function MagicCameraClient() {
                                             <Camera className="w-8 h-8 text-blue-600" />
                                         </div>
                                         <div>
-                                            <p className="font-medium text-gray-900">Click to upload</p>
-                                            <p className="text-sm text-gray-500">or drag and drop</p>
+                                            <p className="font-medium text-gray-900">{t('clickUpload')}</p>
+                                            <p className="text-sm text-gray-500">{t('dragDrop')}</p>
                                         </div>
                                     </div>
                                 )}
@@ -140,16 +143,16 @@ export default function MagicCameraClient() {
                             </div>
 
                             <div className="space-y-2">
-                                <Label>Optional: Describe the subject</Label>
+                                <Label>{t('describeLabel')}</Label>
                                 <Input
-                                    placeholder="e.g. A cute dog sitting on grass"
+                                    placeholder={t('describePlaceholder')}
                                     value={prompt}
                                     onChange={(e) => setPrompt(e.target.value)}
                                 />
                             </div>
 
                             <div className="space-y-2">
-                                <Label>Choose Style</Label>
+                                <Label>{t('chooseStyle')}</Label>
                                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
                                     <button
                                         onClick={() => setStyle('kawaii')}
@@ -158,7 +161,7 @@ export default function MagicCameraClient() {
                                             : 'border-gray-200 hover:border-gray-300 text-gray-600'
                                             }`}
                                     >
-                                        🧸 Kawaii / Kids
+                                        {tHome('styles.kawaii')}
                                     </button>
                                     <button
                                         onClick={() => setStyle('intricate')}
@@ -167,7 +170,7 @@ export default function MagicCameraClient() {
                                             : 'border-gray-200 hover:border-gray-300 text-gray-600'
                                             }`}
                                     >
-                                        🌸 Intricate
+                                        {tHome('styles.intricate')}
                                     </button>
                                     <button
                                         onClick={() => setStyle('realistic')}
@@ -176,7 +179,7 @@ export default function MagicCameraClient() {
                                             : 'border-gray-200 hover:border-gray-300 text-gray-600'
                                             }`}
                                     >
-                                        ✏️ Realistic
+                                        {tHome('styles.realistic')}
                                     </button>
 
                                     {/* New Styles */}
@@ -187,7 +190,7 @@ export default function MagicCameraClient() {
                                             : 'border-gray-200 hover:border-gray-300 text-gray-600'
                                             }`}
                                     >
-                                        🧩 Stained Glass
+                                        {tHome('styles.stainedGlass')}
                                     </button>
                                     <button
                                         onClick={() => setStyle('abstract')}
@@ -196,7 +199,7 @@ export default function MagicCameraClient() {
                                             : 'border-gray-200 hover:border-gray-300 text-gray-600'
                                             }`}
                                     >
-                                        🔮 3D Abstract
+                                        {tHome('styles.abstract')}
                                     </button>
                                     <button
                                         onClick={() => setStyle('fantasy')}
@@ -205,7 +208,7 @@ export default function MagicCameraClient() {
                                             : 'border-gray-200 hover:border-gray-300 text-gray-600'
                                             }`}
                                     >
-                                        🍄 Fantasy / RPG
+                                        {tHome('styles.fantasy')}
                                     </button>
                                 </div>
                             </div>
@@ -218,12 +221,12 @@ export default function MagicCameraClient() {
                                 {loading ? (
                                     <>
                                         <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                                        Transforming...
+                                        {t('transforming')}
                                     </>
                                 ) : (
                                     <>
                                         <ImageIcon className="mr-2 h-5 w-5" />
-                                        Turn into Coloring Page
+                                        {t('generateBtn')}
                                     </>
                                 )}
                             </Button>
@@ -232,7 +235,7 @@ export default function MagicCameraClient() {
 
                     {/* Output Section */}
                     <Card className="p-6 flex flex-col min-h-[500px]">
-                        <Label className="text-lg font-semibold mb-4">2. Your Coloring Page</Label>
+                        <Label className="text-lg font-semibold mb-4">{t('resultStep')}</Label>
 
 
                         <div className="flex-1 bg-white rounded-xl border border-gray-200 flex items-center justify-center relative overflow-hidden">
@@ -248,12 +251,12 @@ export default function MagicCameraClient() {
                                     {loading ? (
                                         <div className="flex flex-col items-center gap-4">
                                             <Loader2 className="w-12 h-12 animate-spin text-blue-500" />
-                                            <p>Drawing outlines...</p>
+                                            <p>{t('drawing')}</p>
                                         </div>
                                     ) : (
                                         <div className="flex flex-col items-center gap-4">
                                             <ImageIcon className="w-16 h-16 opacity-20" />
-                                            <p>Result will appear here</p>
+                                            <p>{t('waitingResult')}</p>
                                         </div>
                                     )}
                                 </div>
@@ -265,7 +268,7 @@ export default function MagicCameraClient() {
                                 <div className="grid grid-cols-2 gap-4">
                                     <Button variant="outline" onClick={() => window.print()}>
                                         <Printer className="mr-2 h-4 w-4" />
-                                        Print
+                                        {t('print')}
                                     </Button>
                                     <Button onClick={() => {
                                         const link = document.createElement('a');
@@ -274,12 +277,12 @@ export default function MagicCameraClient() {
                                         link.click();
                                     }}>
                                         <Download className="mr-2 h-4 w-4" />
-                                        Download
+                                        {t('download')}
                                     </Button>
                                 </div>
 
                                 <div className="pt-4 border-t">
-                                    <p className="text-sm font-medium text-gray-500 mb-2 text-center">Share your masterpiece!</p>
+                                    <p className="text-sm font-medium text-gray-500 mb-2 text-center">{t('shareMsg')}</p>
                                     <div className="flex justify-center">
                                         <SocialShare
                                             url="https://ai-coloringpage.com/create/photo"
