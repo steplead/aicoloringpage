@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export async function generateContent(apiKey: string, prompt: string, model: string = 'gemini-2.0-flash-exp', images: string[] = []) {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 

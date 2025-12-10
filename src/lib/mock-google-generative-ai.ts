@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 export class GoogleGenerativeAI {
     constructor(apiKey: string) {
         // Do nothing
