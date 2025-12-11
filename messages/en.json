@@ -30,7 +30,9 @@
         "communityCreations": "Community Creations",
         "latestPages": "Latest generated pages",
         "noCommunityCreations": "No community creations yet. Be the first!",
-        "close": "Close"
+        "close": "Close",
+        "tryPrompts": "Try: \"A steampunk owl\", \"Underwater castle\", \"Kawaii cat in space\"",
+        "defaultPrompt": "Coloring Page"
     },
     "Header": {
         "explore": "Explore",
@@ -56,46 +58,11 @@
         "about": "About Us",
         "privacy": "Privacy Policy",
         "terms": "Terms of Service",
-        "copyright": "All rights reserved."
-    },
-    "MagicCamera": {
-        "title": "Magic Camera 📸",
-        "subtitle": "Turn your photos into coloring pages instantly.",
-        "uploadStep": "1. Upload a Photo",
-        "changeImage": "Click to change",
-        "clickUpload": "Click to upload",
-        "dragDrop": "or drag and drop",
-        "describeLabel": "Optional: Describe the subject",
-        "describePlaceholder": "e.g. A cute dog sitting on grass",
-        "chooseStyle": "Choose Style",
-        "transforming": "Transforming...",
-        "generateBtn": "Turn into Coloring Page",
-        "resultStep": "2. Your Coloring Page",
-        "drawing": "Drawing outlines...",
-        "waitingResult": "Result will appear here",
-        "print": "Print",
-        "download": "Download",
-        "shareMsg": "Share your masterpiece!",
-        "errorHelper": "An unexpected error occurred"
-    },
-    "StoryMode": {
-        "title": "Story Mode",
-        "subtitle": "Create a 5-page coloring book starring your own character!",
-        "charNameLabel": "Character Name",
-        "charNamePlaceholder": "e.g. Barnaby",
-        "charDescLabel": "Character Description",
-        "charDescPlaceholder": "e.g. A cute blue robot with a propeller hat",
-        "themeLabel": "Theme / Setting",
-        "themePlaceholder": "e.g. Space Adventure, Underwater, Magic Forest",
-        "generatePlotBtn": "Generate Story Plot",
-        "outlineTitle": "Your Story Outline",
-        "page": "Page",
-        "generateBookBtn": "Generate Coloring Book",
-        "drawingPage": "Drawing Page",
-        "completeTitle": "Book Complete! 🎉",
-        "completeMsg": "Your 5-page storybook is ready to print.",
-        "downloadPrintBtn": "Download / Print PDF",
-        "shareStoryMsg": "Share your story with the world!"
+        "copyright": "All rights reserved.",
+        "byAnimal": "By Animal",
+        "byStyle": "By Style",
+        "byTheme": "By Theme",
+        "popular": "Popular"
     },
     "AboutPage": {
         "title": "About Us",
@@ -186,6 +153,49 @@
         "section4Title": "4. Limitations",
         "section4Text": "In no event shall AI Coloring Page or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit) arising out of the use or inability to use the materials on AI Coloring Page's website."
     },
+    "MagicCamera": {
+        "metaTitle": "Magic Camera - Turn Photos into Coloring Pages",
+        "metaDescription": "Upload any photo and instantly transform it into a high-quality coloring page. Best free photo-to-coloring tool powered by AI.",
+        "title": "Magic Camera 📸",
+        "subtitle": "Turn your photos into coloring pages instantly.",
+        "uploadStep": "1. Upload a Photo",
+        "changeImage": "Click to change",
+        "clickUpload": "Click to upload",
+        "dragDrop": "or drag and drop",
+        "describeLabel": "Optional: Describe the subject",
+        "describePlaceholder": "e.g. A cute dog sitting on grass",
+        "chooseStyle": "Choose Style",
+        "transforming": "Transforming...",
+        "generateBtn": "Turn into Coloring Page",
+        "resultStep": "2. Your Coloring Page",
+        "drawing": "Drawing outlines...",
+        "waitingResult": "Result will appear here",
+        "print": "Print",
+        "download": "Download",
+        "shareMsg": "Share your masterpiece!",
+        "errorHelper": "An unexpected error occurred"
+    },
+    "StoryMode": {
+        "metaTitle": "Story Mode - Create Custom Coloring Books",
+        "metaDescription": "Create a consistent 5-page coloring book with your own characters and plot. The world's first AI coloring book generator.",
+        "title": "Story Mode",
+        "subtitle": "Create a 5-page coloring book starring your own character!",
+        "charNameLabel": "Character Name",
+        "charNamePlaceholder": "e.g. Barnaby",
+        "charDescLabel": "Character Description",
+        "charDescPlaceholder": "e.g. A cute blue robot with a propeller hat",
+        "themeLabel": "Theme / Setting",
+        "themePlaceholder": "e.g. Space Adventure, Underwater, Magic Forest",
+        "generatePlotBtn": "Generate Story Plot",
+        "outlineTitle": "Your Story Outline",
+        "page": "Page",
+        "generateBookBtn": "Generate Coloring Book",
+        "drawingPage": "Drawing Page",
+        "completeTitle": "Book Complete! 🎉",
+        "completeMsg": "Your 5-page storybook is ready to print.",
+        "downloadPrintBtn": "Download / Print PDF",
+        "shareStoryMsg": "Share your story with the world!"
+    },
     "LaunchPage": {
         "metaTitle": "Introducing Magic Camera & Story Mode - AI Coloring Page",
         "metaDescription": "Turn photos into coloring pages and create your own storybooks with our biggest update yet.",
@@ -207,5 +217,13 @@
         "readyToStart": "Ready to start coloring?",
         "exploreText": "Explore thousands of free pages or create your own today.",
         "homeBtn": "Go to Homepage"
+    },
+    "NotFound": {
+        "title": "Oops! Page Not Found",
+        "description": "We couldn't find the coloring page you were looking for.<br />It might have been moved, or maybe it never existed.",
+        "goHome": "Go Home",
+        "browseDirectory": "Browse Directory",
+        "surpriseText": "Don't know what to color? Let fate decide!",
+        "surpriseBtn": "Surprise Me (Random Page)"
     }
 }

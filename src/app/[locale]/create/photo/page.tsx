@@ -1,14 +1,19 @@
-import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 import MagicCameraClient from '@/components/MagicCameraClient'
 
-export const metadata: Metadata = {
-    title: 'Magic Camera - Turn Photos into Coloring Pages',
-    description: 'Upload any photo and instantly transform it into a high-quality coloring page. Best free photo-to-coloring tool powered by AI.',
-    openGraph: {
-        title: 'Magic Camera - Turn Photos into Coloring Pages',
-        description: 'Upload any photo and instantly transform it into a high-quality coloring page.',
-        url: 'https://ai-coloringpage.com/create/photo',
-        images: ['/og-camera.png']
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params
+    const t = await getTranslations({ locale, namespace: 'MagicCamera' })
+
+    return {
+        title: t('metaTitle'),
+        description: t('metaDescription'),
+        openGraph: {
+            title: t('metaTitle'),
+            description: t('metaDescription'),
+            url: 'https://ai-coloringpage.com/create/photo',
+            images: ['/og-camera.png']
+        }
     }
 }
 

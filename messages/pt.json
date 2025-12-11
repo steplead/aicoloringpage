@@ -30,7 +30,9 @@
         "communityCreations": "Criações da Comunidade",
         "latestPages": "Últimas páginas geradas",
         "noCommunityCreations": "Nenhuma criação da comunidade ainda. Seja o primeiro!",
-        "close": "Fechar"
+        "close": "Fechar",
+        "tryPrompts": "Tente: \"Uma coruja steampunk\", \"Castelo subaquático\", \"Gato kawaii no espaço\"",
+        "defaultPrompt": "Página para Colorir"
     },
     "Header": {
         "explore": "Explorar",
@@ -56,46 +58,11 @@
         "about": "Sobre Nós",
         "privacy": "Privacidade",
         "terms": "Termos",
-        "copyright": "Todos os direitos reservados."
-    },
-    "MagicCamera": {
-        "title": "Câmera Mágica 📸",
-        "subtitle": "Transforme suas fotos em páginas para colorir instantaneamente.",
-        "uploadStep": "1. Envie uma Foto",
-        "changeImage": "Clique para mudar",
-        "clickUpload": "Clique para enviar",
-        "dragDrop": "ou arraste e solte",
-        "describeLabel": "Opcional: Descreva o assunto",
-        "describePlaceholder": "ex. Um cachorro fofo sentado na grama",
-        "chooseStyle": "Escolha o Estilo",
-        "transforming": "Transformando...",
-        "generateBtn": "Transformar em Desenho",
-        "resultStep": "2. Sua Página para Colorir",
-        "drawing": "Desenhando contornos...",
-        "waitingResult": "O resultado aparecerá aqui",
-        "print": "Imprimir",
-        "download": "Baixar",
-        "shareMsg": "Compartilhe sua obra-prima!",
-        "errorHelper": "Ocorreu um erro inesperado"
-    },
-    "StoryMode": {
-        "title": "Modo História",
-        "subtitle": "Crie um livro de colorir de 5 páginas estrelando seu próprio personagem!",
-        "charNameLabel": "Nome do Personagem",
-        "charNamePlaceholder": "ex. Barnaby",
-        "charDescLabel": "Descrição do Personagem",
-        "charDescPlaceholder": "ex. Um robô azul fofo com chapéu de hélice",
-        "themeLabel": "Tema / Cenário",
-        "themePlaceholder": "ex. Aventura Espacial, Fundo do Mar, Floresta Mágica",
-        "generatePlotBtn": "Gerar Enredo",
-        "outlineTitle": "Esboço da Sua História",
-        "page": "Página",
-        "generateBookBtn": "Gerar Livro de Colorir",
-        "drawingPage": "Desenhando Página",
-        "completeTitle": "Livro Completo! 🎉",
-        "completeMsg": "Seu livro de 5 páginas está pronto para imprimir.",
-        "downloadPrintBtn": "Baixar / Imprimir PDF",
-        "shareStoryMsg": "Compartilhe sua história com o mundo!"
+        "copyright": "Todos os direitos reservados.",
+        "byAnimal": "Por Animal",
+        "byStyle": "Por Estilo",
+        "byTheme": "Por Tema",
+        "popular": "Popular"
     },
     "AboutPage": {
         "title": "Sobre Nós",
@@ -186,6 +153,49 @@
         "section4Title": "4. Limitações",
         "section4Text": "Em nenhum caso a AI Coloring Page ou seus fornecedores serão responsáveis por quaisquer danos (incluindo, sem limitação, danos por perda de dados ou lucro) decorrentes do uso ou da incapacidade de usar os materiais no site da AI Coloring Page."
     },
+    "MagicCamera": {
+        "metaTitle": "Magic Camera - Transforme Fotos em Páginas para Colorir",
+        "metaDescription": "Envie qualquer foto e transforme-a instantaneamente em uma página para colorir de alta qualidade. A melhor ferramenta gratuita de foto para colorir com IA.",
+        "title": "Câmera Mágica 📸",
+        "subtitle": "Transforme suas fotos em páginas para colorir instantaneamente.",
+        "uploadStep": "1. Enviar uma Foto",
+        "changeImage": "Clique para mudar",
+        "clickUpload": "Clique para enviar",
+        "dragDrop": "ou arraste e solte",
+        "describeLabel": "Opcional: Descreva o assunto",
+        "describePlaceholder": "ex. Um cachorro fofo sentado na grama",
+        "chooseStyle": "Escolher Estilo",
+        "transforming": "Transformando...",
+        "generateBtn": "Transformar em Página para Colorir",
+        "resultStep": "2. Sua Página para Colorir",
+        "drawing": "Desenhando contornos...",
+        "waitingResult": "O resultado aparecerá aqui",
+        "print": "Imprimir",
+        "download": "Baixar",
+        "shareMsg": "Compartilhe sua obra-prima!",
+        "errorHelper": "Ocorreu um erro inesperado"
+    },
+    "StoryMode": {
+        "metaTitle": "Modo História - Crie Livros para Colorir Personalizados",
+        "metaDescription": "Crie um livro para colorir consistente de 5 páginas com seus próprios personagens. O primeiro gerador de livros para colorir com IA do mundo.",
+        "title": "Modo História",
+        "subtitle": "Crie um livro de 5 páginas estrelando seu próprio personagem!",
+        "charNameLabel": "Nome do Personagem",
+        "charNamePlaceholder": "ex. Barnaby",
+        "charDescLabel": "Descrição do Personagem",
+        "charDescPlaceholder": "ex. Um robô azul com um chapéu de hélice",
+        "themeLabel": "Tema / Cenário",
+        "themePlaceholder": "ex. Aventura Espacial, Fundo do Mar, Floresta Mágica",
+        "generatePlotBtn": "Gerar Enredo",
+        "outlineTitle": "Esboço da Sua História",
+        "page": "Página",
+        "generateBookBtn": "Gerar Livro para Colorir",
+        "drawingPage": "Desenhando Página",
+        "completeTitle": "Livro Completo! 🎉",
+        "completeMsg": "Seu livro de 5 páginas está pronto para imprimir.",
+        "downloadPrintBtn": "Baixar / Imprimir PDF",
+        "shareStoryMsg": "Compartilhe sua história com o mundo!"
+    },
     "LaunchPage": {
         "metaTitle": "Apresentando Magic Camera e Modo História - AI Coloring Page",
         "metaDescription": "Transforme fotos em páginas para colorir e crie seus próprios livros de histórias com nossa maior atualização.",
@@ -207,5 +217,13 @@
         "readyToStart": "Pronto para começar a colorir?",
         "exploreText": "Explore milhares de páginas gratuitas ou crie a sua hoje.",
         "homeBtn": "Ir para o Início"
+    },
+    "NotFound": {
+        "title": "Ops! Página Não Encontrada",
+        "description": "Não conseguimos encontrar a página para colorir que você estava procurando.<br />Ela pode ter sido movida ou talvez nunca tenha existido.",
+        "goHome": "Início",
+        "browseDirectory": "Navegar no Diretório",
+        "surpriseText": "Não sabe o que colorir? Deixe o destino decidir!",
+        "surpriseBtn": "Surpreenda-me (Página Aleatória)"
     }
 }

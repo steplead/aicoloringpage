@@ -1,15 +1,20 @@
-import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 import StoryModeClient from '@/components/StoryModeClient'
 import { Header } from '@/components/Header'
 
-export const metadata: Metadata = {
-    title: 'Story Mode - Create Custom Coloring Books',
-    description: 'Create a consistent 5-page coloring book with your own characters and plot. The world\'s first AI coloring book generator.',
-    openGraph: {
-        title: 'Story Mode - Create Custom Coloring Books',
-        description: 'Create a consistent 5-page coloring book with your own characters and plot.',
-        url: 'https://ai-coloringpage.com/create/story',
-        images: ['/og-story.png']
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params
+    const t = await getTranslations({ locale, namespace: 'StoryMode' })
+
+    return {
+        title: t('metaTitle'),
+        description: t('metaDescription'),
+        openGraph: {
+            title: t('metaTitle'),
+            description: t('metaDescription'),
+            url: 'https://ai-coloringpage.com/create/story',
+            images: ['/og-story.png']
+        }
     }
 }
 

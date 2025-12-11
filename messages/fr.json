@@ -30,7 +30,9 @@
         "communityCreations": "Créations de la Communauté",
         "latestPages": "Dernières pages générées",
         "noCommunityCreations": "Pas encore de créations communautaires. Soyez le premier !",
-        "close": "Fermer"
+        "close": "Fermer",
+        "tryPrompts": "Essayez : \"Un hibou steampunk\", \"Château sous l'eau\", \"Chat kawaii dans l'espace\"",
+        "defaultPrompt": "Coloriage"
     },
     "Header": {
         "explore": "Explorer",
@@ -56,46 +58,11 @@
         "about": "À Propos",
         "privacy": "Confidentialité",
         "terms": "Conditions",
-        "copyright": "Tous droits réservés."
-    },
-    "MagicCamera": {
-        "title": "Caméra Magique 📸",
-        "subtitle": "Transformez instantanément vos photos en coloriages.",
-        "uploadStep": "1. Téléchargez une Photo",
-        "changeImage": "Cliquez pour changer",
-        "clickUpload": "Cliquez pour télécharger",
-        "dragDrop": "ou glissez-déposez",
-        "describeLabel": "Facultatif : Décrivez le sujet",
-        "describePlaceholder": "ex. Un chien mignon assis sur l'herbe",
-        "chooseStyle": "Choisissez le Style",
-        "transforming": "Transformation...",
-        "generateBtn": "Transformer en Coloriage",
-        "resultStep": "2. Votre Coloriage",
-        "drawing": "Dessin des contours...",
-        "waitingResult": "Le résultat apparaîtra ici",
-        "print": "Imprimer",
-        "download": "Télécharger",
-        "shareMsg": "Partagez votre chef-d'œuvre !",
-        "errorHelper": "Une erreur inattendue s'est produite"
-    },
-    "StoryMode": {
-        "title": "Mode Histoire",
-        "subtitle": "Créez un livre de coloriage de 5 pages avec votre propre personnage !",
-        "charNameLabel": "Nom du Personnage",
-        "charNamePlaceholder": "ex. Barnabé",
-        "charDescLabel": "Description du Personnage",
-        "charDescPlaceholder": "ex. Un petit robot bleu avec un chapeau à hélice",
-        "themeLabel": "Thème / Décor",
-        "themePlaceholder": "ex. Aventure Spatiale, Sous l'Océan, Forêt Magique",
-        "generatePlotBtn": "Générer l'intrigue",
-        "outlineTitle": "Votre Plan d'Histoire",
-        "page": "Page",
-        "generateBookBtn": "Générer le Livre de Coloriage",
-        "drawingPage": "Dessin de la Page",
-        "completeTitle": "Livre Terminé ! 🎉",
-        "completeMsg": "Votre livre de 5 pages est prêt à être imprimé.",
-        "downloadPrintBtn": "Télécharger / Imprimer PDF",
-        "shareStoryMsg": "Partagez votre histoire avec le monde !"
+        "copyright": "Tous droits réservés.",
+        "byAnimal": "Par Animal",
+        "byStyle": "Par Style",
+        "byTheme": "Par Thème",
+        "popular": "Populaire"
     },
     "AboutPage": {
         "title": "À Propos",
@@ -186,6 +153,49 @@
         "section4Title": "4. Limitations",
         "section4Text": "En aucun cas, AI Coloring Page ou ses fournisseurs ne seront responsables de tout dommage (y compris, sans limitation, les dommages pour perte de données ou de profit) découlant de l'utilisation ou de l'impossibilité d'utiliser les documents sur le site Web de AI Coloring Page."
     },
+    "MagicCamera": {
+        "metaTitle": "Magic Camera - Transformez vos Photos en Coloriages",
+        "metaDescription": "Téléchargez n'importe quelle photo et transformez-la instantanément en coloriage de haute qualité. Le meilleur outil gratuit photo-vers-coloriage par IA.",
+        "title": "Caméra Magique 📸",
+        "subtitle": "Transformez vos photos en pages à colorier instantanément.",
+        "uploadStep": "1. Télécharger une Photo",
+        "changeImage": "Cliquer pour changer",
+        "clickUpload": "Cliquer pour télécharger",
+        "dragDrop": "ou glisser-déposer",
+        "describeLabel": "Facultatif : Décrivez le sujet",
+        "describePlaceholder": "ex. Un chien mignon assis sur l'herbe",
+        "chooseStyle": "Choisir le Style",
+        "transforming": "Transformation...",
+        "generateBtn": "Transformer en Coloriage",
+        "resultStep": "2. Votre Coloriage",
+        "drawing": "Dessin des contours...",
+        "waitingResult": "Le résultat apparaîtra ici",
+        "print": "Imprimer",
+        "download": "Télécharger",
+        "shareMsg": "Partagez votre chef-d'œuvre !",
+        "errorHelper": "Une erreur inattendue s'est produite"
+    },
+    "StoryMode": {
+        "metaTitle": "Mode Histoire - Créez vos Livres de Coloriage",
+        "metaDescription": "Créez un livre de coloriage cohérent de 5 pages avec vos propres personnages. Le premier générateur de livres de coloriage IA au monde.",
+        "title": "Mode Histoire",
+        "subtitle": "Créez un livre de 5 pages avec votre propre personnage !",
+        "charNameLabel": "Nom du Personnage",
+        "charNamePlaceholder": "ex. Barnaby",
+        "charDescLabel": "Description du Personnage",
+        "charDescPlaceholder": "ex. Un robot bleu avec un chapeau à hélice",
+        "themeLabel": "Thème / Décor",
+        "themePlaceholder": "ex. Aventure Spatiale, Sous l'Océan, Forêt Magique",
+        "generatePlotBtn": "Générer l'Intrigue",
+        "outlineTitle": "Plan de votre Histoire",
+        "page": "Page",
+        "generateBookBtn": "Générer le Livre",
+        "drawingPage": "Dessin de la Page",
+        "completeTitle": "Livre Terminé ! 🎉",
+        "completeMsg": "Votre livre de 5 pages est prêt à être imprimé.",
+        "downloadPrintBtn": "Télécharger / Imprimer PDF",
+        "shareStoryMsg": "Partagez votre histoire avec le monde !"
+    },
     "LaunchPage": {
         "metaTitle": "Présentation de Magic Camera et Mode Histoire - AI Coloring Page",
         "metaDescription": "Transformez vos photos en coloriages et créez vos propres livres d'histoires avec notre plus grande mise à jour.",
@@ -207,5 +217,13 @@
         "readyToStart": "Prêt à commencer le coloriage ?",
         "exploreText": "Explorez des milliers de pages gratuites ou créez la vôtre aujourd'hui.",
         "homeBtn": "Aller à l'Accueil"
+    },
+    "NotFound": {
+        "title": "Oups ! Page Non Trouvée",
+        "description": "Nous n'avons pas trouvé la page de coloriage que vous cherchiez.<br />Elle a peut-être été déplacée, ou n'a jamais existé.",
+        "goHome": "Accueil",
+        "browseDirectory": "Parcourir le Répertoire",
+        "surpriseText": "Vous ne savez pas quoi colorier ? Laissez le destin décider !",
+        "surpriseBtn": "Surprenez-moi (Page Aléatoire)"
     }
 }

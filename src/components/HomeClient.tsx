@@ -55,12 +55,12 @@ function HomeContent() {
 
     const handleDownloadPDF = async () => {
         if (!imageUrl) return
-        await generateSinglePagePDF(imageUrl, prompt || "Coloring Page")
+        await generateSinglePagePDF(imageUrl, prompt || t('defaultPrompt'))
     }
 
     const addToBook = () => {
         if (!imageUrl) return
-        setBook([...book, { url: imageUrl, prompt: prompt || "Coloring Page" }])
+        setBook([...book, { url: imageUrl, prompt: prompt || t('defaultPrompt') }])
     }
 
     const removeFromBook = (index: number) => {
@@ -180,7 +180,7 @@ function HomeContent() {
                                 </div>
 
                                 <p className="text-xs text-gray-500 mt-2">
-                                    Try: "A steampunk owl", "Underwater castle", "Kawaii cat in space"
+                                    {t('tryPrompts')}
                                 </p>
                             </div>
 

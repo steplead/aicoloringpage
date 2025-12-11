@@ -124,7 +124,7 @@ export async function Footer() {
                 <div className="border-t border-gray-100 py-8">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                         <div>
-                            <h4 className="font-bold text-xs text-gray-400 uppercase tracking-wider mb-3">By Animal</h4>
+                            <h4 className="font-bold text-xs text-gray-400 uppercase tracking-wider mb-3">{t('byAnimal')}</h4>
                             <div className="flex flex-wrap gap-2 text-xs text-gray-500">
                                 {["Cat", "Dog", "Lion", "Tiger", "Bear", "Wolf", "Fox", "Owl", "Butterfly", "Horse", "Rabbit", "Shark"].map(tag => (
                                     <Link key={tag} href={`/printable/${tag.toLowerCase()}-coloring-page-for-kids`} className="hover:text-purple-600">
@@ -134,7 +134,7 @@ export async function Footer() {
                             </div>
                         </div>
                         <div>
-                            <h4 className="font-bold text-xs text-gray-400 uppercase tracking-wider mb-3">By Style</h4>
+                            <h4 className="font-bold text-xs text-gray-400 uppercase tracking-wider mb-3">{t('byStyle')}</h4>
                             <div className="flex flex-wrap gap-2 text-xs text-gray-500">
                                 {["Kawaii", "Realistic", "Stained Glass", "Mandala", "Geometric", "Minimalist", "Cartoon", "Anime", "Chibi"].map(tag => (
                                     <Link key={tag} href={`/printable/${tag.toLowerCase().replace(/ /g, '-')}-coloring-page`} className="hover:text-purple-600">
@@ -144,7 +144,7 @@ export async function Footer() {
                             </div>
                         </div>
                         <div>
-                            <h4 className="font-bold text-xs text-gray-400 uppercase tracking-wider mb-3">By Theme</h4>
+                            <h4 className="font-bold text-xs text-gray-400 uppercase tracking-wider mb-3">{t('byTheme')}</h4>
                             <div className="flex flex-wrap gap-2 text-xs text-gray-500">
                                 {["Christmas", "Halloween", "Easter", "Summer", "Winter", "Space", "Underwater", "Forest", "Farm"].map(tag => (
                                     <Link key={tag} href={`/printable/${tag.toLowerCase()}-coloring-page`} className="hover:text-purple-600">
@@ -154,7 +154,7 @@ export async function Footer() {
                             </div>
                         </div>
                         <div>
-                            <h4 className="font-bold text-xs text-gray-400 uppercase tracking-wider mb-3">Popular</h4>
+                            <h4 className="font-bold text-xs text-gray-400 uppercase tracking-wider mb-3">{t('popular')}</h4>
                             <div className="flex flex-wrap gap-2 text-xs text-gray-500">
                                 {["Unicorn", "Dragon", "Mermaid", "Fairy", "Robot", "Dinosaur", "Princess", "Superhero", "Pokemon"].map(tag => (
                                     <Link key={tag} href={`/printable/${tag.toLowerCase()}-coloring-page-for-kids`} className="hover:text-purple-600">

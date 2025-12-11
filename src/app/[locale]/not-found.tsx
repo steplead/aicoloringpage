@@ -1,9 +1,14 @@
+'use client'
+
 import Link from 'next/link'
 import { Header } from '@/components/Header'
 import { Button } from '@/components/ui/button'
 import { Home, Search, Sparkles } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 export default function NotFound() {
+    const t = useTranslations('NotFound')
+
     return (
         <div className="min-h-screen bg-gray-50 font-sans">
             <Header />
@@ -20,38 +25,35 @@ export default function NotFound() {
                     </div>
 
                     <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
-                        Oops! Page Not Found
+                        {t('title')}
                     </h1>
 
-                    <p className="text-xl text-gray-600">
-                        We couldn't find the coloring page you were looking for. <br />
-                        It might have been moved, or maybe it never existed.
-                    </p>
+                    <p className="text-xl text-gray-600" dangerouslySetInnerHTML={{ __html: t.raw('description') }} />
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
                         <Link href="/">
                             <Button size="lg" className="w-full sm:w-auto h-12 text-lg">
                                 <Home className="w-5 h-5 mr-2" />
-                                Go Home
+                                {t('goHome')}
                             </Button>
                         </Link>
 
                         <Link href="/directory">
                             <Button size="lg" variant="outline" className="w-full sm:w-auto h-12 text-lg">
                                 <Search className="w-5 h-5 mr-2" />
-                                Browse Directory
+                                {t('browseDirectory')}
                             </Button>
                         </Link>
                     </div>
 
                     {/* "Random" CTA to keep them engaged */}
                     <div className="pt-12 border-t border-gray-200 mt-12">
-                        <p className="text-gray-500 mb-4">Don't know what to color? Let fate decide!</p>
+                        <p className="text-gray-500 mb-4">{t('surpriseText')}</p>
                         <Link href="/printable/cute-cat">
                             {/* In a real app, this would be a dynamic random link, but a popular one works for now */}
                             <Button variant="secondary" className="bg-purple-100 text-purple-700 hover:bg-purple-200 border-purple-200">
                                 <Sparkles className="w-4 h-4 mr-2" />
-                                Surprise Me (Random Page)
+                                {t('surpriseBtn')}
                             </Button>
                         </Link>
                     </div>
