@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { Header } from '@/components/Header'
 import { Calendar, User, ArrowLeft } from 'lucide-react'
 import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
 // Helper to get data
 function getPosts() {
@@ -20,6 +21,7 @@ function getPosts() {
     return []
 }
 
+// Metadata remains based on post content for now
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params
     const posts = getPosts()
@@ -39,6 +41,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params
     const posts = getPosts()
+    const t = await getTranslations('BlogPage')
     const post = posts.find((p: any) => p.slug === slug)
 
     if (!post) {
@@ -53,7 +56,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 <div className="max-w-3xl mx-auto">
                     <Link href="/blog" className="inline-flex items-center text-gray-500 hover:text-gray-900 mb-8 transition-colors">
                         <ArrowLeft className="w-4 h-4 mr-2" />
-                        Back to Blog
+                        {t('backToBlog')}
                     </Link>
 
                     <article className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">

@@ -185,5 +185,27 @@
         "section3Text": "Les documents sur le site Web de AI Coloring Page sont fournis \"tels quels\". AI Coloring Page ne donne aucune garantie, expresse ou implicite, et rejette et nie par la présente toutes les autres garanties.",
         "section4Title": "4. Limitations",
         "section4Text": "En aucun cas, AI Coloring Page ou ses fournisseurs ne seront responsables de tout dommage (y compris, sans limitation, les dommages pour perte de données ou de profit) découlant de l'utilisation ou de l'impossibilité d'utiliser les documents sur le site Web de AI Coloring Page."
+    },
+    "LaunchPage": {
+        "metaTitle": "Présentation de Magic Camera et Mode Histoire - AI Coloring Page",
+        "metaDescription": "Transformez vos photos en coloriages et créez vos propres livres d'histoires avec notre plus grande mise à jour.",
+        "newUpdate": "Nouvelle Mise à Jour",
+        "title": "Transformez vos Photos en Coloriages & Créez vos Histoires",
+        "subtitle": "La plus grande mise à jour de AI Coloring Page est arrivée. Découvrez Magic Camera, Mode Histoire et plus encore.",
+        "magicCameraTitle": "📸 Magic Camera : De la Réalité au Dessin",
+        "magicCameraText": "Avez-vous déjà voulu colorier une photo de votre animal, maison ou jouet préféré ? Avec la nouvelle <strong>Magic Camera</strong>, téléchargez n'importe quelle photo et notre IA la convertira instantanément en coloriage noir et blanc épuré.",
+        "tryMagicCamera": "Essayer Magic Camera",
+        "uploadPhotoText": "Téléchargez une photo et voyez la magie opérer.",
+        "convertBtn": "Convertir une Photo",
+        "storyModeTitle": "📖 Mode Histoire : Soyez le Héros",
+        "storyModeText": "Pourquoi colorier une seule page quand vous pouvez créer un livre entier ? Le <strong>Mode Histoire</strong> vous permet de concevoir un personnage (comme un \"Chat de l'Espace\" ou un \"Dinosaure Détective\") et génère un livre de coloriage de 5 pages.",
+        "createStorybook": "Créer un Livre d'Histoire",
+        "generateCharText": "Générez un personnage cohérent sur 5 pages.",
+        "startStoryBtn": "Commencer Votre Histoire",
+        "remixEngineTitle": "✨ Moteur Remix",
+        "remixEngineText": "Vous avez trouvé une page qui vous plaît mais voulez changer le style ? Cliquez sur le bouton \"Remix This\" sur n'importe quelle page pour ajouter votre touche personnelle.",
+        "readyToStart": "Prêt à commencer le coloriage ?",
+        "exploreText": "Explorez des milliers de pages gratuites ou créez la vôtre aujourd'hui.",
+        "homeBtn": "Aller à l'Accueil"
     }
 }

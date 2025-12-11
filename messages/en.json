@@ -185,5 +185,27 @@
         "section3Text": "The materials on AI Coloring Page's website are provided \"as is\". AI Coloring Page makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties.",
         "section4Title": "4. Limitations",
         "section4Text": "In no event shall AI Coloring Page or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit) arising out of the use or inability to use the materials on AI Coloring Page's website."
+    },
+    "LaunchPage": {
+        "metaTitle": "Introducing Magic Camera & Story Mode - AI Coloring Page",
+        "metaDescription": "Turn photos into coloring pages and create your own storybooks with our biggest update yet.",
+        "newUpdate": "New Update",
+        "title": "Turn Photos into Coloring Pages & Create Your Own Stories",
+        "subtitle": "The biggest update to AI Coloring Page is here. Discover Magic Camera, Story Mode, and more.",
+        "magicCameraTitle": "📸 Magic Camera: Real Life to Line Art",
+        "magicCameraText": "Have you ever wanted to color a picture of your own pet, house, or favorite toy? With the new <strong>Magic Camera</strong>, you can upload any photo, and our AI will instantly convert it into a clean, black-and-white coloring page.",
+        "tryMagicCamera": "Try Magic Camera",
+        "uploadPhotoText": "Upload a photo and see the magic happen.",
+        "convertBtn": "Convert a Photo",
+        "storyModeTitle": "📖 Story Mode: Be the Hero",
+        "storyModeText": "Why color just one page when you can create a whole book? <strong>Story Mode</strong> lets you design a character (like a \"Space Cat\" or \"Detective Dinosaur\") and generates a 5-page coloring book featuring them in different scenes.",
+        "createStorybook": "Create a Storybook",
+        "generateCharText": "Generate a consistent character across 5 pages.",
+        "startStoryBtn": "Start Your Story",
+        "remixEngineTitle": "✨ Remix Engine",
+        "remixEngineText": "Found a page you like but want to change the style? Click the \"Remix This\" button on any printable page to add your own twist. Turn a realistic lion into a cute cartoon, or add a party hat to a dinosaur.",
+        "readyToStart": "Ready to start coloring?",
+        "exploreText": "Explore thousands of free pages or create your own today.",
+        "homeBtn": "Go to Homepage"
     }
 }

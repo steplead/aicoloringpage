@@ -185,5 +185,27 @@
         "section3Text": "Los materiales en el sitio web de AI Coloring Page se proporcionan \"tal cual\". AI Coloring Page no ofrece garantías, expresas o implícitas, y por la presente renuncia y niega todas las demás garantías.",
         "section4Title": "4. Limitaciones",
         "section4Text": "En ningún caso AI Coloring Page o sus proveedores serán responsables de ningún daño (incluyendo, sin limitación, daños por pérdida de datos o ganancias) que surja del uso o la imposibilidad de usar los materiales en el sitio web de AI Coloring Page."
+    },
+    "LaunchPage": {
+        "metaTitle": "Presentamos Magic Camera y Modo Historia - AI Coloring Page",
+        "metaDescription": "Convierte fotos en páginas para colorear y crea tus propios cuentos con nuestra mayor actualización.",
+        "newUpdate": "Nueva Actualización",
+        "title": "Convierte Fotos en Dibujos y Crea Tus Propias Historias",
+        "subtitle": "La mayor actualización de AI Coloring Page está aquí. Descubre Magic Camera, Modo Historia y más.",
+        "magicCameraTitle": "📸 Magic Camera: De la Realidad al Dibujo",
+        "magicCameraText": "¿Alguna vez has querido colorear una foto de tu mascota casa o juguete favorito? Con la nueva <strong>Magic Camera</strong>, puedes subir cualquier foto y nuestra IA la convertirá instantáneamente en una página para colorear limpia en blanco y negro.",
+        "tryMagicCamera": "Prueba Magic Camera",
+        "uploadPhotoText": "Sube una foto y mira cómo ocurre la magia.",
+        "convertBtn": "Convertir una Foto",
+        "storyModeTitle": "📖 Modo Historia: Sé el Héroe",
+        "storyModeText": "¿Por qué colorear solo una página cuando puedes crear un libro entero? <strong>Modo Historia</strong> te permite diseñar un personaje (como un \"Gato Espacial\" o \"Dinosaurio Detective\") y genera un libro para colorear de 5 páginas presentándolos en diferentes escenas.",
+        "createStorybook": "Crear un Cuento",
+        "generateCharText": "Genera un personaje consistente en 5 páginas.",
+        "startStoryBtn": "Empieza Tu Historia",
+        "remixEngineTitle": "✨ Motor de Remix",
+        "remixEngineText": "¿Encontraste una página que te gusta pero quieres cambiar el estilo? Haz clic en el botón \"Remix This\" en cualquier página imprimible para darle tu propio toque. Convierte un león realista en una caricatura linda, o ponle un sombrero de fiesta a un dinosaurio.",
+        "readyToStart": "¿Listo para empezar a colorear?",
+        "exploreText": "Explora miles de páginas gratuitas o crea la tuya hoy.",
+        "homeBtn": "Ir al Inicio"
     }
 }
