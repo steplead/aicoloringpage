@@ -37,6 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function DirectoryPage() {
     const pages = getPages()
     const t = await getTranslations('DirectoryPage')
+    const tData = await getTranslations('Data')
 
     // Group by Subject for better UX
     const pagesBySubject: Record<string, any[]> = {}
@@ -70,20 +71,29 @@ export default async function DirectoryPage() {
                     {subjects.map(subject => (
                         <Card key={subject} className="p-6 hover:shadow-lg transition-shadow">
                             <h2 className="text-xl font-bold text-gray-800 mb-4 border-b pb-2">
-                                {subject} {t('suffix')}
+                                {/* Try to translate subject, fallback to original if not found (or if tData returns key path) */}
+                                {tData.has(subject) ? tData(subject) : subject} {t('suffix')}
                             </h2>
                             <ul className="space-y-2">
-                                {pagesBySubject[subject].map((page: any) => (
-                                    <li key={page.slug}>
-                                        <Link
-                                            href={`/printable/${page.slug}`}
-                                            className="text-blue-600 hover:text-blue-800 hover:underline text-sm block truncate"
-                                            title={page.title}
-                                        >
-                                            {page.title}
-                                        </Link>
-                                    </li>
-                                ))}
+                                {pagesBySubject[subject].map((page: any) => {
+                                    // Construct dynamic title
+                                    // Check if we have translations for subject and audience
+                                    const translatedSubject = tData.has(page.subject) ? tData(page.subject) : page.subject
+                                    const translatedAudience = tData.has(page.audience) ? tData(page.audience) : page.audience
+                                    const translatedTitle = tData('titlePattern', { subject: translatedSubject, audience: translatedAudience })
+
+                                    return (
+                                        <li key={page.slug}>
+                                            <Link
+                                                href={`/printable/${page.slug}`}
+                                                className="text-blue-600 hover:text-blue-800 hover:underline text-sm block truncate"
+                                                title={translatedTitle}
+                                            >
+                                                {translatedTitle}
+                                            </Link>
+                                        </li>
+                                    )
+                                })}
                                 <li className="text-xs text-gray-400 italic pt-1">
                                     {t('variations')}
                                 </li>

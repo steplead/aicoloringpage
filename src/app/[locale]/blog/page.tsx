@@ -9,9 +9,14 @@ import { Calendar, User } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 
 // Helper to get data
-function getPosts() {
+function getPosts(locale: string = 'en') {
     try {
-        const filePath = path.join(process.cwd(), 'src', 'data', 'blog-posts.json')
+        let filePath = path.join(process.cwd(), 'src', 'data', `blog-posts.${locale}.json`)
+        // Fallback to English if file doesn't exist
+        if (!fs.existsSync(filePath)) {
+            filePath = path.join(process.cwd(), 'src', 'data', 'blog-posts.en.json')
+        }
+
         if (fs.existsSync(filePath)) {
             const fileContent = fs.readFileSync(filePath, 'utf8')
             return JSON.parse(fileContent)
@@ -37,8 +42,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     }
 }
 
-export default async function BlogPage() {
-    const posts = getPosts()
+export default async function BlogPage({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params
+    const posts = getPosts(locale)
     const t = await getTranslations('BlogPage')
 
     return (

@@ -50,10 +50,17 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
     const { slug } = await params
     const pageData = getPageData(slug)
     const t = await getTranslations('PrintablePage')
+    const tData = await getTranslations('Data')
 
     if (!pageData) {
         notFound()
     }
+
+    // Dynamic translations helper
+    const translatedSubject = tData.has(pageData.subject) ? tData(pageData.subject) : pageData.subject
+    const translatedAudience = tData.has(pageData.audience) ? tData(pageData.audience) : pageData.audience
+    const translatedTitle = tData('titlePattern', { subject: translatedSubject, audience: translatedAudience })
+    // Fallback title to English if pattern fails or raw title preferred? No, prioritize translated pattern.
 
     // Generate random "related" pages for internal linking
     const allPages = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'src', 'data', 'seo-pages.json'), 'utf8'))
@@ -83,7 +90,7 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                             <span className="mx-2">/</span>
                         </li>
                         <li className="font-semibold text-gray-800">
-                            {pageData.title}
+                            {translatedTitle}
                         </li>
                     </ol>
                 </nav>
@@ -96,7 +103,7 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                                 {/* Simulated Coloring Page Image */}
                                 <img
                                     src={pageData.image_url}
-                                    alt={`Coloring page of ${pageData.subject}`}
+                                    alt={`Coloring page of ${translatedSubject}`}
                                     className="object-contain max-h-full max-w-full p-4 hover:scale-105 transition-transform duration-500"
                                 />
                                 <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-600 shadow-sm border border-gray-100 flex items-center">
@@ -144,11 +151,11 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                     <div className="space-y-6">
                         <Card className="p-6 shadow-md border-t-4 border-t-purple-500">
                             <h1 className="text-3xl font-extrabold text-gray-900 mb-4 leading-tight">
-                                {pageData.title}
+                                {translatedTitle}
                             </h1>
                             <div className="prose text-gray-600 mb-6">
                                 <p>
-                                    {pageData.description || t('descriptionTemplate', { subject: pageData.subject, audience: pageData.audience })}
+                                    {pageData.description || t('descriptionTemplate', { subject: translatedSubject, audience: translatedAudience })}
                                 </p>
                             </div>
 
@@ -168,7 +175,7 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                             <ul className="space-y-3">
                                 <li className="flex items-start text-sm text-gray-700">
                                     <span className="mr-2 mt-1 min-w-[16px]">👉</span>
-                                    <span>Did you know? {pageData.subject} is a favorite subject for {pageData.audience}.</span>
+                                    <span>Did you know? {translatedSubject} is a favorite subject for {translatedAudience}.</span>
                                 </li>
                                 <li className="flex items-start text-sm text-gray-700">
                                     <span className="mr-2 mt-1 min-w-[16px]">👉</span>
@@ -199,24 +206,29 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                 <div className="mt-16 border-t pt-12">
                     <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t('relatedTitle')}</h2>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                        {relatedPages.map((page: any) => (
-                            <Link key={page.slug} href={`/printable/${page.slug}`} className="group block">
-                                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
-                                    <div className="aspect-[3/4] bg-gray-50 p-4 flex items-center justify-center">
-                                        <img
-                                            src={page.image_url}
-                                            alt={page.title}
-                                            className="max-h-full opacity-80 group-hover:opacity-100 transition-opacity"
-                                        />
+                        {relatedPages.map((page: any) => {
+                            const pSubject = tData.has(page.subject) ? tData(page.subject) : page.subject
+                            const pAudience = tData.has(page.audience) ? tData(page.audience) : page.audience
+                            const pTitle = tData('titlePattern', { subject: pSubject, audience: pAudience })
+                            return (
+                                <Link key={page.slug} href={`/printable/${page.slug}`} className="group block">
+                                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+                                        <div className="aspect-[3/4] bg-gray-50 p-4 flex items-center justify-center">
+                                            <img
+                                                src={page.image_url}
+                                                alt={pTitle}
+                                                className="max-h-full opacity-80 group-hover:opacity-100 transition-opacity"
+                                            />
+                                        </div>
+                                        <div className="p-4">
+                                            <h3 className="font-semibold text-gray-800 text-sm line-clamp-2 group-hover:text-blue-600">
+                                                {pTitle}
+                                            </h3>
+                                        </div>
                                     </div>
-                                    <div className="p-4">
-                                        <h3 className="font-semibold text-gray-800 text-sm line-clamp-2 group-hover:text-blue-600">
-                                            {page.title}
-                                        </h3>
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
+                                </Link>
+                            )
+                        })}
                     </div>
                 </div>
             </main>

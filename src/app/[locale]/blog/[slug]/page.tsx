@@ -8,9 +8,14 @@ import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 
 // Helper to get data
-function getPosts() {
+function getPosts(locale: string = 'en') {
     try {
-        const filePath = path.join(process.cwd(), 'src', 'data', 'blog-posts.json')
+        let filePath = path.join(process.cwd(), 'src', 'data', `blog-posts.${locale}.json`)
+        // Fallback to English if file doesn't exist
+        if (!fs.existsSync(filePath)) {
+            filePath = path.join(process.cwd(), 'src', 'data', 'blog-posts.en.json')
+        }
+
         if (fs.existsSync(filePath)) {
             const fileContent = fs.readFileSync(filePath, 'utf8')
             return JSON.parse(fileContent)
@@ -22,9 +27,9 @@ function getPosts() {
 }
 
 // Metadata remains based on post content for now
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-    const { slug } = await params
-    const posts = getPosts()
+export async function generateMetadata({ params }: { params: Promise<{ slug: string; locale: string }> }): Promise<Metadata> {
+    const { slug, locale } = await params
+    const posts = getPosts(locale)
     const post = posts.find((p: any) => p.slug === slug)
 
     if (!post) return { title: 'Post Not Found' }
@@ -38,9 +43,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
 }
 
-export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = await params
-    const posts = getPosts()
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
+    const { slug, locale } = await params
+    const posts = getPosts(locale)
     const t = await getTranslations('BlogPage')
     const post = posts.find((p: any) => p.slug === slug)
 
