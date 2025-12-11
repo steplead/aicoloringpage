@@ -1,38 +1,63 @@
 import { Header } from '@/components/Header'
+import { Card } from '@/components/ui/card'
+import { getTranslations } from 'next-intl/server'
 
-export const metadata = {
-    title: 'Terms of Service | AI Coloring Page',
-    description: 'Terms of Service for AI Coloring Page.'
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params
+    const t = await getTranslations({ locale, namespace: 'TermsPage' })
+    return {
+        title: `${t('title')} - AI Coloring Page`,
+    }
 }
 
-export default function TermsPage() {
+export default async function TermsPage() {
+    const t = await getTranslations('TermsPage')
+    const year = new Date().getFullYear()
+
     return (
-        <div className="min-h-screen bg-white font-sans">
+        <div className="min-h-screen bg-gray-50 font-sans">
             <Header />
-            <main className="container mx-auto px-4 py-12 max-w-3xl">
-                <h1 className="text-3xl font-bold mb-8">Terms of Service</h1>
-                <div className="prose text-gray-700 space-y-4">
-                    <p>Last Updated: {new Date().getFullYear()}</p>
 
-                    <h3 className="text-xl font-bold text-gray-900 mt-6">1. Terms</h3>
-                    <p>
-                        By accessing this website, you are agreeing to be bound by these website Terms and Conditions of Use and agree that you are responsible for the agreement with any applicable local laws.
-                    </p>
+            <main className="container mx-auto px-4 py-12">
+                <div className="max-w-3xl mx-auto">
+                    <Card className="p-8 shadow-lg">
+                        <h1 className="text-3xl font-bold text-gray-900 mb-6">
+                            {t('title')}
+                        </h1>
+                        <p className="text-gray-500 mb-8 text-sm">
+                            {t('lastUpdated', { year })}
+                        </p>
 
-                    <h3 className="text-xl font-bold text-gray-900 mt-6">2. Use License</h3>
-                    <p>
-                        Permission is granted to temporarily download one copy of the materials (generated coloring pages) on AI Coloring Page's website for personal, non-commercial transitory viewing.
-                    </p>
+                        <div className="space-y-6 text-gray-700 leading-relaxed">
+                            <h2 className="text-xl font-semibold text-gray-900 mt-6 mb-2">
+                                {t('section1Title')}
+                            </h2>
+                            <p>
+                                {t('section1Text')}
+                            </p>
 
-                    <h3 className="text-xl font-bold text-gray-900 mt-6">3. Disclaimer</h3>
-                    <p>
-                        The materials on AI Coloring Page's website are provided "as is". AI Coloring Page makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties.
-                    </p>
+                            <h2 className="text-xl font-semibold text-gray-900 mt-6 mb-2">
+                                {t('section2Title')}
+                            </h2>
+                            <p>
+                                {t('section2Text')}
+                            </p>
 
-                    <h3 className="text-xl font-bold text-gray-900 mt-6">4. Limitations</h3>
-                    <p>
-                        In no event shall AI Coloring Page or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit) arising out of the use or inability to use the materials on AI Coloring Page's website.
-                    </p>
+                            <h2 className="text-xl font-semibold text-gray-900 mt-6 mb-2">
+                                {t('section3Title')}
+                            </h2>
+                            <p>
+                                {t('section3Text')}
+                            </p>
+
+                            <h2 className="text-xl font-semibold text-gray-900 mt-6 mb-2">
+                                {t('section4Title')}
+                            </h2>
+                            <p>
+                                {t('section4Text')}
+                            </p>
+                        </div>
+                    </Card>
                 </div>
             </main>
         </div>

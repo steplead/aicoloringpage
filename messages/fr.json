@@ -128,5 +128,62 @@
         "proFeature4": "Galerie Privée",
         "upgradeBtn": "Passer à Pro",
         "processing": "Traitement..."
+    },
+    "BlogPage": {
+        "title": "Le Blog de Coloriage",
+        "subtitle": "Conseils, tutoriels et inspiration pour votre parcours de coloriage.",
+        "newUpdate": "Nouvelle Mise à Jour",
+        "launchTitle": "Présentation de la Caméra Magique & Mode Histoire",
+        "launchSubtitle": "Transformez des photos en coloriages et créez vos propres livres d'histoires. Découvrez la plus grande mise à jour à ce jour.",
+        "readAnnouncement": "Lire l'Annonce",
+        "readArticle": "Lire l'Article",
+        "backToBlog": "Retour au Blog",
+        "metaTitle": "Blog de Coloriage - Conseils, Astuces et Inspiration",
+        "metaDescription": "Apprenez-en plus sur les techniques de coloriage, les meilleures fournitures d'art et les avantages de la coloration pour la pleine conscience."
+    },
+    "DirectoryPage": {
+        "title": "Répertoire de Coloriages",
+        "subtitle": "Explorez des milliers d'idées de pages à colorier imprimables. Cliquez sur n'importe quel lien pour générer cette page exacte instantanément !",
+        "suffix": "Pages",
+        "variations": "+ beaucoup plus de variations",
+        "metaTitle": "Répertoire de Coloriages - Tout Parcourir",
+        "metaDescription": "Parcourez notre vaste collection de pages à colorier gratuites. Trouvez des pages pour enfants, adultes et tous les sujets imaginables."
+    },
+    "PrintablePage": {
+        "breadcrumbs": {
+            "home": "Accueil",
+            "directory": "Répertoire"
+        },
+        "shareTitle": "Partager cette Page",
+        "aboutTitle": "À propos de ce Coloriage",
+        "descriptionTemplate": "Ce coloriage de {subject} est parfait pour {audience}. Il présente des lignes épurées conçues pour un coloriage facile. Utilisez vos crayons, marqueurs ou crayons de couleur préférés pour lui donner vie !",
+        "funFacts": "💡 Faits Amusants",
+        "coloringTips": "🎨 Conseils de Coloriage",
+        "relatedTitle": "Vous aimerez peut-être aussi"
+    },
+    "PrivacyPage": {
+        "title": "Politique de Confidentialité",
+        "lastUpdated": "Dernière Mise à Jour : {year}",
+        "intro": "Votre vie privée est importante pour nous. La politique de AI Coloring Page est de respecter votre vie privée concernant toute information que nous pouvons collecter auprès de vous sur notre site Web.",
+        "section1Title": "1. Informations que nous collectons",
+        "section1Text": "Nous ne demandons des informations personnelles que lorsque nous en avons vraiment besoin pour vous fournir un service. Nous les collectons par des moyens justes et légaux, à votre connaissance et avec votre consentement.",
+        "section2Title": "2. Utilisation des Images",
+        "section2Text": "Les images téléchargées vers notre fonctionnalité \"Caméra Magique\" sont traitées temporairement pour générer votre coloriage. Nous ne vendons ni n'échangeons vos photos personnelles.",
+        "section3Title": "3. Analytique",
+        "section3Text": "Nous utilisons Google Analytics pour comprendre comment les visiteurs interagissent avec notre site. Ces données sont anonymisées et utilisées uniquement pour améliorer l'expérience utilisateur.",
+        "section4Title": "4. Contactez-nous",
+        "section4Text": "Si vous avez des questions sur notre politique de confidentialité, veuillez nous contacter."
+    },
+    "TermsPage": {
+        "title": "Conditions d'Utilisation",
+        "lastUpdated": "Dernière Mise à Jour : {year}",
+        "section1Title": "1. Termes",
+        "section1Text": "En accédant à ce site Web, vous acceptez d'être lié par ces conditions d'utilisation du site Web et acceptez que vous êtes responsable de l'accord avec toutes les lois locales applicables.",
+        "section2Title": "2. Licence d'Utilisation",
+        "section2Text": "La permission est accordée de télécharger temporairement une copie des documents (pages à colorier générées) sur le site Web de AI Coloring Page pour une visualisation transitoire personnelle et non commerciale.",
+        "section3Title": "3. Clause de non-responsabilité",
+        "section3Text": "Les documents sur le site Web de AI Coloring Page sont fournis \"tels quels\". AI Coloring Page ne donne aucune garantie, expresse ou implicite, et rejette et nie par la présente toutes les autres garanties.",
+        "section4Title": "4. Limitations",
+        "section4Text": "En aucun cas, AI Coloring Page ou ses fournisseurs ne seront responsables de tout dommage (y compris, sans limitation, les dommages pour perte de données ou de profit) découlant de l'utilisation ou de l'impossibilité d'utiliser les documents sur le site Web de AI Coloring Page."
     }
 }

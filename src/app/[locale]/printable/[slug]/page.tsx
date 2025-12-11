@@ -1,38 +1,15 @@
-import { Metadata } from 'next'
-import Image from 'next/image'
 import { Link } from '@/i18n/routing'
 import { notFound } from 'next/navigation'
-import { createClient } from '@supabase/supabase-js'
-import { Header } from '@/components/Header'
-import { Card } from '@/components/ui/card'
-import { DownloadButtons } from '@/components/DownloadButtons'
-import { RemixClient } from '@/components/RemixClient'
-import { SocialShare } from '@/components/SocialShare'
-import { RecommendedSupplies } from '@/components/RecommendedSupplies' // Added this import
-import fs from 'fs'
 import path from 'path'
+import fs from 'fs'
+import { Header } from '@/components/Header'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Check, Download, Printer, Share2, Sparkles, Star } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 
-// Initialize Supabase Client (if keys exist)
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-const supabase = (supabaseUrl && supabaseKey)
-    ? createClient(supabaseUrl, supabaseKey)
-    : null
-
-// Helper to get data
-async function getPageData(slug: string) {
-    // 1. Try DB
-    if (supabase) {
-        const { data } = await supabase
-            .from('seo_pages')
-            .select('*')
-            .eq('slug', slug)
-            .single()
-
-        if (data) return data
-    }
-
-    // 2. Fallback to Local JSON (for dev/demo)
+// Helper to get specific page data
+function getPageData(slug: string) {
     try {
         const filePath = path.join(process.cwd(), 'src', 'data', 'seo-pages.json')
         if (fs.existsSync(filePath)) {
@@ -43,96 +20,47 @@ async function getPageData(slug: string) {
     } catch (e) {
         console.error('Error reading local data:', e)
     }
-
     return null
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-    const { slug } = await params
-    const page = await getPageData(slug)
-    if (!page) return { title: 'Page Not Found' }
+export async function generateMetadata({ params }: { params: Promise<{ slug: string; locale: string }> }) {
+    const { slug, locale } = await params
+    const pageData = getPageData(slug)
+
+    if (!pageData) {
+        return {
+            title: 'Page Not Found',
+        }
+    }
+
+    const t = await getTranslations({ locale, namespace: 'PrintablePage' })
 
     return {
-        title: `${page.title} - Free Printable Coloring Page`,
-        description: page.description,
+        title: pageData.title,
+        description: pageData.description || t('descriptionTemplate', { subject: pageData.subject, audience: pageData.audience }),
         openGraph: {
-            title: `${page.title} - Free Printable Coloring Page`,
-            description: page.description,
-            url: `https://ai-coloringpage.com/printable/${slug}`,
-            images: [
-                {
-                    url: page.image_url,
-                    width: 1024, // Assuming generated images are square-ish or standard
-                    height: 1024,
-                    alt: `${page.title} - Coloring Page Preview`
-                }
-            ],
-            type: 'article',
-            publishedTime: page.created_at,
-            authors: ['AI Coloring Page Generator']
+            title: pageData.title,
+            description: pageData.description,
+            images: [pageData.image_url || '/og-image.jpg'],
         },
-        twitter: {
-            card: 'summary_large_image',
-            title: page.title,
-            description: page.description,
-            images: [page.image_url],
-        }
     }
 }
 
-export default async function PrintablePage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function PrintablePage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
     const { slug } = await params
-    const page = await getPageData(slug)
+    const pageData = getPageData(slug)
+    const t = await getTranslations('PrintablePage')
 
-    if (!page) {
+    if (!pageData) {
         notFound()
     }
 
-    // Dynamic Related Pages (Mock logic: In real app, query DB for same subject)
-    // For now, we'll just pick random ones from a hardcoded list to simulate discovery
-    const allTags = ['Cat', 'Dog', 'Owl', 'Lion', 'Tiger', 'Bear', 'Fox', 'Wolf'];
-    const relatedTags = allTags.sort(() => 0.5 - Math.random()).slice(0, 4);
-
-    // Schema Markup
-    const jsonLd = {
-        '@context': 'https://schema.org',
-        '@type': 'ImageObject',
-        name: page.title,
-        description: page.description,
-        contentUrl: page.image_url,
-        license: 'https://creativecommons.org/licenses/by-nc/4.0/',
-        acquireLicensePage: 'https://aicoloringpage.com/pricing',
-        creator: {
-            '@type': 'Organization',
-            name: 'AI Coloring Page Generator'
-        }
-    }
-
-    // Breadcrumb Schema
-    const breadcrumbLd = {
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-            {
-                '@type': 'ListItem',
-                position: 1,
-                name: 'Home',
-                item: 'https://ai-coloringpage.com'
-            },
-            {
-                '@type': 'ListItem',
-                position: 2,
-                name: 'Directory',
-                item: 'https://ai-coloringpage.com/directory'
-            },
-            {
-                '@type': 'ListItem',
-                position: 3,
-                name: page.title,
-                item: `https://ai-coloringpage.com/printable/${slug}`
-            }
-        ]
-    }
+    // Generate random "related" pages for internal linking
+    const allPages = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'src', 'data', 'seo-pages.json'), 'utf8'))
+    const relatedPages = allPages
+        .filter((p: any) => p.slug !== slug)
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 4)
 
     return (
         <div className="min-h-screen bg-gray-50 font-sans">
@@ -140,136 +68,158 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
 
             <main className="container mx-auto px-4 py-8">
                 {/* Breadcrumbs */}
-                <nav className="text-sm text-gray-500 mb-6">
+                <nav className="text-sm mb-6 text-gray-500 overflow-x-auto whitespace-nowrap">
                     <ol className="list-none p-0 inline-flex">
                         <li className="flex items-center">
-                            <Link href="/" className="hover:text-blue-600">Home</Link>
+                            <Link href="/" className="hover:text-blue-600">
+                                {t('breadcrumbs.home')}
+                            </Link>
                             <span className="mx-2">/</span>
                         </li>
                         <li className="flex items-center">
-                            <Link href="/directory" className="hover:text-blue-600">Directory</Link>
+                            <Link href="/directory" className="hover:text-blue-600">
+                                {t('breadcrumbs.directory')}
+                            </Link>
                             <span className="mx-2">/</span>
                         </li>
-                        <li className="text-gray-800 font-medium truncate max-w-[200px]">
-                            {page.title}
+                        <li className="font-semibold text-gray-800">
+                            {pageData.title}
                         </li>
                     </ol>
                 </nav>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-
-                    {/* Left: Image */}
-                    <div className="space-y-6">
-                        <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-100">
-                            <div className="aspect-[1/1.414] relative bg-white rounded-lg overflow-hidden border border-gray-100">
-                                <Image
-                                    src={page.image_url}
-                                    alt={page.title}
-                                    fill
-                                    className="object-contain p-4"
-                                    sizes="(max-width: 768px) 100vw, 50vw"
-                                    priority
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Left Column: Image & Actions */}
+                    <div className="lg:col-span-2">
+                        <Card className="p-1 overflow-hidden bg-white shadow-xl border-2 border-dashed border-gray-200">
+                            <div className="relative aspect-[3/4] w-full bg-white flex items-center justify-center">
+                                {/* Simulated Coloring Page Image */}
+                                <img
+                                    src={pageData.image_url}
+                                    alt={`Coloring page of ${pageData.subject}`}
+                                    className="object-contain max-h-full max-w-full p-4 hover:scale-105 transition-transform duration-500"
                                 />
+                                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-600 shadow-sm border border-gray-100 flex items-center">
+                                    <Sparkles className="w-3 h-3 mr-1 text-yellow-500" />
+                                    AI Generated
+                                </div>
+                            </div>
+                        </Card>
+
+                        <div className="mt-6 flex flex-col sm:flex-row gap-4">
+                            <Button className="flex-1 h-14 text-lg bg-green-600 hover:bg-green-700 shadow-lg shadow-green-600/20 transition-all hover:-translate-y-1">
+                                <Printer className="mr-2 w-5 h-5" />
+                                Print Page
+                            </Button>
+                            <Button className="flex-1 h-14 text-lg bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-600/20 transition-all hover:-translate-y-1">
+                                <Download className="mr-2 w-5 h-5" />
+                                Download PDF
+                            </Button>
+                        </div>
+
+                        <div className="mt-8 bg-blue-50 p-6 rounded-xl border border-blue-100">
+                            <h3 className="font-bold text-gray-800 mb-3 flex items-center">
+                                <Star className="w-5 h-5 mr-2 text-blue-600" />
+                                {t('shareTitle')}
+                            </h3>
+                            <div className="flex gap-2">
+                                <Button variant="outline" size="sm" className="bg-white hover:bg-white/80">
+                                    Facebook
+                                </Button>
+                                <Button variant="outline" size="sm" className="bg-white hover:bg-white/80">
+                                    Pinterest
+                                </Button>
+                                <Button variant="outline" size="sm" className="bg-white hover:bg-white/80">
+                                    Twitter
+                                </Button>
+                                <Button variant="ghost" size="sm">
+                                    <Share2 className="w-4 h-4 mr-2" />
+                                    Copy Link
+                                </Button>
                             </div>
                         </div>
-
-                        <DownloadButtons imageUrl={page.image_url} title={page.title} />
-
-                        <div className="pt-4">
-                            <h3 className="text-sm font-semibold text-gray-500 mb-2">Share this Page</h3>
-                            <SocialShare
-                                url={`https://ai-coloringpage.com/printable/${slug}`}
-                                title={page.title}
-                                image={page.image_url}
-                            />
-                        </div>
-
-                        {/* 💰 Monetization Block */}
-                        <RecommendedSupplies />
-
-                        <div className="mt-12 prose max-w-none">
-                            <h2 className="text-2xl font-bold text-gray-900 mb-4">About this Coloring Page</h2>
-                            <p className="text-gray-600 leading-relaxed">
-                                {page.description}
-                            </p>
-                            <p className="text-gray-600 leading-relaxed mt-4">
-                                This <strong>{page.subject}</strong> coloring page is perfect for <strong>{page.audience}</strong>.
-                                It features clean lines designed for easy coloring.
-                                Use your favorite crayons, markers, or colored pencils to bring it to life!
-                            </p>
-                        </div>
-
-                        <RemixClient prompt={page.prompt} />
                     </div>
 
-                    {/* Right: Content */}
-                    <div className="space-y-8">
-                        <div>
-                            <h1 className="text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
-                                {page.title}
+                    {/* Right Column: Details & SEO Content */}
+                    <div className="space-y-6">
+                        <Card className="p-6 shadow-md border-t-4 border-t-purple-500">
+                            <h1 className="text-3xl font-extrabold text-gray-900 mb-4 leading-tight">
+                                {pageData.title}
                             </h1>
-                            <p className="text-xl text-gray-600 leading-relaxed">
-                                {page.description}
-                            </p>
-                        </div>
+                            <div className="prose text-gray-600 mb-6">
+                                <p>
+                                    {pageData.description || t('descriptionTemplate', { subject: pageData.subject, audience: pageData.audience })}
+                                </p>
+                            </div>
 
-                        {page.content?.fun_facts && (
-                            <Card className="p-6 bg-yellow-50 border-yellow-100">
-                                <h3 className="text-lg font-bold text-yellow-800 mb-4 flex items-center">
-                                    <span className="text-2xl mr-2">💡</span> Fun Facts
-                                </h3>
-                                <ul className="space-y-3">
-                                    {page.content.fun_facts.map((fact: string, i: number) => (
-                                        <li key={i} className="flex items-start text-yellow-900">
-                                            <span className="mr-2">•</span>
-                                            {fact}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </Card>
-                        )}
-
-                        {page.content?.tips && (
-                            <Card className="p-6 bg-purple-50 border-purple-100">
-                                <h3 className="text-lg font-bold text-purple-800 mb-4 flex items-center">
-                                    <span className="text-2xl mr-2">🎨</span> Coloring Tips
-                                </h3>
-                                <ul className="space-y-3">
-                                    {page.content.tips.map((tip: string, i: number) => (
-                                        <li key={i} className="flex items-start text-purple-900">
-                                            <span className="mr-2">•</span>
-                                            {tip}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </Card>
-                        )}
-
-                        <div className="pt-8 border-t border-gray-200">
-                            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
-                                You Might Also Like
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                                {relatedTags.map(tag => (
-                                    <Link
-                                        key={tag}
-                                        href={`/printable/${tag.toLowerCase()}-coloring-page-for-kids`}
-                                        className="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 transition-all"
-                                    >
-                                        {tag}
-                                    </Link>
+                            <div className="flex flex-wrap gap-2 mb-6">
+                                {pageData.keywords && pageData.keywords.map((kw: string) => (
+                                    <span key={kw} className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">
+                                        #{kw}
+                                    </span>
                                 ))}
                             </div>
-                        </div>
+                        </Card>
 
+                        <Card className="p-6 bg-yellow-50 border-yellow-100">
+                            <h3 className="font-bold text-gray-800 mb-4 flex items-center">
+                                {t('funFacts')}
+                            </h3>
+                            <ul className="space-y-3">
+                                <li className="flex items-start text-sm text-gray-700">
+                                    <span className="mr-2 mt-1 min-w-[16px]">👉</span>
+                                    <span>Did you know? {pageData.subject} is a favorite subject for {pageData.audience}.</span>
+                                </li>
+                                <li className="flex items-start text-sm text-gray-700">
+                                    <span className="mr-2 mt-1 min-w-[16px]">👉</span>
+                                    <span>Coloring helps improve focus and hand-eye coordination.</span>
+                                </li>
+                            </ul>
+                        </Card>
+
+                        <Card className="p-6 bg-green-50 border-green-100">
+                            <h3 className="font-bold text-gray-800 mb-4 flex items-center">
+                                {t('coloringTips')}
+                            </h3>
+                            <ul className="space-y-3">
+                                <li className="flex items-start text-sm text-gray-700">
+                                    <Check className="w-4 h-4 mr-2 text-green-600 mt-0.5" />
+                                    <span>Try using soft pastels for background areas.</span>
+                                </li>
+                                <li className="flex items-start text-sm text-gray-700">
+                                    <Check className="w-4 h-4 mr-2 text-green-600 mt-0.5" />
+                                    <span>Mix marker and colored pencil techniques for depth.</span>
+                                </li>
+                            </ul>
+                        </Card>
                     </div>
                 </div>
-            </main >
 
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify([jsonLd, breadcrumbLd]) }}
-            />
-        </div >
+                {/* Related Pages Section */}
+                <div className="mt-16 border-t pt-12">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t('relatedTitle')}</h2>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        {relatedPages.map((page: any) => (
+                            <Link key={page.slug} href={`/printable/${page.slug}`} className="group block">
+                                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+                                    <div className="aspect-[3/4] bg-gray-50 p-4 flex items-center justify-center">
+                                        <img
+                                            src={page.image_url}
+                                            alt={page.title}
+                                            className="max-h-full opacity-80 group-hover:opacity-100 transition-opacity"
+                                        />
+                                    </div>
+                                    <div className="p-4">
+                                        <h3 className="font-semibold text-gray-800 text-sm line-clamp-2 group-hover:text-blue-600">
+                                            {page.title}
+                                        </h3>
+                                    </div>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            </main>
+        </div>
     )
 }

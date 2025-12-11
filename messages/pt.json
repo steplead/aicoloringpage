@@ -128,5 +128,62 @@
         "proFeature4": "Galeria Privada",
         "upgradeBtn": "Mudar para Pro",
         "processing": "Processando..."
+    },
+    "BlogPage": {
+        "title": "O Blog de Colorir",
+        "subtitle": "Dicas, tutoriais e inspiração para sua jornada de colorir.",
+        "newUpdate": "Nova Atualização",
+        "launchTitle": "Apresentando Câmera Mágica e Modo História",
+        "launchSubtitle": "Transforme fotos em páginas para colorir e crie seus próprios livros de histórias. Descubra a maior atualização até agora.",
+        "readAnnouncement": "Ler Anúncio",
+        "readArticle": "Ler Artigo",
+        "backToBlog": "Voltar ao Blog",
+        "metaTitle": "Blog de Colorir - Dicas, Truques e Inspiração",
+        "metaDescription": "Aprenda sobre técnicas de colorir, os melhores materiais de arte e os benefícios de colorir para a atenção plena."
+    },
+    "DirectoryPage": {
+        "title": "Diretório de Desenhos para Colorir",
+        "subtitle": "Explore milhares de ideias de páginas para colorir imprimíveis. Clique em qualquer link para gerar essa página exata instantaneamente!",
+        "suffix": "Páginas",
+        "variations": "+ muitas mais variações",
+        "metaTitle": "Diretório de Desenhos para Colorir - Navegar Tudo",
+        "metaDescription": "Navegue por nossa extensa coleção de páginas para colorir gratuitas. Encontre páginas para crianças, adultos e todos os assuntos imagináveis."
+    },
+    "PrintablePage": {
+        "breadcrumbs": {
+            "home": "Início",
+            "directory": "Diretório"
+        },
+        "shareTitle": "Compartilhar esta Página",
+        "aboutTitle": "Sobre este Desenho para Colorir",
+        "descriptionTemplate": "Este desenho para colorir de {subject} é perfeito para {audience}. Apresenta linhas limpas projetadas para colorir facilmente. Use seus gizes de cera, marcadores ou lápis de cor favoritos para dar vida a ele!",
+        "funFacts": "💡 Curiosidades",
+        "coloringTips": "🎨 Dicas de Colorir",
+        "relatedTitle": "Você também pode gostar"
+    },
+    "PrivacyPage": {
+        "title": "Política de Privacidade",
+        "lastUpdated": "Última Atualização: {year}",
+        "intro": "Sua privacidade é importante para nós. É política da AI Coloring Page respeitar sua privacidade em relação a qualquer informação que possamos coletar de você em nosso site.",
+        "section1Title": "1. Informações que Coletamos",
+        "section1Text": "Solicitamos informações pessoais apenas quando realmente precisamos delas para lhe fornecer um serviço. Coletamos por meios justos e legais, com o seu conhecimento e consentimento.",
+        "section2Title": "2. Uso de Imagens",
+        "section2Text": "As imagens enviadas para o nosso recurso \"Câmera Mágica\" são processadas temporariamente para gerar sua página para colorir. Não vendemos nem negociamos suas fotos pessoais.",
+        "section3Title": "3. Análises",
+        "section3Text": "Usamos o Google Analytics para entender como os visitantes interagem com nosso site. Esses dados são anonimizados e usados apenas para melhorar a experiência do usuário.",
+        "section4Title": "4. Contate-nos",
+        "section4Text": "Se você tiver alguma dúvida sobre nossa política de privacidade, entre em contato conosco."
+    },
+    "TermsPage": {
+        "title": "Termos de Serviço",
+        "lastUpdated": "Última Atualização: {year}",
+        "section1Title": "1. Termos",
+        "section1Text": "Ao acessar este site, você concorda em ficar vinculado a estes Termos e Condições de Uso do site e concorda que é responsável pelo acordo com quaisquer leis locais aplicáveis.",
+        "section2Title": "2. Licença de Uso",
+        "section2Text": "É concedida permissão para baixar temporariamente uma cópia dos materiais (páginas para colorir geradas) no site da AI Coloring Page para visualização transitória pessoal e não comercial.",
+        "section3Title": "3. Isenção de Responsabilidade",
+        "section3Text": "Os materiais no site da AI Coloring Page são fornecidos \"como estão\". A AI Coloring Page não oferece garantias, expressas ou implícitas, e por meio deste isenta e nega todas as outras garantias.",
+        "section4Title": "4. Limitações",
+        "section4Text": "Em nenhum caso a AI Coloring Page ou seus fornecedores serão responsáveis por quaisquer danos (incluindo, sem limitação, danos por perda de dados ou lucro) decorrentes do uso ou da incapacidade de usar os materiais no site da AI Coloring Page."
     }
 }

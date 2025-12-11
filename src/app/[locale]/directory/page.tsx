@@ -3,6 +3,7 @@ import path from 'path'
 import fs from 'fs'
 import { Header } from '@/components/Header'
 import { Card } from '@/components/ui/card'
+import { getTranslations } from 'next-intl/server'
 
 // Helper to get data (same as in sitemap/page)
 function getPages() {
@@ -18,19 +19,24 @@ function getPages() {
     return []
 }
 
-export const metadata = {
-    title: 'Coloring Page Directory - Browse All Categories',
-    description: 'Browse our extensive collection of free printable coloring pages. Find pages for kids, adults, and every subject imaginable.',
-    openGraph: {
-        title: 'Coloring Page Directory - Browse All Categories',
-        description: 'Browse extensive collection of free printable coloring pages.',
-        url: 'https://ai-coloringpage.com/directory',
-        type: 'website',
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params
+    const t = await getTranslations({ locale, namespace: 'DirectoryPage' })
+    return {
+        title: t('metaTitle'),
+        description: t('metaDescription'),
+        openGraph: {
+            title: t('metaTitle'),
+            description: t('metaDescription'),
+            url: 'https://ai-coloringpage.com/directory',
+            type: 'website',
+        }
     }
 }
 
-export default function DirectoryPage() {
+export default async function DirectoryPage() {
     const pages = getPages()
+    const t = await getTranslations('DirectoryPage')
 
     // Group by Subject for better UX
     const pagesBySubject: Record<string, any[]> = {}
@@ -53,11 +59,10 @@ export default function DirectoryPage() {
             <main className="container mx-auto px-4 py-12">
                 <div className="text-center max-w-3xl mx-auto mb-12">
                     <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
-                        Coloring Page Directory
+                        {t('title')}
                     </h1>
                     <p className="text-lg text-gray-600">
-                        Explore thousands of printable coloring page ideas.
-                        Click any link to generate that exact page instantly!
+                        {t('subtitle')}
                     </p>
                 </div>
 
@@ -65,7 +70,7 @@ export default function DirectoryPage() {
                     {subjects.map(subject => (
                         <Card key={subject} className="p-6 hover:shadow-lg transition-shadow">
                             <h2 className="text-xl font-bold text-gray-800 mb-4 border-b pb-2">
-                                {subject} Pages
+                                {subject} {t('suffix')}
                             </h2>
                             <ul className="space-y-2">
                                 {pagesBySubject[subject].map((page: any) => (
@@ -80,7 +85,7 @@ export default function DirectoryPage() {
                                     </li>
                                 ))}
                                 <li className="text-xs text-gray-400 italic pt-1">
-                                    + many more variations
+                                    {t('variations')}
                                 </li>
                             </ul>
                         </Card>

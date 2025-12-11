@@ -128,5 +128,62 @@
         "proFeature4": "Private Gallery",
         "upgradeBtn": "Upgrade to Pro",
         "processing": "Processing..."
+    },
+    "BlogPage": {
+        "title": "The Coloring Blog",
+        "subtitle": "Tips, tutorials, and inspiration for your coloring journey.",
+        "newUpdate": "New Update",
+        "launchTitle": "Introducing Magic Camera & Story Mode",
+        "launchSubtitle": "Turn photos into coloring pages and create your own storybooks. Discover the biggest update yet.",
+        "readAnnouncement": "Read Announcement",
+        "readArticle": "Read Article",
+        "backToBlog": "Back to Blog",
+        "metaTitle": "Coloring Blog - Tips, Tricks & Inspiration",
+        "metaDescription": "Learn about coloring techniques, best art supplies, and the benefits of coloring for mindfulness."
+    },
+    "DirectoryPage": {
+        "title": "Coloring Page Directory",
+        "subtitle": "Explore thousands of printable coloring page ideas. Click any link to generate that exact page instantly!",
+        "suffix": "Pages",
+        "variations": "+ many more variations",
+        "metaTitle": "Coloring Page Directory - Browse All Categories",
+        "metaDescription": "Browse our extensive collection of free printable coloring pages. Find pages for kids, adults, and every subject imaginable."
+    },
+    "PrintablePage": {
+        "breadcrumbs": {
+            "home": "Home",
+            "directory": "Directory"
+        },
+        "shareTitle": "Share this Page",
+        "aboutTitle": "About this Coloring Page",
+        "descriptionTemplate": "This {subject} coloring page is perfect for {audience}. It features clean lines designed for easy coloring. Use your favorite crayons, markers, or colored pencils to bring it to life!",
+        "funFacts": "💡 Fun Facts",
+        "coloringTips": "🎨 Coloring Tips",
+        "relatedTitle": "You Might Also Like"
+    },
+    "PrivacyPage": {
+        "title": "Privacy Policy",
+        "lastUpdated": "Last Updated: {year}",
+        "intro": "Your privacy is important to us. It is AI Coloring Page's policy to respect your privacy regarding any information we may collect from you across our website.",
+        "section1Title": "1. Information We Collect",
+        "section1Text": "We only ask for personal information when we truly need it to provide a service to you. We collect it by fair and lawful means, with your knowledge and consent.",
+        "section2Title": "2. Use of Images",
+        "section2Text": "Images uploaded to our \"Magic Camera\" feature are processed temporarily to generate your coloring page. We do not sell or trade your personal photos.",
+        "section3Title": "3. Analytics",
+        "section3Text": "We use Google Analytics to understand how visitors interact with our site. This data is anonymized and used solely to improve the user experience.",
+        "section4Title": "4. Contact Us",
+        "section4Text": "If you have any questions about our privacy policy, please contact us."
+    },
+    "TermsPage": {
+        "title": "Terms of Service",
+        "lastUpdated": "Last Updated: {year}",
+        "section1Title": "1. Terms",
+        "section1Text": "By accessing this website, you are agreeing to be bound by these website Terms and Conditions of Use and agree that you are responsible for the agreement with any applicable local laws.",
+        "section2Title": "2. Use License",
+        "section2Text": "Permission is granted to temporarily download one copy of the materials (generated coloring pages) on AI Coloring Page's website for personal, non-commercial transitory viewing.",
+        "section3Title": "3. Disclaimer",
+        "section3Text": "The materials on AI Coloring Page's website are provided \"as is\". AI Coloring Page makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties.",
+        "section4Title": "4. Limitations",
+        "section4Text": "In no event shall AI Coloring Page or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit) arising out of the use or inability to use the materials on AI Coloring Page's website."
     }
 }
