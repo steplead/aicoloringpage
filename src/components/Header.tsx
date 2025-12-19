@@ -25,7 +25,7 @@ export function Header() {
         <header className="flex flex-col border-b bg-white sticky top-0 z-50">
             <div className="flex items-center justify-between px-6 py-4">
                 <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-                    <Image
+                    <img
                         src="/logo.png"
                         alt="AI Coloring Page Logo"
                         width={32}

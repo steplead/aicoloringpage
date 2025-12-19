@@ -7,7 +7,8 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "pinterest": "tsx scripts/pinterest-poster.ts"
+    "pinterest": "tsx scripts/pinterest-poster.ts",
+    "optimize-images": "tsx scripts/optimize-images.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
