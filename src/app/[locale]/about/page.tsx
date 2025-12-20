@@ -1,6 +1,8 @@
 import { Header } from '@/components/Header'
 import { getTranslations } from 'next-intl/server'
 
+export const runtime = 'edge';
+
 export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
     const t = await getTranslations({ locale, namespace: 'AboutPage' })
     return {

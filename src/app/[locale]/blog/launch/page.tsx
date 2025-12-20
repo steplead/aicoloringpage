@@ -1,5 +1,7 @@
 import { Link } from '@/i18n/routing'
 import { Header } from '@/components/Header'
+
+export const runtime = 'edge';
 import { Button } from '@/components/ui/button'
 import { Camera, BookOpen, Sparkles } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'

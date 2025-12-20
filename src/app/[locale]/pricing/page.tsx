@@ -1,5 +1,7 @@
 'use client'
 
+export const runtime = 'edge';
+
 import { Header } from '@/components/Header'
 import { Button } from '@/components/ui/button'
 import { Check, Sparkles, Zap } from 'lucide-react'

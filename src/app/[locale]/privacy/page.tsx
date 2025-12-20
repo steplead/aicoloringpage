@@ -1,5 +1,7 @@
 import { Header } from '@/components/Header'
 import { Card } from '@/components/ui/card'
+
+export const runtime = 'edge';
 import { getTranslations } from 'next-intl/server'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {

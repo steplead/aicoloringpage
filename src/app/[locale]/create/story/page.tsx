@@ -1,5 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import StoryModeClient from '@/components/StoryModeClient'
+
+export const runtime = 'edge';
 import { Header } from '@/components/Header'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
