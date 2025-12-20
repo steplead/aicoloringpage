@@ -71,7 +71,7 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
                                     {t('newUpdate')}
                                 </div>
                                 <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
-                                    <Link href="/blog/launch" className="hover:text-purple-700">
+                                    <Link href="/blog/launch" className="hover:text-purple-700" prefetch={false}>
                                         {t('launchTitle')}
                                     </Link>
                                 </h2>
@@ -79,7 +79,7 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
                                     {t('launchSubtitle')}
                                 </p>
                                 <div>
-                                    <Link href="/blog/launch">
+                                    <Link href="/blog/launch" prefetch={false}>
                                         <Button className="bg-purple-600 hover:bg-purple-700">
                                             {t('readAnnouncement')}
                                         </Button>
@@ -112,7 +112,7 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
                                     </div>
                                 </div>
                                 <h2 className="text-xl font-bold text-gray-900 mb-3 leading-tight">
-                                    <Link href={`/blog/${post.slug}`} className="hover:text-blue-600 transition-colors">
+                                    <Link href={`/blog/${post.slug}`} className="hover:text-blue-600 transition-colors" prefetch={false}>
                                         {post.title}
                                     </Link>
                                 </h2>
@@ -121,6 +121,7 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
                                 </p>
                                 <Link
                                     href={`/blog/${post.slug}`}
+                                    prefetch={false}
                                     className="text-blue-600 font-medium text-sm hover:underline mt-auto inline-block"
                                 >
                                     {t('readArticle')} →

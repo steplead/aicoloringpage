@@ -54,7 +54,7 @@ export default async function LaunchPost() {
                         <Camera className="w-12 h-12 text-purple-600 mb-4" />
                         <h3 className="text-xl font-bold mb-2">{t('tryMagicCamera')}</h3>
                         <p className="text-gray-600 mb-6">{t('uploadPhotoText')}</p>
-                        <Link href="/create/photo">
+                        <Link href="/create/photo" prefetch={false}>
                             <Button size="lg" className="bg-purple-600 hover:bg-purple-700">
                                 {t('convertBtn')}
                             </Button>
@@ -71,7 +71,7 @@ export default async function LaunchPost() {
                         <BookOpen className="w-12 h-12 text-blue-600 mb-4" />
                         <h3 className="text-xl font-bold mb-2">{t('createStorybook')}</h3>
                         <p className="text-gray-600 mb-6">{t('generateCharText')}</p>
-                        <Link href="/create/story">
+                        <Link href="/create/story" prefetch={false}>
                             <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
                                 {t('startStoryBtn')}
                             </Button>
@@ -90,7 +90,7 @@ export default async function LaunchPost() {
                         <p className="text-gray-600 mb-8">
                             {t('exploreText')}
                         </p>
-                        <Link href="/">
+                        <Link href="/" prefetch={false}>
                             <Button size="lg">
                                 {t('homeBtn')}
                             </Button>
