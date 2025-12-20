@@ -1,18 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { createClient } from '@supabase/supabase-js'
 import Image from 'next/image'
 import { Link } from '@/i18n/routing'
 import { Card } from '@/components/ui/card'
 import { Loader2, TrendingUp } from 'lucide-react'
-
 import { useTranslations } from 'next-intl'
-
-// Initialize Supabase (Client Side)
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-const supabase = (supabaseUrl && supabaseKey) ? createClient(supabaseUrl, supabaseKey) : null
+import { supabase } from '@/lib/supabase'
 
 export function GallerySection() {
     const t = useTranslations('HomePage')
