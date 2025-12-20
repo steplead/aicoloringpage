@@ -11,6 +11,13 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
-    messages: (await import(`../../messages/${locale}.json`)).default
+    messages: await (async () => {
+      try {
+        return (await import(`../../messages/${locale}.json`)).default;
+      } catch (error) {
+        console.error(`Error loading messages for locale ${locale}:`, error);
+        return {};
+      }
+    })()
   };
 });
