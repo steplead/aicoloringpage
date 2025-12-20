@@ -7,10 +7,6 @@ const nextConfig: any = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  webpack: (config: any) => {
-    config.resolve.alias['@google/generative-ai'] = false;
-    return config;
-  },
   images: {
     unoptimized: true,
     remotePatterns: [

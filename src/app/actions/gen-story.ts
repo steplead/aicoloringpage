@@ -1,5 +1,7 @@
 'use server'
 
+export const runtime = 'edge';
+
 import { generateContent } from '@/lib/gemini-client'
 
 export async function generatePlot(character: string, theme: string) {
