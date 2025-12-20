@@ -39,7 +39,21 @@ function HomeContent() {
         setImageUrl('')
 
         try {
-            const result = await generateImage(prompt, style)
+            // Use the standard API route purely for stability on Edge
+            // Server Actions (POST to /en) were returning 404s
+            const response = await fetch('/api/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    prompt,
+                    style
+                })
+            })
+
+            const result = await response.json()
+
             if (result.success && result.data) {
                 setImageUrl(String(result.data[0]))
             } else {
