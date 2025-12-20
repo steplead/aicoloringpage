@@ -31,14 +31,14 @@ export default function NotFound() {
                     <p className="text-xl text-gray-600" dangerouslySetInnerHTML={{ __html: t.raw('description') }} />
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-                        <Link href="/">
+                        <Link href="/" prefetch={false}>
                             <Button size="lg" className="w-full sm:w-auto h-12 text-lg">
                                 <Home className="w-5 h-5 mr-2" />
                                 {t('goHome')}
                             </Button>
                         </Link>
 
-                        <Link href="/directory">
+                        <Link href="/directory" prefetch={false}>
                             <Button size="lg" variant="outline" className="w-full sm:w-auto h-12 text-lg">
                                 <Search className="w-5 h-5 mr-2" />
                                 {t('browseDirectory')}
@@ -49,7 +49,7 @@ export default function NotFound() {
                     {/* "Random" CTA to keep them engaged */}
                     <div className="pt-12 border-t border-gray-200 mt-12">
                         <p className="text-gray-500 mb-4">{t('surpriseText')}</p>
-                        <Link href="/printable/cute-cat">
+                        <Link href="/printable/cute-cat" prefetch={false}>
                             {/* In a real app, this would be a dynamic random link, but a popular one works for now */}
                             <Button variant="secondary" className="bg-purple-100 text-purple-700 hover:bg-purple-200 border-purple-200">
                                 <Sparkles className="w-4 h-4 mr-2" />

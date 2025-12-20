@@ -82,13 +82,13 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                 <nav className="text-sm mb-6 text-gray-500 overflow-x-auto whitespace-nowrap">
                     <ol className="list-none p-0 inline-flex">
                         <li className="flex items-center">
-                            <Link href="/" className="hover:text-blue-600">
+                            <Link href="/" className="hover:text-blue-600" prefetch={false}>
                                 {t('breadcrumbs.home')}
                             </Link>
                             <span className="mx-2">/</span>
                         </li>
                         <li className="flex items-center">
-                            <Link href="/directory" className="hover:text-blue-600">
+                            <Link href="/directory" className="hover:text-blue-600" prefetch={false}>
                                 {t('breadcrumbs.directory')}
                             </Link>
                             <span className="mx-2">/</span>
@@ -215,7 +215,7 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                             const pAudience = tData.has(page.audience) ? tData(page.audience) : page.audience
                             const pTitle = tData('titlePattern', { subject: pSubject, audience: pAudience })
                             return (
-                                <Link key={page.slug} href={`/ printable / ${page.slug} `} className="group block">
+                                <Link key={page.slug} href={`/printable/${page.slug}`} className="group block" prefetch={false}>
                                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
                                         <div className="aspect-[3/4] bg-gray-50 p-4 flex items-center justify-center">
                                             <img
