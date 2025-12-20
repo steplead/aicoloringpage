@@ -21,7 +21,15 @@ export default function middleware(request: NextRequest) {
     // For other localized paths (e.g., /es, /fr), they are already handled by the router
     // matching src/app/[locale]/...
 
-    return NextResponse.next();
+    // Extract locale from path to pass to next-intl via headers if needed
+    const localeMatch = pathname.match(/^\/([a-z]{2})(\/|$)/);
+    const locale = localeMatch ? localeMatch[1] : 'en';
+
+    // Create response passing the request
+    const response = NextResponse.next();
+    response.headers.set('X-NEXT-INTL-LOCALE', locale);
+
+    return response;
 }
 
 export const config = {
