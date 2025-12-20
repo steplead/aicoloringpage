@@ -1,20 +1,23 @@
 import { Link } from '@/i18n/routing'
-import path from 'path'
-import fs from 'fs'
 import { Header } from '@/components/Header'
 import { Card } from '@/components/ui/card'
 import { getTranslations } from 'next-intl/server'
+import { supabase } from '@/lib/supabase'
 
-// Helper to get data (same as in sitemap/page)
-function getPages() {
+export const runtime = 'edge';
+
+// Helper to get data
+async function getPages() {
     try {
-        const filePath = path.join(process.cwd(), 'src', 'data', 'seo-pages.json')
-        if (fs.existsSync(filePath)) {
-            const fileContent = fs.readFileSync(filePath, 'utf8')
-            return JSON.parse(fileContent)
-        }
+        const { data, error } = await supabase
+            .from('seo_pages')
+            .select('slug, subject, audience')
+            .order('subject')
+
+        if (error) throw error
+        return data
     } catch (e) {
-        console.error('Error reading local data:', e)
+        console.error('Error reading DB data:', e)
     }
     return []
 }
@@ -35,7 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 }
 
 export default async function DirectoryPage() {
-    const pages = getPages()
+    const pages = await getPages()
     const t = await getTranslations('DirectoryPage')
     const tData = await getTranslations('Data')
 

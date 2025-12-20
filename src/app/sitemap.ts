@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { createClient } from '@supabase/supabase-js'
-import fs from 'fs'
-import path from 'path'
+
+export const runtime = 'edge';
 
 const BASE_URL = 'https://ai-coloringpage.com'
 const LOCALES = ['en', 'es', 'pt', 'fr']
@@ -21,17 +21,6 @@ async function getAllPages() {
             .select('slug, created_at')
 
         if (data) return data
-    }
-
-    // 2. Fallback to Local JSON
-    try {
-        const filePath = path.join(process.cwd(), 'src', 'data', 'seo-pages.json')
-        if (fs.existsSync(filePath)) {
-            const fileContent = fs.readFileSync(filePath, 'utf8')
-            return JSON.parse(fileContent)
-        }
-    } catch (e) {
-        console.error('Error reading local data for sitemap:', e)
     }
 
     return []

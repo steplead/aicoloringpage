@@ -1,31 +1,34 @@
 import { Link } from '@/i18n/routing'
 import { notFound } from 'next/navigation'
-import path from 'path'
-import fs from 'fs'
 import { Header } from '@/components/Header'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Check, Download, Printer, Share2, Sparkles, Star } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
+import { supabase } from '@/lib/supabase'
+
+export const runtime = 'edge';
 
 // Helper to get specific page data
-function getPageData(slug: string) {
+async function getPageData(slug: string) {
     try {
-        const filePath = path.join(process.cwd(), 'src', 'data', 'seo-pages.json')
-        if (fs.existsSync(filePath)) {
-            const fileContent = fs.readFileSync(filePath, 'utf8')
-            const pages = JSON.parse(fileContent)
-            return pages.find((p: any) => p.slug === slug)
-        }
+        const { data, error } = await supabase
+            .from('seo_pages')
+            .select('*')
+            .eq('slug', slug)
+            .single()
+
+        if (error) throw error
+        return data
     } catch (e) {
-        console.error('Error reading local data:', e)
+        console.error('Error reading DB data:', e)
     }
     return null
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; locale: string }> }) {
     const { slug, locale } = await params
-    const pageData = getPageData(slug)
+    const pageData = await getPageData(slug)
 
     if (!pageData) {
         return {
@@ -48,7 +51,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function PrintablePage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
     const { slug } = await params
-    const pageData = getPageData(slug)
+    const pageData = await getPageData(slug)
     const t = await getTranslations('PrintablePage')
     const tData = await getTranslations('Data')
 
@@ -60,14 +63,15 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
     const translatedSubject = tData.has(pageData.subject) ? tData(pageData.subject) : pageData.subject
     const translatedAudience = tData.has(pageData.audience) ? tData(pageData.audience) : pageData.audience
     const translatedTitle = tData('titlePattern', { subject: translatedSubject, audience: translatedAudience })
-    // Fallback title to English if pattern fails or raw title preferred? No, prioritize translated pattern.
 
-    // Generate random "related" pages for internal linking
-    const allPages = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'src', 'data', 'seo-pages.json'), 'utf8'))
-    const relatedPages = allPages
-        .filter((p: any) => p.slug !== slug)
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 4)
+    // Generate random "related" pages for internal linking via DB
+    const { data: relatedPagesData } = await supabase
+        .from('seo_pages')
+        .select('*')
+        .neq('slug', slug)
+        .limit(4)
+
+    const relatedPages = relatedPagesData || []
 
     return (
         <div className="min-h-screen bg-gray-50 font-sans">
@@ -103,7 +107,7 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                                 {/* Simulated Coloring Page Image */}
                                 <img
                                     src={pageData.image_url}
-                                    alt={`Coloring page of ${translatedSubject}`}
+                                    alt={`Coloring page of ${translatedSubject} `}
                                     className="object-contain max-h-full max-w-full p-4 hover:scale-105 transition-transform duration-500"
                                 />
                                 <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-600 shadow-sm border border-gray-100 flex items-center">
@@ -211,7 +215,7 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                             const pAudience = tData.has(page.audience) ? tData(page.audience) : page.audience
                             const pTitle = tData('titlePattern', { subject: pSubject, audience: pAudience })
                             return (
-                                <Link key={page.slug} href={`/printable/${page.slug}`} className="group block">
+                                <Link key={page.slug} href={`/ printable / ${page.slug} `} className="group block">
                                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
                                         <div className="aspect-[3/4] bg-gray-50 p-4 flex items-center justify-center">
                                             <img

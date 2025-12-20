@@ -153,8 +153,10 @@ async function postToPinterest(imageUrl: string, title: string, description: str
     return await response.json();
 }
 
-async function main() {
-    console.log('Starting Pinterest Auto-Poster (Web App Logic)...');
+// Encapsulated Daily Batch Logic
+async function runDailyBatch() {
+    console.log('----------------------------------------');
+    console.log(`Starting Daily Batch: ${new Date().toLocaleString()}`);
 
     const fileContent = fs.readFileSync(DATA_FILE, 'utf8');
     const pages = JSON.parse(fileContent);
@@ -162,17 +164,11 @@ async function main() {
     let postedCount = 0;
 
     // Dynamic limits based on "Project Age" (as requested)
-    // First 2 months: 10-20 pins (Warm up)
-    // After 2 months: 20-40 pins (Full speed)
-
-    // Hardcoded Launch Date (Today)
     const LAUNCH_DATE = new Date('2025-12-05');
     const now = new Date();
-
-    // Calculate difference in months
     const diffTime = Math.abs(now.getTime() - LAUNCH_DATE.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    const isWarmupPeriod = diffDays <= 60; // Approx 2 months
+    const isWarmupPeriod = diffDays <= 60;
 
     let minPins = 20;
     let maxPins = 40;
@@ -190,8 +186,32 @@ async function main() {
     const dailyLimit = Math.floor(Math.random() * (maxPins - minPins + 1)) + minPins;
     console.log(`🎯 Daily Target: ${dailyLimit} Pins (Randomized between ${minPins}-${maxPins})`);
 
+    // 0. FETCH POSTED STATUS FROM SUPABASE (Source of Truth)
+    console.log('🔄 Syncing with Database...');
+    const { data: postedData, error: fetchError } = await supabase
+        .from('seo_pages')
+        .select('slug')
+        .eq('pinterest_posted', true);
+
+    if (fetchError) {
+        console.error('❌ Failed to fetch posted status from DB:', fetchError);
+        return; // Don't crash the loop, just skip this batch
+    }
+
+    const postedSlugs = new Set(postedData?.map(item => item.slug));
+    console.log(`✅ Found ${postedSlugs.size} already posted items in DB.`);
+
     for (let i = 0; i < pages.length; i++) {
         const page = pages[i];
+
+        // CHECK DB AND LOCAL STATE
+        if (postedSlugs.has(page.slug)) {
+            // Update local file if it's out of sync
+            if (!page.pinterest_posted) {
+                page.pinterest_posted = true;
+            }
+            continue;
+        }
 
         if (page.pinterest_posted) {
             continue;
@@ -200,8 +220,6 @@ async function main() {
         // Safety Cap check at start of loop
         if (postedCount >= dailyLimit) {
             console.log(`\n🛑 DAILY SAFETY LIMIT REACHED (${dailyLimit} Pins)`);
-            console.log('   Stopping to protect your Pinterest account health.');
-            console.log('   Run this script again tomorrow!');
             break;
         }
 
@@ -213,17 +231,15 @@ async function main() {
             const base64Image = await generateImage(page.prompt);
             const buffer = Buffer.from(base64Image, 'base64');
 
-            // Optimize with Sharp (Best for Line Art)
-            // Format: WebP (Lossless-ish) - No JPEG artifacts, tiny file size
-            // Size: 1024x1024 (Native AI)
+            // Optimize with Sharp
             const optimizedBuffer = await sharp(buffer)
                 .resize(1024, 1024, { fit: 'inside' })
-                .webp({ quality: 80, effort: 6 }) // Effort 6 = Max compression
+                .webp({ quality: 80, effort: 6 })
                 .toBuffer();
 
             // 2. Upload to Supabase
             console.log('  - Uploading to Supabase...');
-            const fileName = `${page.slug}-${Date.now()}.webp`; // Changed to .webp
+            const fileName = `${page.slug}-${Date.now()}.webp`;
             const { data: uploadData, error: uploadError } = await supabase
                 .storage
                 .from('seo-images')
@@ -244,7 +260,7 @@ async function main() {
             const link = `${process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-coloringpage.com'}/printable/${page.slug}`;
             await postToPinterest(publicUrl, page.title, page.description, link);
 
-            // 4. Update Supabase Database (Real-time sync for website)
+            // 4. Update Supabase Database
             console.log('  - Updating Supabase DB...');
             const { error: dbError } = await supabase
                 .from('seo_pages')
@@ -258,10 +274,7 @@ async function main() {
                     updated_at: new Date().toISOString()
                 }, { onConflict: 'slug' });
 
-            if (dbError) {
-                console.error(`  - DB Update Failed: ${dbError.message}`);
-                // Don't stop the script, just log it. The local JSON is still a backup.
-            }
+            if (dbError) console.error(`  - DB Update Failed: ${dbError.message}`);
 
             // 5. Update Local Data
             page.image_url = publicUrl;
@@ -271,11 +284,9 @@ async function main() {
             console.log('  - Success! ✅');
             postedCount++;
 
-            // Rate Limit Delay (45s + Random 0-30s Jitter)
-            // This makes the posting pattern look more human and less robotic.
+            // Rate Limit Delay
             const jitter = Math.floor(Math.random() * 30000);
             const delay = 45000 + jitter;
-
             console.log(`  - Waiting ${Math.round(delay / 1000)}s (Safety Jitter)...`);
             await new Promise(resolve => setTimeout(resolve, delay));
 
@@ -283,13 +294,10 @@ async function main() {
             const errorMessage = error.toString();
             console.error(`  - Failed: ${errorMessage}`);
 
-            // Check for Pinterest Spam Block (Code 9)
             if (errorMessage.includes('"code":9') || errorMessage.includes('spam')) {
                 console.log('\n⚠️  PINTEREST SPAM BLOCK DETECTED! ⚠️');
                 console.log('   The script is posting too fast. Cooling down for 10 minutes...');
                 console.log('   (Go grab a coffee ☕️)\n');
-
-                // Wait 10 minutes
                 await new Promise(resolve => setTimeout(resolve, 10 * 60 * 1000));
                 console.log('   Resuming...\n');
             } else {
@@ -299,7 +307,33 @@ async function main() {
         }
     }
 
-    console.log(`Finished! Posted ${postedCount} new pins.`);
+    console.log(`Batch Done! Posted ${postedCount} new pins.`);
+    fs.writeFileSync(DATA_FILE, JSON.stringify(pages, null, 2));
+}
+
+// Loop Wrapper
+async function main() {
+    console.log('🚀 Starting Pinterest Automation in Loop Mode');
+    console.log('   (Press Ctrl+C to stop)');
+
+    while (true) {
+        try {
+            await runDailyBatch();
+        } catch (err) {
+            console.error('❌ Critical Error in Batch:', err);
+        }
+
+        // Calculate time until "Tomorrow"
+        // For simplicity, we just sleep 24 hours from now
+        // A more advanced version could wait until 9:00 AM specifically, but 24h is fine for this use case.
+        const sleepHours = 24;
+        const sleepMs = sleepHours * 60 * 60 * 1000;
+
+        console.log(`\n💤 Sleeping for ${sleepHours} hours...`);
+        console.log(`   Next run: ${new Date(Date.now() + sleepMs).toLocaleString()}`);
+
+        await new Promise(resolve => setTimeout(resolve, sleepMs));
+    }
 }
 
 main();

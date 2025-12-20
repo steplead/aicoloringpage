@@ -1,29 +1,28 @@
 import { Link } from '@/i18n/routing'
-import path from 'path'
-import fs from 'fs'
 import { notFound } from 'next/navigation'
 import { Header } from '@/components/Header'
 import { Calendar, User, ArrowLeft } from 'lucide-react'
 import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 
+// Import blog data directly for Edge compatibility
+import blogPostsEn from '@/data/blog-posts.en.json'
+import blogPostsEs from '@/data/blog-posts.es.json'
+import blogPostsPt from '@/data/blog-posts.pt.json'
+import blogPostsFr from '@/data/blog-posts.fr.json'
+
+export const runtime = 'edge';
+
+const BLOG_DATA: Record<string, any[]> = {
+    en: blogPostsEn,
+    es: blogPostsEs,
+    pt: blogPostsPt,
+    fr: blogPostsFr
+};
+
 // Helper to get data
 function getPosts(locale: string = 'en') {
-    try {
-        let filePath = path.join(process.cwd(), 'src', 'data', `blog-posts.${locale}.json`)
-        // Fallback to English if file doesn't exist
-        if (!fs.existsSync(filePath)) {
-            filePath = path.join(process.cwd(), 'src', 'data', 'blog-posts.en.json')
-        }
-
-        if (fs.existsSync(filePath)) {
-            const fileContent = fs.readFileSync(filePath, 'utf8')
-            return JSON.parse(fileContent)
-        }
-    } catch (e) {
-        console.error('Error reading blog data:', e)
-    }
-    return []
+    return BLOG_DATA[locale] || BLOG_DATA['en'];
 }
 
 // Metadata remains based on post content for now
