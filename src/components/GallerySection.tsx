@@ -65,7 +65,7 @@ export function GallerySection() {
             ) : (
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {images.map((img) => (
-                        <Link key={img.slug} href={`/printable/${img.slug}`} className="group">
+                        <Link key={img.slug} href={`/printable/${img.slug}`} className="group" prefetch={false}>
                             <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-gray-100 group-hover:-translate-y-1">
                                 <div className="aspect-square relative bg-gray-100">
                                     <Image
