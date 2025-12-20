@@ -6,8 +6,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Loader2, BookOpen, Sparkles, Download, Printer } from 'lucide-react'
-import { generatePlot } from '@/app/actions/gen-story'
-import { generateImage } from '@/app/actions/gen-img'
 import Image from 'next/image'
 import { SocialShare } from '@/components/SocialShare'
 import { useTranslations } from 'next-intl'
@@ -31,11 +29,26 @@ export default function StoryModeClient() {
 
     const handleGeneratePlot = async () => {
         setLoading(true)
-        const result = await generatePlot(`${characterName}, a ${characterDesc}`, theme)
-        setLoading(false)
-        if (result.success && result.scenes) {
-            setScenes(result.scenes)
-            setStep(2)
+        try {
+            const response = await fetch('/api/story/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ character: `${characterName}, a ${characterDesc}`, theme })
+            });
+
+            const result = await response.json();
+
+            if (result.success && result.scenes) {
+                setScenes(result.scenes)
+                setStep(2)
+            } else {
+                console.error("Plot generation failed:", result.error);
+                // Ideally show error to user here
+            }
+        } catch (e) {
+            console.error("Plot generation error:", e);
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -52,10 +65,22 @@ export default function StoryModeClient() {
             Style: Kawaii/Cute. 
             Ensure the character looks consistent.`
 
-            const result = await generateImage(scenePrompt, 'kawaii')
-            if (result.success && result.data) {
-                newPages.push(result.data[0])
-                setGeneratedPages([...newPages])
+            try {
+                // Use the shared image generation API
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: scenePrompt, style: 'kawaii' })
+                });
+
+                const result = await response.json();
+
+                if (result.success && result.data) {
+                    newPages.push(result.data[0])
+                    setGeneratedPages([...newPages])
+                }
+            } catch (e) {
+                console.error(`Page ${i + 1} generation failed`, e);
             }
         }
         setGeneratingIndex(-1) // Done
