@@ -24,7 +24,7 @@ export function Header() {
     return (
         <header className="flex flex-col border-b bg-white sticky top-0 z-50">
             <div className="flex items-center justify-between px-6 py-4">
-                <Link href="/" className="flex items-center gap-2 font-bold text-xl">
+                <Link href="/" className="flex items-center gap-2 font-bold text-xl" prefetch={false}>
                     <img
                         src="/logo.png"
                         alt="AI Coloring Page Logo"
@@ -59,6 +59,7 @@ export function Header() {
                                                     <Link
                                                         href={`/printable/${item.toLowerCase().replace(/ /g, '-')}-coloring-page-for-kids`}
                                                         className="text-xs text-gray-600 hover:text-purple-600 block truncate"
+                                                        prefetch={false}
                                                     >
                                                         {item}
                                                     </Link>
@@ -68,7 +69,7 @@ export function Header() {
                                     </div>
                                 ))}
                                 <div className="col-span-4 pt-4 border-t text-center">
-                                    <Link href="/directory" className="text-sm font-bold text-blue-600 hover:underline">
+                                    <Link href="/directory" className="text-sm font-bold text-blue-600 hover:underline" prefetch={false}>
                                         {t('viewAll')} →
                                     </Link>
                                 </div>
@@ -76,14 +77,14 @@ export function Header() {
                         )}
                     </div>
 
-                    <Link href="/blog" className="text-sm font-medium text-gray-600 hover:text-black">
+                    <Link href="/blog" className="text-sm font-medium text-gray-600 hover:text-black" prefetch={false}>
                         {t('blog')}
                     </Link>
-                    <Link href="/create/photo" className="text-sm font-medium text-purple-600 hover:text-purple-700 flex items-center gap-1">
+                    <Link href="/create/photo" className="text-sm font-medium text-purple-600 hover:text-purple-700 flex items-center gap-1" prefetch={false}>
                         <Camera className="w-4 h-4" />
                         {t('magicCamera')}
                     </Link>
-                    <Link href="/create/story" className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1">
+                    <Link href="/create/story" className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1" prefetch={false}>
                         <BookOpen className="w-4 h-4" />
                         {t('storyMode')}
                     </Link>
