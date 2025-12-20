@@ -24,6 +24,7 @@ const nextConfig: any = {
       },
     ],
   },
+  trailingSlash: false,
 };
 
 export default withNextIntl(nextConfig);
