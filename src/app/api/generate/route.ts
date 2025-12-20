@@ -132,6 +132,7 @@ export async function POST(req: NextRequest) {
         }
 
         // If we got here, the model returned text instead of an image
+        const textPart = parts.find((part: any) => part.text);
         if (textPart) {
             console.warn(`Returned text instead of image: "${textPart.text.substring(0, 100)}..."`);
             return NextResponse.json({ success: false, error: `AI could not generate an image for this prompt. Please try a different description.` }, { status: 422 });
