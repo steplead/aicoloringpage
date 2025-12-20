@@ -127,7 +127,7 @@ export async function Footer() {
                             <h4 className="font-bold text-xs text-gray-400 uppercase tracking-wider mb-3">{t('byAnimal')}</h4>
                             <div className="flex flex-wrap gap-2 text-xs text-gray-500">
                                 {["Cat", "Dog", "Lion", "Tiger", "Bear", "Wolf", "Fox", "Owl", "Butterfly", "Horse", "Rabbit", "Shark"].map(tag => (
-                                    <Link key={tag} href={`/printable/${tag.toLowerCase()}-coloring-page-for-kids`} className="hover:text-purple-600">
+                                    <Link key={tag} href={`/printable/${tag.toLowerCase()}-coloring-page-for-kids`} className="hover:text-purple-600" prefetch={false}>
                                         {tag} •
                                     </Link>
                                 ))}
@@ -157,7 +157,7 @@ export async function Footer() {
                             <h4 className="font-bold text-xs text-gray-400 uppercase tracking-wider mb-3">{t('popular')}</h4>
                             <div className="flex flex-wrap gap-2 text-xs text-gray-500">
                                 {["Unicorn", "Dragon", "Mermaid", "Fairy", "Robot", "Dinosaur", "Princess", "Superhero", "Pokemon"].map(tag => (
-                                    <Link key={tag} href={`/printable/${tag.toLowerCase()}-coloring-page-for-kids`} className="hover:text-purple-600">
+                                    <Link key={tag} href={`/printable/${tag.toLowerCase()}-coloring-page-for-kids`} className="hover:text-purple-600" prefetch={false}>
                                         {tag} •
                                     </Link>
                                 ))}

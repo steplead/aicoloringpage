@@ -108,20 +108,20 @@ export function Header() {
                         <p className="font-bold text-gray-900 text-sm pl-2">{t('explore')}</p>
                         <div className="grid grid-cols-2 gap-2 pl-2">
                             {["Animals", "Fantasy", "Styles", "Themes"].map(cat => (
-                                <Link key={cat} href="/directory" className="text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsMenuOpen(false)}>
+                                <Link key={cat} href="/directory" className="text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsMenuOpen(false)} prefetch={false}>
                                     {cat}
                                 </Link>
                             ))}
                         </div>
                     </div>
-                    <Link href="/blog" className="text-sm font-medium p-2 hover:bg-gray-100 rounded-md" onClick={() => setIsMenuOpen(false)}>
+                    <Link href="/blog" className="text-sm font-medium p-2 hover:bg-gray-100 rounded-md" onClick={() => setIsMenuOpen(false)} prefetch={false}>
                         {t('blog')}
                     </Link>
-                    <Link href="/create/photo" className="text-sm font-medium text-purple-600 p-2 hover:bg-purple-50 rounded-md flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
+                    <Link href="/create/photo" className="text-sm font-medium text-purple-600 p-2 hover:bg-purple-50 rounded-md flex items-center gap-2" onClick={() => setIsMenuOpen(false)} prefetch={false}>
                         <Camera className="w-4 h-4" />
                         Magic Camera
                     </Link>
-                    <Link href="/create/story" className="text-sm font-medium text-blue-600 p-2 hover:bg-blue-50 rounded-md flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
+                    <Link href="/create/story" className="text-sm font-medium text-blue-600 p-2 hover:bg-blue-50 rounded-md flex items-center gap-2" onClick={() => setIsMenuOpen(false)} prefetch={false}>
                         <BookOpen className="w-4 h-4" />
                         {t('storyMode')}
                     </Link>
