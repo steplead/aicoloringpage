@@ -13,8 +13,9 @@ export default function middleware(request: NextRequest) {
     // If the user visits the root '/', rewrite to the default locale '/en'
     // This allows the localized page src/app/[locale]/page.tsx to handle the request
     if (pathname === '/') {
-        request.nextUrl.pathname = '/en';
-        return NextResponse.rewrite(request.nextUrl);
+        const url = request.nextUrl.clone();
+        url.pathname = '/en';
+        return NextResponse.redirect(url);
     }
 
     // For other localized paths (e.g., /es, /fr), they are already handled by the router
