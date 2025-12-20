@@ -22,16 +22,8 @@ export default function middleware(request: NextRequest) {
     const localeMatch = pathname.match(/^\/([a-z]{2})(\/|$)/);
     const locale = localeMatch ? localeMatch[1] : 'en';
 
-    // Clone headers to pass them to the request
-    const requestHeaders = new Headers(request.headers);
-    requestHeaders.set('X-NEXT-INTL-LOCALE', locale);
-
-    // Pass the modified headers to the application
-    return NextResponse.next({
-        request: {
-            headers: requestHeaders
-        }
-    });
+    // Pass the request through
+    return NextResponse.next();
 }
 
 export const config = {

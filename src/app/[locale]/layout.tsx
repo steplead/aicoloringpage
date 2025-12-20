@@ -46,6 +46,7 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
+  unstable_setRequestLocale(locale);
   const messages = await getMessages();
 
   return (
