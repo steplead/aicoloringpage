@@ -4,15 +4,22 @@
 // const intlMiddleware = createMiddleware(routing);
 
 import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-export default function middleware(request: any) {
-    // try {
-    //     const intlMiddleware = createMiddleware(routing);
-    //     return intlMiddleware(request);
-    // } catch (error) {
-    //     console.error('Middleware Error:', error);
-    //     return new Response('Middleware Failed: ' + String(error), { status: 500 });
-    // }
+export default function middleware(request: NextRequest) {
+    const { pathname } = request.nextUrl;
+
+    // Manual 'as-needed' routing logic for Cloudflare Edge compatibility
+    // If the user visits the root '/', rewrite to the default locale '/en'
+    // This allows the localized page src/app/[locale]/page.tsx to handle the request
+    if (pathname === '/') {
+        request.nextUrl.pathname = '/en';
+        return NextResponse.rewrite(request.nextUrl);
+    }
+
+    // For other localized paths (e.g., /es, /fr), they are already handled by the router
+    // matching src/app/[locale]/...
+
     return NextResponse.next();
 }
 
