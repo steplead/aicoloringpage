@@ -1,7 +1,5 @@
 'use server'
 
-export const runtime = 'edge';
-
 import { generateContent } from '@/lib/gemini-client'
 import { processImage } from '@/lib/image-processing'
 
