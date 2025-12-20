@@ -1,8 +1,11 @@
 import { getRequestConfig } from 'next-intl/server';
+import { headers } from 'next/headers';
 
 export default getRequestConfig(async ({ requestLocale }) => {
-  // This typically corresponds to the `[locale]` segment
-  let locale = await requestLocale;
+  // Try to get locale from the custom header injected by our middleware first
+  // This is crucial for Edge compatibility since we bypassed the standard next-intl middleware
+  const localeHeader = (await headers()).get('X-NEXT-INTL-LOCALE');
+  let locale = localeHeader || await requestLocale;
 
   // Ensure that a valid locale is used
   if (!locale || !['en', 'es', 'pt', 'fr'].includes(locale)) {
