@@ -71,9 +71,27 @@ export default function MagicCameraClient() {
         setGeneratedImage(null)
 
         try {
-            const result = await generateImage(prompt, style, selectedImage)
+            // Updated to use the stable API route instead of Server Action
+            // Remove the data URL prefix for the payload if present
+            const base64Image = selectedImage.includes('base64,')
+                ? selectedImage.split('base64,')[1]
+                : selectedImage;
 
-            if (result.success && result.data) {
+            const response = await fetch('/api/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    prompt: prompt,
+                    style: style,
+                    image: base64Image // Send base64 data to API
+                }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success && result.data) {
                 setGeneratedImage(result.data[0])
             } else {
                 setError(result.error || 'Failed to generate image')

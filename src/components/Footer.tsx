@@ -38,22 +38,22 @@ export async function Footer() {
                         <h3 className="font-semibold text-gray-900 mb-4">{t('create')}</h3>
                         <ul className="space-y-3 text-sm text-gray-600">
                             <li>
-                                <Link href="/create/photo" className="hover:text-purple-600 transition-colors block">
+                                <Link href="/create/photo" className="hover:text-purple-600 transition-colors block" prefetch={false}>
                                     {t('photoToPage')}
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/" className="hover:text-purple-600 transition-colors block">
+                                <Link href="/" className="hover:text-purple-600 transition-colors block" prefetch={false}>
                                     {t('textToPage')}
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/create/story" className="hover:text-purple-600 transition-colors block">
+                                <Link href="/create/story" className="hover:text-purple-600 transition-colors block" prefetch={false}>
                                     {t('createBook')}
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/directory" className="hover:text-purple-600 transition-colors block">
+                                <Link href="/directory" className="hover:text-purple-600 transition-colors block" prefetch={false}>
                                     {t('browseAll')}
                                 </Link>
                             </li>
@@ -65,27 +65,27 @@ export async function Footer() {
                         <h3 className="font-semibold text-gray-900 mb-4">{t('popularThemes')}</h3>
                         <ul className="space-y-3 text-sm text-gray-600">
                             <li>
-                                <Link href="/printable/cat-coloring-page-for-kids" className="hover:text-purple-600 transition-colors block">
+                                <Link href="/printable/cat-coloring-page-for-kids" className="hover:text-purple-600 transition-colors block" prefetch={false}>
                                     Cat Coloring Pages
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/printable/dog-coloring-page-for-kids" className="hover:text-purple-600 transition-colors block">
+                                <Link href="/printable/dog-coloring-page-for-kids" className="hover:text-purple-600 transition-colors block" prefetch={false}>
                                     Dog Coloring Pages
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/printable/dinosaur-coloring-page-for-kids" className="hover:text-purple-600 transition-colors block">
+                                <Link href="/printable/dinosaur-coloring-page-for-kids" className="hover:text-purple-600 transition-colors block" prefetch={false}>
                                     Dinosaur Coloring Pages
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/printable/unicorn-coloring-page-for-kids" className="hover:text-purple-600 transition-colors block">
+                                <Link href="/printable/unicorn-coloring-page-for-kids" className="hover:text-purple-600 transition-colors block" prefetch={false}>
                                     Unicorn Coloring Pages
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/printable/mandala-coloring-page-for-adults" className="hover:text-purple-600 transition-colors block">
+                                <Link href="/printable/mandala-coloring-page-for-adults" className="hover:text-purple-600 transition-colors block" prefetch={false}>
                                     Mandala (Adults)
                                 </Link>
                             </li>
@@ -97,22 +97,22 @@ export async function Footer() {
                         <h3 className="font-semibold text-gray-900 mb-4">{t('resources')}</h3>
                         <ul className="space-y-3 text-sm text-gray-600">
                             <li>
-                                <Link href="/blog" className="hover:text-purple-600 transition-colors block">
+                                <Link href="/blog" className="hover:text-purple-600 transition-colors block" prefetch={false}>
                                     {t('tipsBlog')}
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/about" className="hover:text-purple-600 transition-colors block">
+                                <Link href="/about" className="hover:text-purple-600 transition-colors block" prefetch={false}>
                                     {t('about')}
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/privacy" className="hover:text-purple-600 transition-colors block">
+                                <Link href="/privacy" className="hover:text-purple-600 transition-colors block" prefetch={false}>
                                     {t('privacy')}
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/terms" className="hover:text-purple-600 transition-colors block">
+                                <Link href="/terms" className="hover:text-purple-600 transition-colors block" prefetch={false}>
                                     {t('terms')}
                                 </Link>
                             </li>
@@ -137,7 +137,7 @@ export async function Footer() {
                             <h4 className="font-bold text-xs text-gray-400 uppercase tracking-wider mb-3">{t('byStyle')}</h4>
                             <div className="flex flex-wrap gap-2 text-xs text-gray-500">
                                 {["Kawaii", "Realistic", "Stained Glass", "Mandala", "Geometric", "Minimalist", "Cartoon", "Anime", "Chibi"].map(tag => (
-                                    <Link key={tag} href={`/printable/${tag.toLowerCase().replace(/ /g, '-')}-coloring-page`} className="hover:text-purple-600">
+                                    <Link key={tag} href={`/printable/${tag.toLowerCase().replace(/ /g, '-')}-coloring-page`} className="hover:text-purple-600" prefetch={false}>
                                         {tag} •
                                     </Link>
                                 ))}
@@ -147,7 +147,7 @@ export async function Footer() {
                             <h4 className="font-bold text-xs text-gray-400 uppercase tracking-wider mb-3">{t('byTheme')}</h4>
                             <div className="flex flex-wrap gap-2 text-xs text-gray-500">
                                 {["Christmas", "Halloween", "Easter", "Summer", "Winter", "Space", "Underwater", "Forest", "Farm"].map(tag => (
-                                    <Link key={tag} href={`/printable/${tag.toLowerCase()}-coloring-page`} className="hover:text-purple-600">
+                                    <Link key={tag} href={`/printable/${tag.toLowerCase()}-coloring-page`} className="hover:text-purple-600" prefetch={false}>
                                         {tag} •
                                     </Link>
                                 ))}
