@@ -10,20 +10,21 @@ export default function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
     // Manual 'as-needed' routing logic for Cloudflare Edge compatibility
-    // If the user visits the root '/', rewrite to the default locale '/en'
-    // This allows the localized page src/app/[locale]/page.tsx to handle the request
-    if (pathname === '/') {
+    const locales = ['en', 'es', 'pt', 'fr'];
+    const localeMatch = pathname.match(/^\/([a-z]{2})(\/|$)/);
+    const isLocalized = localeMatch && locales.includes(localeMatch[1]);
+
+    // If path is not localized (e.g. /blog), redirect to default locale (/en/blog)
+    // We use a permanent redirect (308) to help Google consolidate indexing
+    if (!isLocalized) {
         const url = request.nextUrl.clone();
-        url.pathname = '/en';
-        return NextResponse.redirect(url);
+        url.pathname = `/en${pathname === '/' ? '' : pathname}`;
+        return NextResponse.redirect(url, 308);
     }
 
-    // Extract locale from path to pass to next-intl via headers if needed
-    const localeMatch = pathname.match(/^\/([a-z]{2})(\/|$)/);
-    const locale = localeMatch ? localeMatch[1] : 'en';
+    const locale = localeMatch![1];
 
-    // Pass the request through
-    // Pass the request through with the locale header
+    // Pass the request through with the locale header for server-side detection
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set('X-NEXT-INTL-LOCALE', locale);
 

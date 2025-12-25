@@ -27,16 +27,31 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
-export const metadata: Metadata = {
-  title: "AI Coloring Page | Free Printable Coloring Pages Generator",
-  description: "Turn your ideas and photos into high-quality, printable coloring pages instantly with AI.",
-  manifest: "/manifest.json",
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "default",
-    title: "AI Coloring",
-  },
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const baseUrl = 'https://ai-coloringpage.com';
+
+  return {
+    title: "AI Coloring Page | Free Printable Coloring Pages Generator",
+    description: "Turn your ideas and photos into high-quality, printable coloring pages instantly with AI.",
+    manifest: "/manifest.json",
+    alternates: {
+      canonical: `${baseUrl}/${locale}`,
+      languages: {
+        'en': `${baseUrl}/en`,
+        'es': `${baseUrl}/es`,
+        'pt': `${baseUrl}/pt`,
+        'fr': `${baseUrl}/fr`,
+        'x-default': `${baseUrl}/en`,
+      },
+    },
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: "default",
+      title: "AI Coloring",
+    },
+  };
+}
 
 export default async function RootLayout({
   children,

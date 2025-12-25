@@ -38,9 +38,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     const t = await getTranslations({ locale, namespace: 'PrintablePage' })
 
+    const baseUrl = 'https://ai-coloringpage.com'
+    const path = `/printable/${slug}`
+
     return {
         title: pageData.title,
         description: pageData.description || t('descriptionTemplate', { subject: pageData.subject, audience: pageData.audience }),
+        alternates: {
+            canonical: `${baseUrl}/${locale}${path}`,
+            languages: {
+                'en': `${baseUrl}/en${path}`,
+                'es': `${baseUrl}/es${path}`,
+                'pt': `${baseUrl}/pt${path}`,
+                'fr': `${baseUrl}/fr${path}`,
+                'x-default': `${baseUrl}/en${path}`,
+            },
+        },
         openGraph: {
             title: pageData.title,
             description: pageData.description,
@@ -73,8 +86,74 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
 
     const relatedPages = relatedPagesData || []
 
+    // Structured Data: Breadcrumbs
+    const breadcrumbJsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: t('breadcrumbs.home'),
+                item: `${baseUrl}/${locale}`
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: t('breadcrumbs.directory'),
+                item: `${baseUrl}/${locale}/directory`
+            },
+            {
+                '@type': 'ListItem',
+                position: 3,
+                name: translatedTitle,
+                item: `${baseUrl}/${locale}/printable/${slug}`
+            }
+        ]
+    }
+
+    // Structured Data: FAQ
+    const faqJsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+            {
+                '@type': 'Question',
+                name: `Is this ${pageData.subject} coloring page free?`,
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: `Yes, all coloring pages on AI Coloring Page, including this ${pageData.subject} coloring sheet, are completely free to download and print for personal use.`
+                }
+            },
+            {
+                '@type': 'Question',
+                name: `Is this coloring page suitable for ${pageData.audience}?`,
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: `Absolutely! This ${pageData.subject} coloring page has been specifically designed to be appropriate and engaging for ${pageData.audience}.`
+                }
+            },
+            {
+                '@type': 'Question',
+                name: `How do I print this AI-generated coloring page?`,
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: `Simply click the "Print Page" button above to send it directly to your printer, or download the high-quality PDF to save it for later.`
+                }
+            }
+        ]
+    }
+
     return (
         <div className="min-h-screen bg-gray-50 font-sans">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+            />
             <Header />
 
             <main className="container mx-auto px-4 py-8">

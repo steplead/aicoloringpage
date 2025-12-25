@@ -135,6 +135,7 @@ async function postToPinterest(imageUrl: string, title: string, description: str
             url: imageUrl
         }
     };
+    console.log(`  - Debug: Posting to Board ID: ${PINTEREST_BOARD_ID}`);
 
     const response = await fetch(url, {
         method: 'POST',
@@ -150,7 +151,9 @@ async function postToPinterest(imageUrl: string, title: string, description: str
         throw new Error(`Pinterest API Error: ${err}`);
     }
 
-    return await response.json();
+    const responseJson = await response.json();
+    console.log('  - Pinterest Response:', JSON.stringify(responseJson, null, 2));
+    return responseJson;
 }
 
 // Encapsulated Daily Batch Logic

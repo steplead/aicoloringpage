@@ -48,16 +48,42 @@ export default async function DirectoryPage() {
         if (!pagesBySubject[page.subject]) {
             pagesBySubject[page.subject] = []
         }
-        // Limit to 5 links per subject to keep page size manageable
-        if (pagesBySubject[page.subject].length < 5) {
+        // Limit to 10 links per subject to keep page size manageable
+        if (pagesBySubject[page.subject].length < 10) {
             pagesBySubject[page.subject].push(page)
         }
     })
 
     const subjects = Object.keys(pagesBySubject).sort()
 
+    const baseUrl = 'https://ai-coloringpage.com'
+
+    // Structured Data: Breadcrumbs
+    const breadcrumbJsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: t('title'), // Home is usually the first, but here it's the directory itself in its own trail
+                item: `${baseUrl}/${locale}`
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: t('title'),
+                item: `${baseUrl}/${locale}/directory`
+            }
+        ]
+    }
+
     return (
         <div className="min-h-screen bg-gray-50 font-sans">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+            />
             <Header />
 
             <main className="container mx-auto px-4 py-12">
@@ -97,9 +123,16 @@ export default async function DirectoryPage() {
                                         </li>
                                     )
                                 })}
-                                <li className="text-xs text-gray-400 italic pt-1">
-                                    {t('variations')}
-                                </li>
+                                {pagesBySubject[subject].length >= 10 && (
+                                    <li className="pt-2">
+                                        <Link
+                                            href={`/directory`}
+                                            className="text-xs font-semibold text-gray-500 hover:text-purple-600"
+                                        >
+                                            + {t('viewMore')}
+                                        </Link>
+                                    </li>
+                                )}
                             </ul>
                         </Card>
                     ))}

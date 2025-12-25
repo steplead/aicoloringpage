@@ -17,6 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         'es': 'https://ai-coloringpage.com/es',
         'pt': 'https://ai-coloringpage.com/pt',
         'fr': 'https://ai-coloringpage.com/fr',
+        'x-default': 'https://ai-coloringpage.com/en',
       }
     },
     openGraph: {
