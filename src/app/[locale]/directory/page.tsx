@@ -22,6 +22,8 @@ async function getPages() {
     return []
 }
 
+const BASE_URL = 'https://ai-coloringpage.com'
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params
     const t = await getTranslations({ locale, namespace: 'DirectoryPage' })
@@ -31,13 +33,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         openGraph: {
             title: t('metaTitle'),
             description: t('metaDescription'),
-            url: 'https://ai-coloringpage.com/directory',
+            url: `${BASE_URL}/directory`,
             type: 'website',
         }
     }
 }
 
-export default async function DirectoryPage() {
+export default async function DirectoryPage({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params
     const pages = await getPages()
     const t = await getTranslations('DirectoryPage')
     const tData = await getTranslations('Data')
@@ -56,8 +59,6 @@ export default async function DirectoryPage() {
 
     const subjects = Object.keys(pagesBySubject).sort()
 
-    const baseUrl = 'https://ai-coloringpage.com'
-
     // Structured Data: Breadcrumbs
     const breadcrumbJsonLd = {
         '@context': 'https://schema.org',
@@ -67,13 +68,13 @@ export default async function DirectoryPage() {
                 '@type': 'ListItem',
                 position: 1,
                 name: t('title'), // Home is usually the first, but here it's the directory itself in its own trail
-                item: `${baseUrl}/${locale}`
+                item: `${BASE_URL}/${locale}`
             },
             {
                 '@type': 'ListItem',
                 position: 2,
                 name: t('title'),
-                item: `${baseUrl}/${locale}/directory`
+                item: `${BASE_URL}/${locale}/directory`
             }
         ]
     }

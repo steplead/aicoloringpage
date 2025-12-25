@@ -17,7 +17,7 @@ export default function middleware(request: NextRequest) {
     // If path is not localized (e.g. /blog), redirect to default locale (/en/blog)
     // We use a permanent redirect (308) to help Google consolidate indexing
     if (!isLocalized) {
-        const url = request.nextUrl.clone();
+        const url = new URL(request.url);
         url.pathname = `/en${pathname === '/' ? '' : pathname}`;
         return NextResponse.redirect(url, 308);
     }

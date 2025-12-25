@@ -26,6 +26,8 @@ async function getPageData(slug: string) {
     return null
 }
 
+const BASE_URL = 'https://ai-coloringpage.com'
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; locale: string }> }) {
     const { slug, locale } = await params
     const pageData = await getPageData(slug)
@@ -38,20 +40,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     const t = await getTranslations({ locale, namespace: 'PrintablePage' })
 
-    const baseUrl = 'https://ai-coloringpage.com'
     const path = `/printable/${slug}`
 
     return {
         title: pageData.title,
         description: pageData.description || t('descriptionTemplate', { subject: pageData.subject, audience: pageData.audience }),
         alternates: {
-            canonical: `${baseUrl}/${locale}${path}`,
+            canonical: `${BASE_URL}/${locale}${path}`,
             languages: {
-                'en': `${baseUrl}/en${path}`,
-                'es': `${baseUrl}/es${path}`,
-                'pt': `${baseUrl}/pt${path}`,
-                'fr': `${baseUrl}/fr${path}`,
-                'x-default': `${baseUrl}/en${path}`,
+                'en': `${BASE_URL}/en${path}`,
+                'es': `${BASE_URL}/es${path}`,
+                'pt': `${BASE_URL}/pt${path}`,
+                'fr': `${BASE_URL}/fr${path}`,
+                'x-default': `${BASE_URL}/en${path}`,
             },
         },
         openGraph: {
@@ -63,7 +64,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 export default async function PrintablePage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
-    const { slug } = await params
+    const { slug, locale } = await params
     const pageData = await getPageData(slug)
     const t = await getTranslations('PrintablePage')
     const tData = await getTranslations('Data')
@@ -95,19 +96,19 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                 '@type': 'ListItem',
                 position: 1,
                 name: t('breadcrumbs.home'),
-                item: `${baseUrl}/${locale}`
+                item: `${BASE_URL}/${locale}`
             },
             {
                 '@type': 'ListItem',
                 position: 2,
                 name: t('breadcrumbs.directory'),
-                item: `${baseUrl}/${locale}/directory`
+                item: `${BASE_URL}/${locale}/directory`
             },
             {
                 '@type': 'ListItem',
                 position: 3,
                 name: translatedTitle,
-                item: `${baseUrl}/${locale}/printable/${slug}`
+                item: `${BASE_URL}/${locale}/printable/${slug}`
             }
         ]
     }
