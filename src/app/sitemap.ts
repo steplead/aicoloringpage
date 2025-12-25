@@ -61,9 +61,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const sitemapEntries: MetadataRoute.Sitemap = []
 
     for (const path of allPaths) {
-        // For each path, we generate valid URLs for all locales
-        const languages: Record<string, string> = {}
-
         // Construct the languages map first
         const languages: Record<string, string> = {
             'x-default': `${BASE_URL}/en${path === '' ? '' : path}`
@@ -81,7 +78,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                 changeFrequency: path === '' ? 'daily' : 'weekly',
                 priority: path === '' ? 1 : 0.8,
                 alternates: {
-                    languages: languages // Self-reference + all others
+                    languages: languages
                 }
             })
         }
