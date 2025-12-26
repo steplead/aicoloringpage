@@ -281,5 +281,27 @@
         "Beginners": "Beginners",
         "Intermediates": "Intermediates",
         "Experts": "Experts"
+    },
+    "PetPage": {
+        "metaTitle": "Free Pet Coloring Page Generator | Turn Dog & Cat Photos into Art",
+        "metaDescription": "Upload a photo of your dog, cat, or any pet and instantly convert it into a printable coloring page. Free AI tool.",
+        "title": "Pet Portrait Generator 🐾",
+        "subtitle": "Turn your pet's photo into a coloring page instantly.",
+        "uploadStep": "1. Upload Pet Photo",
+        "changeImage": "Click to change",
+        "clickUpload": "Click to upload",
+        "dragDrop": "or drag and drop",
+        "describeLabel": "Describe your pet (Optional)",
+        "describePlaceholder": "e.g. A fluffy golden retriever smiling",
+        "chooseStyle": "Choose Style",
+        "transforming": "Transforming...",
+        "generateBtn": "Generate Pet Page",
+        "resultStep": "2. Your Pet Coloring Page",
+        "drawing": "Drawing fur details...",
+        "waitingResult": "Pet portrait will appear here",
+        "print": "Print Page",
+        "download": "Download PDF",
+        "shareMsg": "Share your pet's portrait!",
+        "errorHelper": "An unexpected error occurred"
     }
 }

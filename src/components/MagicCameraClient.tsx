@@ -12,8 +12,8 @@ import { Header } from '@/components/Header'
 import { SocialShare } from '@/components/SocialShare'
 import { useTranslations } from 'next-intl'
 
-export default function MagicCameraClient() {
-    const t = useTranslations('MagicCamera')
+export default function MagicCameraClient({ translationNamespace = 'MagicCamera' }: { translationNamespace?: string }) {
+    const t = useTranslations(translationNamespace)
     const tHome = useTranslations('HomePage') // For styles
     const [selectedImage, setSelectedImage] = useState<string | null>(null)
     const [generatedImage, setGeneratedImage] = useState<string | null>(null)
