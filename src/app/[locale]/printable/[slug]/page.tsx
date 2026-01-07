@@ -3,15 +3,44 @@ import { notFound } from 'next/navigation'
 import { Header } from '@/components/Header'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Check, Download, Printer, Share2, Sparkles, Star } from 'lucide-react'
+import { ShareEmbedButton } from '@/components/ShareEmbedButton'
+import { Check, Download, Printer, Sparkles, Star } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import { supabase } from '@/lib/supabase'
+import seoPagesEn from '@/data/seo-pages.json'
+import seoPagesEs from '@/data/seo-pages-es.json'
+import seoPagesPt from '@/data/seo-pages-pt.json'
+import seoPagesFr from '@/data/seo-pages-fr.json'
 
 export const runtime = 'edge';
 
-// Helper to get specific page data
-async function getPageData(slug: string) {
+// Helper to get specific page data with multilingual support
+async function getPageData(slug: string, locale: string) {
     try {
+        // Select the appropriate data file based on locale
+        let seoPages: any[]
+        switch (locale) {
+            case 'es':
+                seoPages = seoPagesEs as any[]
+                break
+            case 'pt':
+                seoPages = seoPagesPt as any[]
+                break
+            case 'fr':
+                seoPages = seoPagesFr as any[]
+                break
+            default:
+                seoPages = seoPagesEn as any[]
+        }
+
+        // Find the page by slug
+        const pageData = seoPages.find((page: any) => page.slug === slug)
+
+        if (pageData) {
+            return pageData
+        }
+
+        // Fallback to database if not found in JSON
         const { data, error } = await supabase
             .from('seo_pages')
             .select('*')
@@ -21,7 +50,7 @@ async function getPageData(slug: string) {
         if (error) throw error
         return data
     } catch (e) {
-        console.error('Error reading DB data:', e)
+        console.error('Error reading page data:', e)
     }
     return null
 }
@@ -30,7 +59,7 @@ const BASE_URL = 'https://ai-coloringpage.com'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; locale: string }> }) {
     const { slug, locale } = await params
-    const pageData = await getPageData(slug)
+    const pageData = await getPageData(slug, locale)
 
     if (!pageData) {
         return {
@@ -65,7 +94,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function PrintablePage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
     const { slug, locale } = await params
-    const pageData = await getPageData(slug)
+    const pageData = await getPageData(slug, locale)
     const t = await getTranslations('PrintablePage')
     const tData = await getTranslations('Data')
 
@@ -78,12 +107,29 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
     const translatedAudience = tData.has(pageData.audience) ? tData(pageData.audience) : pageData.audience
     const translatedTitle = tData('titlePattern', { subject: translatedSubject, audience: translatedAudience })
 
-    // Generate random "related" pages for internal linking via DB
-    const { data: relatedPagesData } = await supabase
-        .from('seo_pages')
-        .select('*')
-        .neq('slug', slug)
-        .limit(4)
+    // Generate random "related" pages for internal linking via multilingual JSON
+    let relatedPagesData: any[] = []
+    let seoPages: any[]
+
+    switch (locale) {
+        case 'es':
+            seoPages = seoPagesEs as any[]
+            break
+        case 'pt':
+            seoPages = seoPagesPt as any[]
+            break
+        case 'fr':
+            seoPages = seoPagesFr as any[]
+            break
+        default:
+            seoPages = seoPagesEn as any[]
+    }
+
+    // Get 4 random pages excluding current
+    relatedPagesData = seoPages
+        .filter((page: any) => page.slug !== slug)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 4)
 
     const relatedPages = relatedPagesData || []
 
@@ -187,7 +233,7 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                                 {/* Simulated Coloring Page Image */}
                                 <img
                                     src={pageData.image_url}
-                                    alt={`Coloring page of ${translatedSubject} `}
+                                    alt={`Free printable ${translatedSubject} coloring page for ${translatedAudience}. High-quality black and white coloring sheet designed for ${translatedAudience}. Perfect for creativity and fun.`}
                                     className="object-contain max-h-full max-w-full p-4 hover:scale-105 transition-transform duration-500"
                                 />
                                 <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-600 shadow-sm border border-gray-100 flex items-center">
@@ -214,19 +260,11 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                                 {t('shareTitle')}
                             </h3>
                             <div className="flex gap-2">
-                                <Button variant="outline" size="sm" className="bg-white hover:bg-white/80">
-                                    Facebook
-                                </Button>
-                                <Button variant="outline" size="sm" className="bg-white hover:bg-white/80">
-                                    Pinterest
-                                </Button>
-                                <Button variant="outline" size="sm" className="bg-white hover:bg-white/80">
-                                    Twitter
-                                </Button>
-                                <Button variant="ghost" size="sm">
-                                    <Share2 className="w-4 h-4 mr-2" />
-                                    Copy Link
-                                </Button>
+                                <ShareEmbedButton
+                                    imageUrl={pageData.image_url}
+                                    title={translatedTitle}
+                                    pageUrl={`${BASE_URL}/${locale}/printable/${slug}`}
+                                />
                             </div>
                         </div>
                     </div>

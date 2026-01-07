@@ -13,9 +13,11 @@ import { Download, Sparkles, Loader2, Image as ImageIcon, BookOpen, Plus, Trash2
 import { useSearchParams } from 'next/navigation'
 import { Suspense } from 'react'
 import { useTranslations } from 'next-intl'
+import { useLocale } from 'next-intl'
 
 function HomeContent() {
     const t = useTranslations('HomePage')
+    const locale = useLocale()
     const searchParams = useSearchParams()
     const initialPrompt = searchParams.get('prompt') || ''
 

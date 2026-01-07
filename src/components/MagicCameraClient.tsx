@@ -10,11 +10,12 @@ import Image from 'next/image'
 import { generateImage } from '@/app/actions/gen-img'
 import { Header } from '@/components/Header'
 import { SocialShare } from '@/components/SocialShare'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 
 export default function MagicCameraClient({ translationNamespace = 'MagicCamera' }: { translationNamespace?: string }) {
     const t = useTranslations(translationNamespace)
     const tHome = useTranslations('HomePage') // For styles
+    const locale = useLocale()
     const [selectedImage, setSelectedImage] = useState<string | null>(null)
     const [generatedImage, setGeneratedImage] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
@@ -113,7 +114,7 @@ export default function MagicCameraClient({ translationNamespace = 'MagicCamera'
                     <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
                         {t('title')}
                     </h1>
-                    <p className="text-xl text-gray-600">
+                    <p className="text-xl text-gray-600 mb-4">
                         {t('subtitle')}
                     </p>
                 </div>

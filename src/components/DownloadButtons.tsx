@@ -42,7 +42,7 @@ export function DownloadButtons({ imageUrl, title }: DownloadButtonsProps) {
                         </style>
                     </head>
                     <body>
-                        <img src="${imageUrl}" onload="window.print();window.close()" />
+                        <img src="${imageUrl}" alt="${title} coloring page" onload="window.print();window.close()" />
                     </body>
                 </html>
             `)

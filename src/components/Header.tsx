@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Link } from '@/i18n/routing'
 import Image from 'next/image'
-import { Camera, BookOpen, Menu, X } from 'lucide-react'
+import { Camera, BookOpen, Menu, X, BarChart3 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 
@@ -80,6 +80,10 @@ export function Header() {
                     <Link href="/blog" className="text-sm font-medium text-gray-600 hover:text-black" prefetch={false}>
                         {t('blog')}
                     </Link>
+                    <Link href="/statistics" className="text-sm font-medium text-gray-600 hover:text-black flex items-center gap-1" prefetch={false}>
+                        <BarChart3 className="w-4 h-4" />
+                        Statistics
+                    </Link>
                     <Link href="/create/photo" className="text-sm font-medium text-purple-600 hover:text-purple-700 flex items-center gap-1" prefetch={false}>
                         <Camera className="w-4 h-4" />
                         {t('magicCamera')}
@@ -116,6 +120,10 @@ export function Header() {
                     </div>
                     <Link href="/blog" className="text-sm font-medium p-2 hover:bg-gray-100 rounded-md" onClick={() => setIsMenuOpen(false)} prefetch={false}>
                         {t('blog')}
+                    </Link>
+                    <Link href="/statistics" className="text-sm font-medium p-2 hover:bg-gray-100 rounded-md flex items-center gap-2" onClick={() => setIsMenuOpen(false)} prefetch={false}>
+                        <BarChart3 className="w-4 h-4" />
+                        Statistics
                     </Link>
                     <Link href="/create/photo" className="text-sm font-medium text-purple-600 p-2 hover:bg-purple-50 rounded-md flex items-center gap-2" onClick={() => setIsMenuOpen(false)} prefetch={false}>
                         <Camera className="w-4 h-4" />

@@ -8,10 +8,11 @@ import { Textarea } from '@/components/ui/textarea'
 import { Loader2, BookOpen, Sparkles, Download, Printer } from 'lucide-react'
 import Image from 'next/image'
 import { SocialShare } from '@/components/SocialShare'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 
 export default function StoryModeClient() {
     const t = useTranslations('StoryMode')
+    const locale = useLocale()
     const [step, setStep] = useState(1)
     const [loading, setLoading] = useState(false)
 
@@ -93,7 +94,7 @@ export default function StoryModeClient() {
                     <BookOpen className="w-10 h-10 text-purple-600" />
                     {t('title')}
                 </h1>
-                <p className="text-xl text-gray-600">{t('subtitle')}</p>
+                <p className="text-xl text-gray-600 mb-4">{t('subtitle')}</p>
             </div>
 
             {/* Step 1: Define Character */}
