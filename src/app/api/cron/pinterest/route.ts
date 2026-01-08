@@ -10,7 +10,10 @@ const PINTEREST_ACCESS_TOKEN = process.env.PINTEREST_ACCESS_TOKEN;
 const PINTEREST_BOARD_ID = process.env.PINTEREST_BOARD_ID;
 const GOOGLE_API_KEY = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+// CRON SECRET for authentication
+const CRON_SECRET = process.env.CRON_SECRET;
 
 // Types
 interface PageData {
@@ -25,7 +28,7 @@ interface PageData {
 // ----------------------------------------------------------------------------
 
 async function generateImage(prompt: string) {
-    const model = 'gemini-2.0-flash-exp'; // Using the latest fast model
+    const model = 'gemini-2.0-flash-exp';
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GOOGLE_API_KEY}`;
 
     const styles = ['kawaii', 'intricate', 'realistic', 'stained-glass', 'abstract', 'fantasy'];
@@ -54,16 +57,16 @@ async function generateImage(prompt: string) {
     }
 
     const fullPrompt = `Generate a black and white coloring page of ${prompt}.
-        
+
     CRITICAL INSTRUCTIONS:
     1. OUTPUT MUST BE PURE LINE ART ONLY.
     2. NO SHADING, NO GREYSCALE, NO GRADIENTS.
     3. Do not include any text.
     ${simplifyInstruction}
-    
+
     SPECIFIC STYLE INSTRUCTIONS:
     - ${styleInstructions}
-    
+
     Ensure the image is a high-quality, printable coloring page.`;
 
     const response = await fetch(url, {
@@ -114,15 +117,30 @@ async function postToPinterest(imageUrl: string, title: string, description: str
 // ----------------------------------------------------------------------------
 
 export async function GET(req: NextRequest) {
-    // 0. Environment Check
-    if (!PINTEREST_ACCESS_TOKEN || !SUPABASE_URL || !SUPABASE_KEY) {
+    // 0. CRITICAL: Cron secret verification
+    if (!CRON_SECRET) {
+        return NextResponse.json({ error: 'CRON_SECRET not configured' }, { status: 500 });
+    }
+
+    // Verify cron secret from header or query parameter
+    const authHeader = req.headers.get('authorization');
+    const querySecret = req.nextUrl.searchParams.get('secret');
+
+    const providedSecret = authHeader?.replace('Bearer ', '') || querySecret;
+
+    if (providedSecret !== CRON_SECRET) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // 1. Environment Check
+    if (!PINTEREST_ACCESS_TOKEN || !SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
         return NextResponse.json({ error: 'Missing environment variables' }, { status: 500 });
     }
 
-    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
     try {
-        // 1. Check Daily Limit (Reset at midnight UTC)
+        // 2. Check Daily Limit (Reset at midnight UTC)
         const today = new Date().toISOString().split('T')[0];
         const { count, error: countError } = await supabase
             .from('seo_pages')
@@ -137,9 +155,7 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ message: 'Daily limit reached', count });
         }
 
-        // 2. Select a Random Unposted Page
-        // We do this by picking a random index and checking if it's posted.
-        // To avoid infinite loops, we try max 10 times.
+        // 3. Select a Random Unposted Page
         let selectedPage: PageData | null = null;
         const totalPages = pagesData.length;
         let attempts = 0;
@@ -156,7 +172,7 @@ export async function GET(req: NextRequest) {
                 .single();
 
             if (!data) {
-                selectedPage = candidate; // It's not in the posted DB!
+                selectedPage = candidate;
             }
             attempts++;
         }
@@ -165,13 +181,11 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ message: 'Could not find unposted page after attempts' }, { status: 404 });
         }
 
-        // 3. Generate Image
+        // 4. Generate Image
         const base64Image = await generateImage(selectedPage.prompt);
         if (!base64Image) throw new Error('Failed to generate image');
 
         // Convert to Buffer/Blob for upload
-        // In Edge, we can output base64 directly or convert to Blob. 
-        // Supabase expects Blob or Uint8Array.
         const binaryString = atob(base64Image);
         const len = binaryString.length;
         const bytes = new Uint8Array(len);
@@ -179,8 +193,8 @@ export async function GET(req: NextRequest) {
             bytes[i] = binaryString.charCodeAt(i);
         }
 
-        // 4. Upload to Supabase
-        const fileName = `${selectedPage.slug}-${Date.now()}.png`; // Use PNG as raw output
+        // 5. Upload to Supabase
+        const fileName = `${selectedPage.slug}-${Date.now()}.png`;
         const { error: uploadError } = await supabase
             .storage
             .from('seo-images')
@@ -193,11 +207,11 @@ export async function GET(req: NextRequest) {
             .from('seo-images')
             .getPublicUrl(fileName);
 
-        // 5. Post to Pinterest
+        // 6. Post to Pinterest
         const link = `https://ai-coloringpage.com/printable/${selectedPage.slug}`;
         await postToPinterest(publicUrl, selectedPage.title, selectedPage.description, link);
 
-        // 6. Record in DB
+        // 7. Record in DB
         const { error: dbError } = await supabase
             .from('seo_pages')
             .upsert({

@@ -1,0 +1,16 @@
+# robots.txt for AI Coloring Page
+# https://ai-coloringpage.com
+
+User-agent: *
+Allow: /
+
+# Disallow API endpoints
+Disallow: /api/
+Disallow: /create/
+
+# Disadmin admin/development routes
+Disallow: /_next/
+Disallow: /rt-test
+
+# Sitemap location
+Sitemap: https://ai-coloringpage.com/sitemap.xml

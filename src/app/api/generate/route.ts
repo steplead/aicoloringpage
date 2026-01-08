@@ -1,17 +1,68 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateContent } from '@/lib/gemini-client';
+import { getClientIp, checkRateLimit } from '@/lib/rate-limit';
 
 export const runtime = 'edge';
 
+// Rate limiting: 10 requests per minute per IP
+const RATE_LIMIT = 10;
+const RATE_WINDOW_MS = 60000; // 1 minute
+
 export async function POST(req: NextRequest) {
     try {
+        // 1. Rate limiting check
+        const ip = getClientIp(req);
+        const rateLimitResult = checkRateLimit(ip, RATE_LIMIT, RATE_WINDOW_MS);
+
+        if (!rateLimitResult.allowed) {
+            return NextResponse.json({
+                success: false,
+                error: 'Rate limit exceeded',
+                message: `Too many requests. Please try again later.`,
+                retryAfter: Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000)
+            }, {
+                status: 429,
+                headers: {
+                    'X-RateLimit-Limit': RATE_LIMIT.toString(),
+                    'X-RateLimit-Remaining': '0',
+                    'X-RateLimit-Reset': new Date(rateLimitResult.resetTime).toISOString(),
+                    'Retry-After': Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000).toString()
+                }
+            });
+        }
+
+        // 2. API Key check
         const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
         if (!apiKey) {
             return NextResponse.json({ success: false, error: 'API Key missing on server' }, { status: 500 });
         }
 
+        // 3. Validate and sanitize input
         const body = await req.json();
         const { prompt, style = 'kawaii', image } = body;
+
+        // Input validation
+        if (!prompt && !image) {
+            return NextResponse.json({ success: false, error: 'Prompt or image is required' }, { status: 400 });
+        }
+
+        if (prompt && typeof prompt !== 'string') {
+            return NextResponse.json({ success: false, error: 'Invalid prompt format' }, { status: 400 });
+        }
+
+        if (prompt && prompt.length > 500) {
+            return NextResponse.json({ success: false, error: 'Prompt too long (max 500 characters)' }, { status: 400 });
+        }
+
+        if (image && typeof image !== 'string') {
+            return NextResponse.json({ success: false, error: 'Invalid image format' }, { status: 400 });
+        }
+
+        // Allowed styles whitelist
+        const allowedStyles = ['kawaii', 'intricate', 'stained-glass', 'abstract', 'fantasy', 'realistic'];
+        if (!allowedStyles.includes(style)) {
+            return NextResponse.json({ success: false, error: 'Invalid style' }, { status: 400 });
+        }
 
         let styleInstructions = "";
         let simplifyInstruction = "";
@@ -74,30 +125,30 @@ export async function POST(req: NextRequest) {
         if (image) {
             fullPrompt = `Create a clean, black-and-white line art coloring page based on this image.
             Subject: ${prompt || "the main subject of the photo"}.
-            
+
             CRITICAL INSTRUCTIONS:
             1. OUTPUT MUST BE PURE LINE ART ONLY.
             2. NO SHADING, NO GREYSCALE, NO GRADIENTS.
             ${simplifyInstruction}
             4. KEEP ALL MAIN SUBJECTS (People, Animals, Objects). Only remove distant background clutter.
-            
+
             SPECIFIC STYLE INSTRUCTIONS:
             ${styleInstructions}
-            
+
             Convert the photo into a coloring page matching this style perfectly.`;
         } else {
             // Text-to-Image Prompt
             fullPrompt = `Generate a black and white coloring page of ${prompt}.
-            
+
             CRITICAL INSTRUCTIONS:
             1. OUTPUT MUST BE PURE LINE ART ONLY.
             2. NO SHADING, NO GREYSCALE, NO GRADIENTS.
             3. Do not include any text in the image.
             ${simplifyInstruction}
-            
+
             SPECIFIC STYLE INSTRUCTIONS:
             ${styleInstructions}
-            
+
             Ensure the image is a high-quality, printable coloring page.`;
         }
 
@@ -128,7 +179,17 @@ export async function POST(req: NextRequest) {
 
         if (imagePart) {
             const base64Image = imagePart.inlineData.data;
-            return NextResponse.json({ success: true, data: [`data:image/png;base64,${base64Image}`] });
+
+            // Add rate limit headers to successful response
+            const response = NextResponse.json({
+                success: true,
+                data: [`data:image/png;base64,${base64Image}`]
+            });
+            response.headers.set('X-RateLimit-Limit', RATE_LIMIT.toString());
+            response.headers.set('X-RateLimit-Remaining', rateLimitResult.remaining.toString());
+            response.headers.set('X-RateLimit-Reset', new Date(rateLimitResult.resetTime).toISOString());
+
+            return response;
         }
 
         // If we got here, the model returned text instead of an image

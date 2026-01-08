@@ -28,11 +28,35 @@ export default function middleware(request: NextRequest) {
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set('X-NEXT-INTL-LOCALE', locale);
 
-    return NextResponse.next({
+    const response = NextResponse.next({
         request: {
             headers: requestHeaders
         }
     });
+
+    // Security Headers
+    // Prevent clickjacking
+    response.headers.set('X-Frame-Options', 'SAMEORIGIN');
+
+    // Prevent MIME type sniffing
+    response.headers.set('X-Content-Type-Options', 'nosniff');
+
+    // Enable XSS protection (legacy browsers)
+    response.headers.set('X-XSS-Protection', '1; mode=block');
+
+    // Referrer policy for privacy
+    response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+
+    // Permissions policy (restrict features)
+    response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+
+    // Content Security Policy (basic, allow inline scripts for Next.js)
+    response.headers.set(
+        'Content-Security-Policy',
+        "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.google.com *.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: *.supabase.co *.unsplash.com https:; font-src 'self' data:; connect-src 'self' *.google.com *.googleapis.com *.supabase.co; frame-ancestors 'self';"
+    );
+
+    return response;
 }
 
 export const config = {
