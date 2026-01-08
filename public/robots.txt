@@ -1,16 +1,34 @@
 # robots.txt for AI Coloring Page
 # https://ai-coloringpage.com
+# Protocol 5: Protect crawl budget and block bad bots
 
+# Allow all good crawlers
 User-agent: *
 Allow: /
+Crawl-delay: 1
 
-# Disallow API endpoints
+# Disallow API and internal endpoints
 Disallow: /api/
 Disallow: /create/
-
-# Disadmin admin/development routes
 Disallow: /_next/
 Disallow: /rt-test
 
-# Sitemap location
+# Block aggressive SEO tools (Protocol 5)
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+# Block unwanted crawlers
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+# Sitemap location (Protocol 2)
 Sitemap: https://ai-coloringpage.com/sitemap.xml

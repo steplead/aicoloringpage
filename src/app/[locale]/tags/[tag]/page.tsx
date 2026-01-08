@@ -3,7 +3,8 @@ import Image from 'next/image'
 import { Header } from '@/components/Header'
 import { Card } from '@/components/ui/card'
 import seoPages from '@/data/seo-pages.json'
-import { TAGS, getTagsForPage, type PageData } from '@/lib/categories'
+import { TAGS, getTagsForPage, getCategoryForPage, type PageData } from '@/lib/categories'
+import { generateCategoryPageSchema } from '@/lib/schema-org'
 
 // Cannot use runtime = 'edge' with generateStaticParams
 // export const runtime = 'edge'
@@ -51,14 +52,34 @@ export default async function TagPage({ params }: { params: Promise<{ locale: st
     return tags.includes(tag)
   })
 
+  // Generate Schema.org structured data
+  const schemaData = generateCategoryPageSchema({
+    name: `${tagData.name} Coloring Pages`,
+    description: tagData.description,
+    count: pages.length,
+    url: `https://ai-coloringpage.com/tags/${tag}`,
+    breadcrumbs: [
+      { name: 'Home', url: 'https://ai-coloringpage.com/' },
+      { name: 'Tags', url: 'https://ai-coloringpage.com/tags' },
+      { name: tagData.name, url: `https://ai-coloringpage.com/tags/${tag}` }
+    ]
+  })
+
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
       <Header />
 
+      {/* Schema.org JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
+
       <main className="container mx-auto px-4 py-12">
         {/* Protocol 2: Tag Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
+          {/* Video: H1 must have id attribute */}
+          <h1 id={tag} className="text-4xl font-extrabold text-gray-900 mb-4">
             {tagData.name} Coloring Pages
           </h1>
           <p className="text-lg text-gray-600">
@@ -72,14 +93,14 @@ export default async function TagPage({ params }: { params: Promise<{ locale: st
         {/* Protocol 2: Classified Listing Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {pages.map((page) => {
-            const category = page.subject.toLowerCase()
+            const category = getCategoryForPage(page) || 'uncategorized'
             return (
               <Card key={page.slug} className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                 <Link href={`/${locale}/categories/${category}/${page.slug}`} prefetch={false}>
                   <div className="aspect-square bg-white p-2">
                     <Image
                       src={page.image_url}
-                      alt={page.title}
+                      alt={`${page.subject} coloring page for ${page.audience.toLowerCase()} - ${page.style} style`}
                       width={200}
                       height={200}
                       className="w-full h-full object-contain"
