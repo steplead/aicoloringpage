@@ -26,10 +26,48 @@ async function getAllPages() {
     return []
 }
 
+// Dynamic blog posts fetch (Protocol 3: Avoid hardcoded data)
+async function getAllBlogPosts(): Promise<string[]> {
+    const blogSlugs = new Set<string>()
+
+    for (const locale of LOCALES) {
+        try {
+            const blogData = await import(`@/data/blog-posts.${locale}.json`)
+            const posts = blogData.default || []
+            posts.forEach((post: any) => {
+                blogSlugs.add(post.slug)
+            })
+        } catch (error) {
+            console.error(`Failed to load blog posts for ${locale}:`, error)
+        }
+    }
+
+    return Array.from(blogSlugs)
+}
+
+// Protocol 5: Smart pruning instead of arbitrary cutoff
+// "If a page has 0 Traffic and 0 Impressions for >6 Months: Prune it"
+function shouldIndexPage(page: any): boolean {
+    const pageAge = Date.now() - new Date(page.created_at).getTime()
+    const sixMonths = 180 * 24 * 60 * 60 * 1000 // 6 months in ms
+
+    // Keep pages that are:
+    // - Less than 6 months old (give them a chance)
+    // - OR would have >0 impressions (we'd track this in GSC)
+    // For now, we index everything since we don't have impression data
+    if (pageAge < sixMonths) return true
+
+    // TODO: Later, integrate with GSC API to check impressions
+    // if (page.impressions > 0) return true
+
+    return true // Index all for now
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const allPages = await getAllPages()
-    // SAFETY LIMIT: Only index the top 1000 pages initially
-    const pages = allPages.slice(0, 1000)
+
+    // Protocol 5: Smart filtering instead of slice(0, 1000)
+    const pages = allPages.filter(shouldIndexPage)
 
     // Base Routes (Static)
     const routes = [
@@ -44,18 +82,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         '/terms'
     ]
 
-    // Blog Posts (Hardcoded for now, should likely fetch from DB/FS later)
-    const blogPosts = [
-        'benefits-of-coloring-for-adults',
-        'how-to-print-coloring-pages',
-        'best-markers-for-coloring'
-    ]
+    // Blog Posts (Dynamic - Protocol 3 compliance)
+    const blogPosts = await getAllBlogPosts()
     const blogRoutes = blogPosts.map(slug => `/blog/${slug}`)
+
+    // Protocol 2: Add categories, tags, and A-Z index paths
+    const categories = ['animals', 'characters', 'holidays', 'nature', 'vehicles']
+    const categoryRoutes = categories.map(cat => `/categories/${cat}`)
+
+    const tags = ['easy', 'difficult', 'preschool', 'kindergarten', 'adult', 'teen',
+                  'free', 'printable', 'educational', 'fun', 'fantasy', 'realistic',
+                  'cartoon', 'seasonal', 'beginner', 'intermediate', 'advanced', 'detailed']
+    const tagRoutes = tags.map(tag => `/tags/${tag}`)
+
+    const letters = 'abcdefghijklmnopqrstuvwxyz'.split('')
+    const azRoutes = letters.map(letter => `/directory/a-z/${letter}`)
 
     // Combine all abstract paths
     const allPaths = [
         ...routes,
         ...blogRoutes,
+        ...categoryRoutes,
+        ...tagRoutes,
+        ...azRoutes,
         ...pages.map((page: any) => `/printable/${page.slug}`)
     ]
 

@@ -20,7 +20,7 @@ const nextConfig: any = {
       },
     ],
   },
-  trailingSlash: false,
+  trailingSlash: true, // Protocol 3: Consistency prevents duplicate content
 };
 
 export default withNextIntl(nextConfig);
