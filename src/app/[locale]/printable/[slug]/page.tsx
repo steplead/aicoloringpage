@@ -235,6 +235,8 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                                     src={pageData.image_url}
                                     alt={`Free printable ${translatedSubject} coloring page for ${translatedAudience}. High-quality black and white coloring sheet designed for ${translatedAudience}. Perfect for creativity and fun.`}
                                     className="object-contain max-h-full max-w-full p-4 hover:scale-105 transition-transform duration-500"
+                                    fetchPriority="high"
+                                    decoding="async"
                                 />
                                 <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-600 shadow-sm border border-gray-100 flex items-center">
                                     <Sparkles className="w-3 h-3 mr-1 text-yellow-500" />
@@ -340,6 +342,8 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                                                 src={page.image_url}
                                                 alt={pTitle}
                                                 className="max-h-full opacity-80 group-hover:opacity-100 transition-opacity"
+                                                loading="lazy"
+                                                decoding="async"
                                             />
                                         </div>
                                         <div className="p-4">
