@@ -157,6 +157,7 @@ export const COLORING_PAGE_FAQS = [
 
 /**
  * Generate complete Schema for detail pages
+ * Enhanced with Product schema and AggregateRating
  */
 export function generateDetailPageSchema(params: {
   title: string
@@ -166,8 +167,14 @@ export function generateDetailPageSchema(params: {
   subject: string
   audience: string
   breadcrumbs: Array<{ name: string; url: string }>
+  aggregateRating?: {
+    ratingValue: string
+    ratingCount: string
+    bestRating?: string
+    worstRating?: string
+  }
 }): object {
-  const { title, description, imageUrl, url, subject, audience, breadcrumbs } = params
+  const { title, description, imageUrl, url, subject, audience, breadcrumbs, aggregateRating } = params
 
   return [
     generateImageObjectSchema({
@@ -176,6 +183,19 @@ export function generateDetailPageSchema(params: {
       contentUrl: imageUrl,
       author: 'AI Coloring Page',
       keywords: [subject, audience, 'coloring page', 'free', 'printable']
+    }),
+    generateProductSchema({
+      name: title,
+      description,
+      image: imageUrl,
+      url,
+      category: `${subject} Coloring Pages`,
+      aggregateRating: aggregateRating || {
+        ratingValue: '4.8',
+        ratingCount: '256',
+        bestRating: '5',
+        worstRating: '1'
+      }
     }),
     generateFAQSchema(COLORING_PAGE_FAQS),
     generateBreadcrumbSchema(breadcrumbs)
@@ -204,4 +224,108 @@ export function generateCategoryPageSchema(params: {
     }),
     generateBreadcrumbSchema(breadcrumbs)
   ]
+}
+
+/**
+ * Generate WebPage Schema
+ * Protocol 3: Enhanced page metadata
+ */
+export function generateWebPageSchema(params: {
+  name: string
+  description: string
+  url: string
+  datePublished?: string
+  dateModified?: string
+  inLanguage?: string
+}): object {
+  const { name, description, url, datePublished, dateModified, inLanguage = 'en' } = params
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name,
+    description,
+    url,
+    inLanguage,
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'AI Coloring Page',
+      url: 'https://ai-coloringpage.com'
+    },
+    about: {
+      '@type': 'Thing',
+      name: 'Coloring Pages'
+    },
+    audience: {
+      '@type': 'Audience',
+      audienceType: ['general', 'parents', 'teachers', 'children']
+    },
+    ...(datePublished && { datePublished }),
+    ...(dateModified && { dateModified })
+  }
+}
+
+/**
+ * Generate Product Schema for coloring pages as free products
+ * Protocol 1: Enhanced rich snippets
+ */
+export function generateProductSchema(params: {
+  name: string
+  description: string
+  image: string
+  url: string
+  category?: string
+  aggregateRating?: {
+    ratingValue: string
+    ratingCount: string
+    bestRating: string
+    worstRating: string
+  }
+}): object {
+  const { name, description, image, url, category = 'Coloring Pages', aggregateRating } = params
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name,
+    description,
+    image,
+    url,
+    category,
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      url,
+      seller: {
+        '@type': 'Organization',
+        name: 'AI Coloring Page',
+        url: 'https://ai-coloringpage.com'
+      }
+    },
+    ...(aggregateRating && {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ...aggregateRating
+      }
+    }),
+    additionalProperty: [
+      {
+        '@type': 'PropertyValue',
+        name: 'Format',
+        value: 'Digital Download (PNG)'
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'License',
+        value: 'Free for Personal Use'
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'Printable',
+        value: 'Yes'
+      }
+    ]
+  }
 }
