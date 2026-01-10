@@ -9,12 +9,23 @@ import type { NextRequest } from 'next/server';
 export default function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
+    // Skip middleware for API routes, static files, and Next.js internals
+    if (
+        pathname.startsWith('/api') ||
+        pathname.startsWith('/_next') ||
+        pathname.startsWith('/_vercel') ||
+        pathname.includes('.')
+    ) {
+        return NextResponse.next();
+    }
+
     // Manual 'as-needed' routing logic for Cloudflare Edge compatibility
     const locales = ['en', 'es', 'pt', 'fr'];
     const localeMatch = pathname.match(/^\/([a-z]{2})(\/|$)/);
     const isLocalized = localeMatch && locales.includes(localeMatch[1]);
 
-    // If path is not localized (e.g. /blog), redirect to default locale (/en/blog)
+    // If path is not localized (e.g. /blog or /blog/), redirect to default locale (/en/blog or /en/blog/)
+    // Note: trailingSlash is handled by Next.js config, not middleware
     // We use a permanent redirect (308) to help Google consolidate indexing
     if (!isLocalized) {
         const url = new URL(request.url);
@@ -60,6 +71,13 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-    // Match only internationalized pathnames
-    matcher: ['/((?!api|_next|_vercel|.*\\..*).*)']
+    // Match all pathnames except:
+    // - api routes
+    // - _next (Next.js internals)
+    // - _vercel (Vercel internals)
+    // - static files (files with extensions)
+    matcher: [
+        // Match all paths except those starting with api, _next, _vercel, or containing a dot
+        '/((?!api|_next|_vercel|.*\\..*).*)',
+    ]
 };
