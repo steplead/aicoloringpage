@@ -329,3 +329,180 @@ export function generateProductSchema(params: {
     ]
   }
 }
+
+/**
+ * Generate Blog Schema for blog listing page
+ * Protocol 1: Enhanced blog content visibility
+ */
+export function generateBlogSchema(params: {
+  name: string
+  description: string
+  url: string
+  posts?: Array<{
+    title: string
+    url: string
+    datePublished: string
+    image?: string
+    description?: string
+  }>
+}): object {
+  const { name, description, url, posts = [] } = params
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name,
+    description,
+    url,
+    publisher: {
+      '@type': 'Organization',
+      name: 'AI Coloring Page',
+      url: 'https://ai-coloringpage.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://ai-coloringpage.com/icon.png'
+      }
+    },
+    ...(posts.length > 0 && {
+      blogPost: posts.slice(0, 10).map(post => ({
+        '@type': 'BlogPosting',
+        headline: post.title,
+        url: post.url,
+        datePublished: post.datePublished,
+        ...(post.image && { image: post.image }),
+        ...(post.description && { description: post.description }),
+        author: {
+          '@type': 'Organization',
+          name: 'AI Coloring Page'
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: 'AI Coloring Page',
+          logo: {
+            '@type': 'ImageObject',
+            url: 'https://ai-coloringpage.com/icon.png'
+          }
+        }
+      }))
+    })
+  }
+}
+
+/**
+ * Generate BlogPosting Schema for individual blog post
+ * Protocol 1: Long-tail keyword optimization
+ */
+export function generateBlogPostingSchema(params: {
+  title: string
+  description: string
+  url: string
+  image: string
+  datePublished: string
+  dateModified?: string
+  author?: string
+  keywords?: string[]
+}): object {
+  const { title, description, url, image, datePublished, dateModified, author = 'AI Coloring Page Team', keywords } = params
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: title,
+    description,
+    image: {
+      '@type': 'ImageObject',
+      url: image
+    },
+    datePublished,
+    ...(dateModified && { dateModified }),
+    author: {
+      '@type': 'Organization',
+      name: author,
+      url: 'https://ai-coloringpage.com'
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'AI Coloring Page',
+      url: 'https://ai-coloringpage.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://ai-coloringpage.com/icon.png'
+      }
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': url
+    },
+    ...(keywords && { keywords: keywords.join(', ') })
+  }
+}
+
+/**
+ * Generate About Page Schema with Organization and WebPage
+ * Protocol 1: Enhanced E-E-A-T signals
+ */
+export function generateAboutPageSchema(params: {
+  name: string
+  description: string
+  url: string
+  foundingDate?: string
+  founders?: string[]
+  sameAs?: string[]
+  areaServed?: string
+}): object {
+  const { name, description, url, foundingDate, founders, sameAs, areaServed } = params
+
+  return [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: `About ${name}`,
+      url,
+      description,
+      inLanguage: 'en',
+      isPartOf: {
+        '@type': 'WebSite',
+        name: 'AI Coloring Page',
+        url: 'https://ai-coloringpage.com'
+      },
+      about: {
+        '@type': 'Organization',
+        name,
+        description
+      },
+      audience: {
+        '@type': 'Audience',
+        audienceType: ['general', 'parents', 'teachers', 'children']
+      }
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name,
+      legalName: 'AI Coloring Page',
+      url,
+      description,
+      logo: 'https://ai-coloringpage.com/icon.png',
+      ...(foundingDate && { foundingDate }),
+      ...(founders && { founders: founders.map(name => ({ '@type': 'Person', name })) }),
+      sameAs: sameAs || [
+        'https://twitter.com/aicoloringpage',
+        'https://pinterest.com/aicoloringpage'
+      ],
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'customer service',
+        email: 'support@ai-coloringpage.com',
+        availableLanguage: ['English', 'Spanish', 'Portuguese', 'French']
+      },
+      areaServed: areaServed || 'Worldwide',
+      knowsAbout: [
+        'Coloring Pages',
+        'Printable Activities',
+        'Children Education',
+        'AI Image Generation',
+        'Educational Resources'
+      ]
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import { Header } from '@/components/Header'
 import { Calendar, User, ArrowLeft } from 'lucide-react'
 import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
+import { generateBlogPostingSchema } from '@/lib/schema-org'
 
 // Import blog data directly for Edge compatibility
 import blogPostsEn from '@/data/blog-posts.en.json'
@@ -52,9 +53,25 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         notFound()
     }
 
+    // Generate BlogPosting Schema.org structured data
+    const blogPostingSchema = generateBlogPostingSchema({
+        title: post.title,
+        description: post.excerpt,
+        url: `https://ai-coloringpage.com/blog/${slug}`,
+        image: post.image_url,
+        datePublished: post.date,
+        keywords: post.tags || ['coloring pages', 'printable activities', 'kids crafts']
+    })
+
     return (
         <div className="min-h-screen bg-gray-50 font-sans">
             <Header />
+
+            {/* BlogPosting Schema.org JSON-LD */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
+            />
 
             <main className="container mx-auto px-4 py-12">
                 <div className="max-w-3xl mx-auto">

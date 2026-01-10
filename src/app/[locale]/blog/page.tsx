@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Calendar, User } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
+import { generateBlogSchema } from '@/lib/schema-org'
 
 // Import blog data directly for Edge compatibility
 import blogPostsEn from '@/data/blog-posts.en.json'
@@ -46,9 +47,29 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
     const posts = getPosts(locale)
     const t = await getTranslations('BlogPage')
 
+    // Generate Blog Schema.org structured data
+    const blogSchema = generateBlogSchema({
+        name: t('metaTitle'),
+        description: t('metaDescription'),
+        url: 'https://ai-coloringpage.com/blog',
+        posts: posts.slice(0, 10).map((post: any) => ({
+            title: post.title,
+            url: `https://ai-coloringpage.com/blog/${post.slug}`,
+            datePublished: post.date,
+            image: post.image_url,
+            description: post.excerpt
+        }))
+    })
+
     return (
         <div className="min-h-screen bg-gray-50 font-sans">
             <Header />
+
+            {/* Blog Schema.org JSON-LD */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
+            />
 
             <main className="container mx-auto px-4 py-12">
                 <div className="text-center max-w-3xl mx-auto mb-12">
