@@ -34,9 +34,21 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     if (!post) return { title: 'Post Not Found' }
 
+    const path = `/blog/${slug}`
+
     return {
         title: `${post.title} - AI Coloring Page Blog`,
         description: post.excerpt,
+        alternates: {
+            canonical: `https://ai-coloringpage.com/${locale}${path}`,
+            languages: {
+                'en': `https://ai-coloringpage.com/en${path}`,
+                'es': `https://ai-coloringpage.com/es${path}`,
+                'pt': `https://ai-coloringpage.com/pt${path}`,
+                'fr': `https://ai-coloringpage.com/fr${path}`,
+                'x-default': `https://ai-coloringpage.com/en${path}`,
+            },
+        },
         openGraph: {
             images: [post.image_url]
         }

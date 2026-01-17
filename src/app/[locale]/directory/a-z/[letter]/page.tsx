@@ -18,11 +18,23 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; letter: string }> }) {
-  const { letter } = await params
+  const { letter, locale } = await params
+
+  const path = `/directory/a-z/${letter}`
 
   return {
     title: `Coloring Pages Starting with '${letter.toUpperCase()}'`,
     description: `Browse all coloring pages that start with the letter ${letter.toUpperCase()}`,
+    alternates: {
+      canonical: `https://ai-coloringpage.com/${locale}${path}`,
+      languages: {
+        'en': `https://ai-coloringpage.com/en${path}`,
+        'es': `https://ai-coloringpage.com/es${path}`,
+        'pt': `https://ai-coloringpage.com/pt${path}`,
+        'fr': `https://ai-coloringpage.com/fr${path}`,
+        'x-default': `https://ai-coloringpage.com/en${path}`,
+      },
+    },
     openGraph: {
       title: `${letter.toUpperCase()} Coloring Pages`,
       description: `Free printable coloring pages starting with ${letter.toUpperCase()}`,

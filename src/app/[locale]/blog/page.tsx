@@ -33,6 +33,16 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     return {
         title: t('metaTitle'),
         description: t('metaDescription'),
+        alternates: {
+            canonical: `https://ai-coloringpage.com/${locale}/blog`,
+            languages: {
+                'en': `https://ai-coloringpage.com/en/blog`,
+                'es': `https://ai-coloringpage.com/es/blog`,
+                'pt': `https://ai-coloringpage.com/pt/blog`,
+                'fr': `https://ai-coloringpage.com/fr/blog`,
+                'x-default': `https://ai-coloringpage.com/en/blog`,
+            },
+        },
         openGraph: {
             title: t('metaTitle'),
             description: t('metaDescription'),

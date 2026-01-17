@@ -1,29 +1,16 @@
 import { MetadataRoute } from 'next'
-import { createClient } from '@supabase/supabase-js'
+import seoPages from '@/data/seo-pages.json'
 
 export const runtime = 'edge';
 
 const BASE_URL = 'https://ai-coloringpage.com'
 const LOCALES = ['en', 'es', 'pt', 'fr']
 
-// Initialize Supabase Client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-const supabase = (supabaseUrl && supabaseKey)
-    ? createClient(supabaseUrl, supabaseKey)
-    : null
-
+// Use JSON file directly to avoid DB/JSON mismatch causing 404s
 async function getAllPages() {
-    // 1. Try DB
-    if (supabase) {
-        const { data } = await supabase
-            .from('seo_pages')
-            .select('slug, created_at')
-
-        if (data) return data
-    }
-
-    return []
+    // Protocol Fix: Use JSON file instead of database to ensure sitemap matches actual pages
+    // This prevents 404 errors when database has pages that don't exist in JSON
+    return seoPages
 }
 
 // Dynamic blog posts fetch (Protocol 3: Avoid hardcoded data)

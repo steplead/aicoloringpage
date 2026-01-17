@@ -1,5 +1,14 @@
 [
     {
+        "slug": "launch",
+        "title": "Lançamento do AI Coloring Page: Transformando a Criação Artística Infantil",
+        "excerpt": "Estamos emocionados em anunciar o lançamento do AI Coloring Page, uma plataforma revolucionária que usa inteligência artificial para gerar páginas de colorir personalizadas para crianças, adultos e todos os que estão no meio.",
+        "date": "2024-01-01",
+        "author": "Equipe AI Coloring",
+        "image_url": "https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=2071&auto=format&fit=crop",
+        "content": "<h2>Bem-vindo ao AI Coloring Page</h2><p>Hoje marca o lançamento oficial do AI Coloring Page, uma plataforma que está transformando como crianças e adultos se envolvem com a arte. Usando inteligência artificial de ponta, geramos páginas de colorir únicas e personalizadas em segundos.</p><h3>Por Que Construímos Isso</h3><p>Como pais e educadores, notamos que os livros de colorir tradicionais tinham limitações - designs fixos, variedade limitada e sem personalização. Nos perguntamos: e se pudéssemos usar IA para criar páginas de colorir infinitas e únicas adaptadas aos interesses de cada criança?</p><h3>Recursos Principais</h3><p>Nossa plataforma oferece geração instantânea de páginas de colorir de alta qualidade em múltiplas categorias: animais, personagens, feriados, natureza e veículos. Cada página é otimizada para diferentes grupos etários - desde bebês até adultos - garantindo níveis de complexidade apropriados.</p><h3>O Que Vem a Seguir</h3><p>Estamos melhorando continuamente nossos modelos de IA e expandindo nossa biblioteca de modelos. Em breve: páginas de colorir baseadas em histórias, conversão de foto para página de colorir e recursos colaborativos para salas de aula.</p><p>Experimente hoje e crie sua primeira página de colorir personalizada - completamente grátis!</p>"
+    },
+    {
         "slug": "benefits-of-coloring-for-adults",
         "title": "7 Benefícios Surpreendentes de Colorir para Adultos",
         "excerpt": "Colorir não é mais apenas para crianças. Descubra como essa atividade simples pode reduzir o estresse, melhorar o foco e impulsionar sua criatividade.",

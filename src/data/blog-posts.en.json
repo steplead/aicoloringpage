@@ -1,5 +1,14 @@
 [
     {
+        "slug": "launch",
+        "title": "AI Coloring Page Launch: Transforming How Kids Create Art",
+        "excerpt": "We're excited to announce the launch of AI Coloring Page - a revolutionary platform that uses artificial intelligence to generate custom coloring pages for kids, adults, and everyone in between.",
+        "date": "2024-01-01",
+        "author": "AI Coloring Team",
+        "image_url": "https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=2071&auto=format&fit=crop",
+        "content": "<h2>Welcome to AI Coloring Page</h2><p>Today marks the official launch of AI Coloring Page, a platform that's transforming how children and adults engage with art. Using cutting-edge artificial intelligence, we generate unique, customizable coloring pages in seconds.</p><h3>Why We Built This</h3><p>As parents and educators, we noticed that traditional coloring books had limitations - fixed designs, limited variety, and no personalization. We wondered: what if we could use AI to create endless, unique coloring pages tailored to every child's interests?</p><h3>Key Features</h3><p>Our platform offers instant generation of high-quality coloring pages across multiple categories: animals, characters, holidays, nature, and vehicles. Each page is optimized for different age groups - from toddlers to adults - ensuring appropriate complexity levels.</p><h3>What's Next</h3><p>We're continuously improving our AI models and expanding our template library. Coming soon: story-based coloring pages, photo-to-coloring-page conversion, and collaborative features for classrooms.</p><p>Try it today and create your first custom coloring page - completely free!</p>"
+    },
+    {
         "slug": "benefits-of-coloring-for-adults",
         "title": "7 Surprising Benefits of Coloring for Adults",
         "excerpt": "Coloring isn't just for kids anymore. Discover how this simple activity can reduce stress, improve focus, and boost your creativity.",

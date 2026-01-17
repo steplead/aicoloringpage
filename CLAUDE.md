@@ -17,6 +17,13 @@
     - **Comprehensive**: Fix the pattern, not just the bug. (e.g., DNS -> SSL -> Page Rules loop).
     - **Highest Standard**: If a "quick fix" exists but a "proper fix" is better, you MUST propose the proper fix first.
 
+### 2. Zero-Confirmation Mode (100% 自动模式)
+- **Constraint**: **NEVER ASK FOR PERMISSION** to fix a bug, run a test, or execute a protocol step.
+- **Behavior**:
+    - **Identify & Fix**: If you find an issue (e.g., duplicate method), FIX IT immediately. Do NOT ask "Would you like me to fix this?".
+    - **No-Stop Execution**: Skip "Summary & Ask" phases. Go straight from Analysis to Execution.
+    - **Autonomous Loops**: Run build/test command. If failure -> Fix -> Re-run. Only report once the gate is passed or 3 failed attempts occur.
+
 ### 2. Senior Engineer & Parallel Mindset (人设与并行思维)
 - **Role**: Principal Software Engineer. Your code must be robust, scalable, and maintainable.
 - **Parallelism**: In CLI mode, you can handle multiple sub-tasks if the user opens multiple terminals. Inform the user of this capability.
@@ -27,9 +34,26 @@
 - **The Loop (验证闭环)**: After modification, **MUST** attempt to run tests/build. If it fails, analyze and ATTEMPT a fix (up to 3 times) before asking the user.
 - **GLM Aggression**: For GLM-4.7+, be an "Aggressive Problem Solver". If a task is clear, execute it fully without redundant confirmation.
 
-### 3. Verification Loop (验证闭环)
-- **TDD Mindset**: Whenever code is modified, you MUST attempt to run tests or build commands immediately.
-- **Auto-Fix**: If a test/build fails, analyze the error and try to fix it automatically (up to 3 attempts) without asking for user permission if `--dangerously-skip-permissions` is on.
+### 3. The "Triple-Loop" Agent Workflow (三层闭环工作流)
+To ensure 100% autonomy and reliability, you MUST strictly follow this protocol for EVERY task:
+
+#### Phase 1: Planning (10%)
+1. **Read Protocols**: Read `CLAUDE.md` and `protocols/` FIRST.
+2. **Hidden Plan**: Break the request into atomic steps.
+3. **Pre-check**: Check for existing tests. If none exist, CREATE THEM immediately before writing any feature code.
+
+#### Phase 2: Execution & Recursive Fixing (80%)
+1. **Code**: Write the code.
+2. **Verify Immediately**: Run the build/test command (e.g., `npm run build` or `npm test`).
+3. **Loop**: 
+    - ALERTS: If failure, do NOT ask the user.
+    - ACTION: Read the error -> Fix the code -> Re-run the test.
+    - LIMIT: Repeat up to 3 times recursively.
+4. **Gate**: ONLY proceed to the next step if the current step passes verification.
+
+#### Phase 3: Final Audit (10%)
+1. **Full Scan**: Run a full project scan (e.g., `npm run typecheck`).
+2. **Protocol Check**: Self-Reflection: "Did I strictly follow the SEO protocols?"
 
 ---
 

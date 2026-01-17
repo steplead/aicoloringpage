@@ -1,5 +1,14 @@
 [
     {
+        "slug": "launch",
+        "title": "Lancement d'AI Coloring Page : Transformer la Création Artistique Enfantine",
+        "excerpt": "Nous sommes ravis d'annoncer le lancement d'AI Coloring Page, une plateforme révolutionnaire qui utilise l'intelligence artificielle pour générer des pages à colorer personnalisées pour les enfants, les adultes et tous ceux qui sont au milieu.",
+        "date": "2024-01-01",
+        "author": "Équipe AI Coloring",
+        "image_url": "https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=2071&auto=format&fit=crop",
+        "content": "<h2>Bienvenue sur AI Coloring Page</h2><p>Aujourd'hui marque le lancement officiel d'AI Coloring Page, une plateforme qui transforme la façon dont les enfants et les adultes s'engagent avec l'art. En utilisant une intelligence artificielle de pointe, nous générons des pages à colorer uniques et personnalisées en quelques secondes.</p><h3>Pourquoi Nous Avons Construit Cela</h3><p>En tant que parents et éducateurs, nous avons remarqué que les livres de coloriage traditionnels avaient des limites - des designs fixes, une variété limitée et aucune personnalisation. Nous nous sommes demandé : et si nous pouvions utiliser l'IA pour créer des pages à colorer infinies et uniques adaptées aux intérêts de chaque enfant ?</p><h3>Fonctionnalités Clés</h3><p>Notre plateforme offre une génération instantanée de pages à colorer de haute qualité dans plusieurs catégories : animaux, personnages, fêtes, nature et véhicules. Chaque page est optimisée pour différents groupes d'âge - des tout-petits aux adultes - garantissant des niveaux de complexité appropriés.</p><h3>Ce Qui Suit</h3><p>Nous améliorons continuellement nos modèles d'IA et expandons notre bibliothèque de modèles. À venir : pages à colorer basées sur des histoires, conversion photo en page à colorer et fonctionnalités collaboratives pour les salles de classe.</p><p>Essayez aujourd'hui et créez votre première page à colorer personnalisée - entièrement gratuit !</p>"
+    },
+    {
         "slug": "benefits-of-coloring-for-adults",
         "title": "7 Bienfaits Surprenants du Coloriage pour Adultes",
         "excerpt": "Le coloriage n'est plus seulement pour les enfants. Découvrez comment cette activité simple peut réduire le stress, améliorer la concentration et stimuler votre créativité.",

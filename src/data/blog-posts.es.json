@@ -1,5 +1,14 @@
 [
     {
+        "slug": "launch",
+        "title": "Lanzamiento de AI Coloring Page: Transformando la Creación Artística Infantil",
+        "excerpt": "Estamos emocionados de anunciar el lanzamiento de AI Coloring Page, una plataforma revolucionaria que utiliza inteligencia artificial para generar páginas para colorear personalizadas para niños, adultos y todos los que están en medio.",
+        "date": "2024-01-01",
+        "author": "Equipo AI Coloring",
+        "image_url": "https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=2071&auto=format&fit=crop",
+        "content": "<h2>Bienvenido a AI Coloring Page</h2><p>Hoy marca el lanzamiento oficial de AI Coloring Page, una plataforma que está transformando cómo niños y adultos se involucran con el arte. Utilizando inteligencia artificial de vanguardia, generamos páginas para colorear únicas y personalizadas en segundos.</p><h3>Por Qué Construimos Esto</h3><p>Como padres y educadores, notamos que los libros para colorear tradicionales tenían limitaciones - diseños fijos, variedad limitada y sin personalización. Nos preguntamos: ¿qué pasa si pudiéramos usar IA para crear páginas para colorear infinitas y únicas adaptadas a los intereses de cada niño?</p><h3>Características Clave</h3><p>Nuestra plataforma ofrece generación instantánea de páginas para colorear de alta calidad en múltiples categorías: animales, personajes, vacaciones, naturaleza y vehículos. Cada página está optimizada para diferentes grupos de edad - desde niños pequeños hasta adultos - asegurando niveles de complejidad apropiados.</p><h3>Lo Que Viene</h3><p>Estamos mejorando continuamente nuestros modelos de IA y expandiendo nuestra biblioteca de plantillas. Próximamente: páginas para colorear basadas en historias, conversión de foto a página para colorear y características colaborativas para aulas.</p><p>¡Pruébalo hoy y crea tu primera página para colorear personalizada - completamente gratis!</p>"
+    },
+    {
         "slug": "benefits-of-coloring-for-adults",
         "title": "7 Beneficios Sorprendentes de Colorear para Adultos",
         "excerpt": "Colorear ya no es solo para niños. Descubre cómo esta simple actividad puede reducir el estrés, mejorar la concentración y potenciar tu creatividad.",

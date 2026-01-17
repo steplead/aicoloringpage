@@ -17,7 +17,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; tag: string }> }) {
-  const { tag } = await params
+  const { tag, locale } = await params
   const tagData = TAGS[tag as keyof typeof TAGS]
 
   if (!tagData) {
@@ -26,10 +26,22 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     }
   }
 
+  const path = `/tags/${tag}`
+
   // Protocol 3: Keyword leftmost
   return {
     title: `${tagData.name} Coloring Pages - ${tagData.description}`,
     description: tagData.description,
+    alternates: {
+      canonical: `https://ai-coloringpage.com/${locale}${path}`,
+      languages: {
+        'en': `https://ai-coloringpage.com/en${path}`,
+        'es': `https://ai-coloringpage.com/es${path}`,
+        'pt': `https://ai-coloringpage.com/pt${path}`,
+        'fr': `https://ai-coloringpage.com/fr${path}`,
+        'x-default': `https://ai-coloringpage.com/en${path}`,
+      },
+    },
     openGraph: {
       title: `${tagData.name} Coloring Pages`,
       description: tagData.description,

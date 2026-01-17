@@ -27,14 +27,26 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     }
   }
 
+  const path = `/categories/${category}`
+
   // Protocol 3: Keyword leftmost in title
   return {
     title: `${categoryData.name} Coloring Pages - Free Printable Pages`,
     description: categoryData.description,
+    alternates: {
+      canonical: `https://ai-coloringpage.com/${locale}${path}`,
+      languages: {
+        'en': `https://ai-coloringpage.com/en${path}`,
+        'es': `https://ai-coloringpage.com/es${path}`,
+        'pt': `https://ai-coloringpage.com/pt${path}`,
+        'fr': `https://ai-coloringpage.com/fr${path}`,
+        'x-default': `https://ai-coloringpage.com/en${path}`,
+      },
+    },
     openGraph: {
       title: `${categoryData.name} Coloring Pages`,
       description: categoryData.description,
-      url: `https://ai-coloringpage.com/categories/${category}`,
+      url: `https://ai-coloringpage.com${path}`,
       type: 'website',
     }
   }
