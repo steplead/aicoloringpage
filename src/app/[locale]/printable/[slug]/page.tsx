@@ -7,44 +7,17 @@ import { ShareEmbedButton } from '@/components/ShareEmbedButton'
 import { Check, Download, Printer, Sparkles, Star } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import { supabase } from '@/lib/supabase'
-import seoPagesEn from '@/data/seo-pages.json'
-import seoPagesEs from '@/data/seo-pages-es.json'
-import seoPagesPt from '@/data/seo-pages-pt.json'
-import seoPagesFr from '@/data/seo-pages-fr.json'
 
 export const runtime = 'edge';
 
-// Helper to get specific page data with multilingual support
+// Helper to get specific page data - always use DB to avoid large JSON imports
 async function getPageData(slug: string, locale: string) {
     try {
-        // Select the appropriate data file based on locale
-        let seoPages: any[]
-        switch (locale) {
-            case 'es':
-                seoPages = seoPagesEs as any[]
-                break
-            case 'pt':
-                seoPages = seoPagesPt as any[]
-                break
-            case 'fr':
-                seoPages = seoPagesFr as any[]
-                break
-            default:
-                seoPages = seoPagesEn as any[]
-        }
-
-        // Find the page by slug
-        const pageData = seoPages.find((page: any) => page.slug === slug)
-
-        if (pageData) {
-            return pageData
-        }
-
-        // Fallback to database if not found in JSON
         const { data, error } = await supabase
             .from('seo_pages')
             .select('*')
             .eq('slug', slug)
+            .eq('locale', locale)
             .single()
 
         if (error) throw error
@@ -53,6 +26,28 @@ async function getPageData(slug: string, locale: string) {
         console.error('Error reading page data:', e)
     }
     return null
+}
+
+// Helper to get related pages
+async function getRelatedPages(slug: string, locale: string, limit: number = 4) {
+    try {
+        const { data, error } = await supabase
+            .from('seo_pages')
+            .select('*')
+            .eq('locale', locale)
+            .neq('slug', slug)
+            .limit(limit * 2) // Get more to randomize
+
+        if (error) throw error
+
+        // Return random subset
+        return (data || [])
+            .sort(() => Math.random() - 0.5)
+            .slice(0, limit)
+    } catch (e) {
+        console.error('Error getting related pages:', e)
+        return []
+    }
 }
 
 const BASE_URL = 'https://ai-coloringpage.com'
@@ -107,31 +102,8 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
     const translatedAudience = tData.has(pageData.audience) ? tData(pageData.audience) : pageData.audience
     const translatedTitle = tData('titlePattern', { subject: translatedSubject, audience: translatedAudience })
 
-    // Generate random "related" pages for internal linking via multilingual JSON
-    let relatedPagesData: any[] = []
-    let seoPages: any[]
-
-    switch (locale) {
-        case 'es':
-            seoPages = seoPagesEs as any[]
-            break
-        case 'pt':
-            seoPages = seoPagesPt as any[]
-            break
-        case 'fr':
-            seoPages = seoPagesFr as any[]
-            break
-        default:
-            seoPages = seoPagesEn as any[]
-    }
-
-    // Get 4 random pages excluding current
-    relatedPagesData = seoPages
-        .filter((page: any) => page.slug !== slug)
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 4)
-
-    const relatedPages = relatedPagesData || []
+    // Get related pages from database
+    const relatedPages = await getRelatedPages(slug, locale, 4)
 
     // Structured Data: Breadcrumbs
     const breadcrumbJsonLd = {

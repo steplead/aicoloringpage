@@ -29,7 +29,10 @@ export default function middleware(request: NextRequest) {
     // We use a permanent redirect (308) to help Google consolidate indexing
     if (!isLocalized) {
         const url = new URL(request.url);
-        url.pathname = `/en${pathname === '/' ? '' : pathname}`;
+        // Handle trailing slash correctly - add it if original path had it
+        const hasTrailingSlash = pathname.endsWith('/') && pathname !== '/';
+        const newPath = pathname === '/' ? '/' : pathname;
+        url.pathname = `/en${newPath}${hasTrailingSlash ? '/' : ''}`;
         return NextResponse.redirect(url, 308);
     }
 
