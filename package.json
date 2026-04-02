@@ -9,7 +9,7 @@
     "lint": "eslint",
     "pinterest": "tsx scripts/pinterest-poster.ts",
     "optimize-images": "tsx scripts/optimize-images.ts",
-    "pages:build": "npx @cloudflare/next-on-pages"
+    "pages:build": "npx @cloudflare/next-on-pages@1.13.16"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

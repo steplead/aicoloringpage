@@ -8,6 +8,18 @@ import type { NextRequest } from 'next/server';
 
 export default function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
+    const decodedPath = decodeURIComponent(pathname);
+
+    // Docs/tools sometimes use the literal string "[locale]" (Next.js folder name). That is NOT a
+    // real segment — without handling, /[locale]/ becomes /en/[locale]/ and returns 404.
+    const isLiteralLocalePlaceholder = (segment: string) =>
+        segment === '[locale]' || segment.toLowerCase() === '%5blocale%5d';
+
+    if (isLiteralLocalePlaceholder(decodedPath.replace(/^\/+|\/+$/g, '').split('/')[0] ?? '')) {
+        const url = new URL(request.url);
+        url.pathname = '/en/';
+        return NextResponse.redirect(url, 308);
+    }
 
     // Skip middleware for API routes, static files, and Next.js internals
     if (
@@ -29,14 +41,20 @@ export default function middleware(request: NextRequest) {
     // We use a permanent redirect (308) to help Google consolidate indexing
     if (!isLocalized) {
         const url = new URL(request.url);
-        // Handle trailing slash correctly - add it if original path had it
-        const hasTrailingSlash = pathname.endsWith('/') && pathname !== '/';
-        const newPath = pathname === '/' ? '/' : pathname;
-        url.pathname = `/en${newPath}${hasTrailingSlash ? '/' : ''}`;
+        url.pathname = `/en${pathname === '/' ? '' : pathname}`;
         return NextResponse.redirect(url, 308);
     }
 
     const locale = localeMatch![1];
+
+    // Already has /en/ but next segment is literal "[locale]" (e.g. /en/[locale]/) → send home
+    const afterLocalePrefix = decodedPath.slice(localeMatch![0].length);
+    const nextSegment = afterLocalePrefix.replace(/^\/+|\/+$/g, '').split('/')[0] ?? '';
+    if (isLiteralLocalePlaceholder(nextSegment)) {
+        const url = new URL(request.url);
+        url.pathname = `/${locale}/`;
+        return NextResponse.redirect(url, 308);
+    }
 
     // Pass the request through with the locale header for server-side detection
     const requestHeaders = new Headers(request.headers);

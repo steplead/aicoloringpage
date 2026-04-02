@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { Link } from '@/i18n/routing'
 import { Header } from '@/components/Header'
 import { DownloadButton } from '@/components/DownloadButton'
 import { ShareEmbedButton } from '@/components/ShareEmbedButton'
