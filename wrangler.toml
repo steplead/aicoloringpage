@@ -12,3 +12,8 @@ pages_build_output_dir = ".vercel/output/static"
 [[kv_namespaces]]
 binding = "RATE_KV"
 id = "REPLACE_WITH_RATE_KV_NAMESPACE_ID"
+
+# Workers AI. One binding per project. Local `wrangler pages dev` calls the
+# real account API and can incur Workers AI usage.
+[ai]
+binding = "AI"

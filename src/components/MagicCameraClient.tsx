@@ -10,7 +10,6 @@ import Image from 'next/image'
 import { Header } from '@/components/Header'
 import { SocialShare } from '@/components/SocialShare'
 import { useTranslations, useLocale } from 'next-intl'
-import { TurnstileField, turnstileEnabled } from '@/components/TurnstileField'
 
 export default function MagicCameraClient({ translationNamespace = 'MagicCamera' }: { translationNamespace?: string }) {
     const t = useTranslations(translationNamespace)
@@ -20,8 +19,6 @@ export default function MagicCameraClient({ translationNamespace = 'MagicCamera'
     const [generatedImage, setGeneratedImage] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
-    const [turnstileToken, setTurnstileToken] = useState('')
-    const [turnstileReset, setTurnstileReset] = useState(0)
     const [prompt, setPrompt] = useState('')
     const [style, setStyle] = useState('realistic')
     const fileInputRef = useRef<HTMLInputElement>(null)
@@ -67,46 +64,7 @@ export default function MagicCameraClient({ translationNamespace = 'MagicCamera'
     }
 
     const handleGenerate = async () => {
-        if (!selectedImage) return
-
-        setLoading(true)
-        setError('')
-        setGeneratedImage(null)
-
-        try {
-            // Updated to use the stable API route instead of Server Action
-            // Remove the data URL prefix for the payload if present
-            const base64Image = selectedImage.includes('base64,')
-                ? selectedImage.split('base64,')[1]
-                : selectedImage;
-
-            const response = await fetch('/api/generate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    prompt: prompt,
-                    style: style,
-                    image: base64Image,
-                    turnstileToken,
-                }),
-            });
-
-            const result = await response.json();
-
-            if (response.ok && result.success && result.data) {
-                setGeneratedImage(result.data[0])
-            } else {
-                setError(result.error || 'Failed to generate image')
-            }
-        } catch (err) {
-            setError('An unexpected error occurred')
-            console.error(err)
-        } finally {
-            setLoading(false)
-            setTurnstileReset((value) => value + 1)
-        }
+        setError('Photo-to-coloring is temporarily unavailable. Describe what you want in words on the home page instead.')
     }
 
     return (
@@ -236,11 +194,13 @@ export default function MagicCameraClient({ translationNamespace = 'MagicCamera'
                                 </div>
                             </div>
 
-                            <TurnstileField action="generate" onToken={setTurnstileToken} resetSignal={turnstileReset} />
+                            <p className="text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg p-3">
+                                Photo-to-coloring is temporarily unavailable. Use the text generator on the home page to describe what you want instead.
+                            </p>
                             <Button
                                 className="w-full h-12 text-lg"
                                 onClick={handleGenerate}
-                                disabled={!selectedImage || loading || (turnstileEnabled() && !turnstileToken)}
+                                disabled
                             >
                                 {loading ? (
                                     <>

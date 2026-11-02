@@ -1,20 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateContent } from '@/lib/gemini-client';
 import { authorizeStoryGeneration, getRateKv, issueStoryGrant } from '@/lib/abuse-guard';
+import { generateStoryOutline } from '@/lib/workers-ai';
 
 export const runtime = 'edge';
+
+function parseSceneList(text: string): unknown {
+    let clean = text.trim()
+    clean = clean.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim()
+    try {
+        return JSON.parse(clean)
+    } catch {
+        const match = clean.match(/\[[\s\S]*\]/)
+        if (!match) throw new Error('no json array')
+        return JSON.parse(match[0])
+    }
+}
 
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
         const guard = await authorizeStoryGeneration(req, body)
         if (!guard.ok) return guard.response
-
-        // API Key check
-        const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
-        if (!apiKey) {
-            return NextResponse.json({ success: false, error: 'API Key missing on server' }, { status: 500 });
-        }
 
         const { character, theme } = body;
 
@@ -45,32 +51,17 @@ export async function POST(req: NextRequest) {
         - Keep the character consistent.
         - Return ONLY the JSON array. No markdown, no code blocks.`;
 
-        const data = await generateContent(apiKey, prompt);
-
-        // Extract text from Gemini response structure
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-
-        // Check for refusal/blocking
-        if (!text || data.promptFeedback?.blockReason) {
-            return NextResponse.json({ success: false, error: 'AI refused to generate story.' }, { status: 422 });
+        const outline = await generateStoryOutline(prompt);
+        if (!outline.ok) {
+            return NextResponse.json({ success: false, error: outline.message }, { status: 503 });
         }
-
-        // Clean up response to ensure valid JSON
-        let cleanResponse = text.trim();
-        if (cleanResponse.startsWith('```json')) {
-            cleanResponse = cleanResponse.replace(/```json/g, '').replace(/```/g, '');
-        }
-
-        // Sanitize: sometimes models wrap in ``` only
-        if (cleanResponse.startsWith('```')) {
-            cleanResponse = cleanResponse.replace(/```/g, '');
-        }
+        const text = outline.text;
 
         let scenes;
         try {
-            scenes = JSON.parse(cleanResponse);
+            scenes = parseSceneList(text);
         } catch (e) {
-            console.error("JSON Parse Error", cleanResponse);
+            console.error("JSON Parse Error", text);
             return NextResponse.json({ success: false, error: 'Failed to parse story format.' }, { status: 500 });
         }
 

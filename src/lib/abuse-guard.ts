@@ -24,8 +24,9 @@ function envNumber(name: string, fallback: number): number {
     return Number.isFinite(value) && value >= 0 ? value : fallback
 }
 
-function dollarsToCents(amount: number): number {
-    return Math.round(amount * 100)
+/** Millionths of a dollar so a $0.0011 image is 1100 units, not 0 cents. */
+function dollarsToMicros(amount: number): number {
+    return Math.round(amount * 1_000_000)
 }
 
 function dayStamp(date = new Date()): string {
@@ -133,19 +134,19 @@ async function enforceCounters(
     kv: KvBinding,
     ip: string,
     minuteLimit: number,
-    reserveCents: number,
+    reserveMicros: number,
 ): Promise<GuardOutcome> {
     const now = new Date()
     const minuteKey = `ip:${ip}:m:${minuteStamp(now)}`
     const dayKey = `ip:${ip}:d:${dayStamp(now)}`
     const globalKey = `global:d:${dayStamp(now)}`
-    const spendDayKey = `spend:d:${dayStamp(now)}`
-    const spendMonthKey = `spend:m:${monthStamp(now)}`
+    const spendDayKey = `spendu:d:${dayStamp(now)}`
+    const spendMonthKey = `spendu:m:${monthStamp(now)}`
 
     const ipDailyLimit = envNumber('IP_DAILY_LIMIT', 30)
     const globalLimit = envNumber('DAILY_GLOBAL_LIMIT', 200)
-    const dailyBudgetCents = dollarsToCents(envNumber('DAILY_BUDGET_USD', 3))
-    const monthlyBudgetCents = dollarsToCents(envNumber('MONTHLY_BUDGET_USD', 30))
+    const dailyBudget = dollarsToMicros(envNumber('DAILY_BUDGET_USD', 3))
+    const monthlyBudget = dollarsToMicros(envNumber('MONTHLY_BUDGET_USD', 30))
 
     const [minuteCount, dayCount, globalCount, spendDay, spendMonth] = await Promise.all([
         readCount(kv, minuteKey),
@@ -164,10 +165,10 @@ async function enforceCounters(
     if (globalCount >= globalLimit) {
         return { ok: false, response: jsonError(429, "We've reached today's generation limit. Please try again tomorrow.", 'global_daily') }
     }
-    if (reserveCents > 0 && spendDay + reserveCents > dailyBudgetCents) {
+    if (reserveMicros > 0 && spendDay + reserveMicros > dailyBudget) {
         return { ok: false, response: jsonError(429, 'Image generation is paused for today. Please try again tomorrow.', 'daily_budget') }
     }
-    if (reserveCents > 0 && spendMonth + reserveCents > monthlyBudgetCents) {
+    if (reserveMicros > 0 && spendMonth + reserveMicros > monthlyBudget) {
         return { ok: false, response: jsonError(429, 'Image generation is paused until next month.', 'monthly_budget') }
     }
 
@@ -175,21 +176,21 @@ async function enforceCounters(
         writeCount(kv, minuteKey, minuteCount + 1, MINUTE_TTL),
         writeCount(kv, dayKey, dayCount + 1, DAY_TTL),
         writeCount(kv, globalKey, globalCount + 1, DAY_TTL),
-        reserveCents > 0 ? writeCount(kv, spendDayKey, spendDay + reserveCents, DAY_TTL) : Promise.resolve(),
-        reserveCents > 0 ? writeCount(kv, spendMonthKey, spendMonth + reserveCents, MONTH_TTL) : Promise.resolve(),
+        reserveMicros > 0 ? writeCount(kv, spendDayKey, spendDay + reserveMicros, DAY_TTL) : Promise.resolve(),
+        reserveMicros > 0 ? writeCount(kv, spendMonthKey, spendMonth + reserveMicros, MONTH_TTL) : Promise.resolve(),
     ])
 
     return {
         ok: true,
         refund: async () => {
-            if (reserveCents <= 0) return
+            if (reserveMicros <= 0) return
             const [latestDay, latestMonth] = await Promise.all([
                 readCount(kv, spendDayKey),
                 readCount(kv, spendMonthKey),
             ])
             await Promise.all([
-                writeCount(kv, spendDayKey, Math.max(0, latestDay - reserveCents), DAY_TTL),
-                writeCount(kv, spendMonthKey, Math.max(0, latestMonth - reserveCents), MONTH_TTL),
+                writeCount(kv, spendDayKey, Math.max(0, latestDay - reserveMicros), DAY_TTL),
+                writeCount(kv, spendMonthKey, Math.max(0, latestMonth - reserveMicros), MONTH_TTL),
             ])
         },
     }
@@ -215,9 +216,9 @@ export async function authorizeImageGeneration(req: Request, body: { turnstileTo
         }
     }
 
-    const costCents = dollarsToCents(envNumber('COST_PER_IMAGE_USD', 0.04))
+    const costMicros = dollarsToMicros(envNumber('COST_PER_IMAGE_USD', 0.0011))
     const minuteLimit = envNumber('IP_MINUTE_LIMIT', 10)
-    return enforceCounters(kv, ip, minuteLimit, costCents)
+    return enforceCounters(kv, ip, minuteLimit, costMicros)
 }
 
 export async function authorizeStoryGeneration(req: Request, body: { turnstileToken?: unknown }): Promise<GuardOutcome> {
