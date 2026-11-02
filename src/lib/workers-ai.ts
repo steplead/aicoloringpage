@@ -56,7 +56,7 @@ export function getAiBinding(): AiBinding | null {
 
 async function toDataUrl(result: unknown): Promise<string | null> {
     const fromBase64 = (value: string) => {
-        const cleaned = value.replace(/^data:image\/\w+;base64,/, '').replace(/\s/g, '')
+        const cleaned = value.replace(/^data:image\/[^;,]+;(?:charset=[^;,]+;)?base64,/i, '').replace(/\s/g, '')
         if (!cleaned) return null
         return `data:image/jpeg;base64,${cleaned}`
     }
@@ -99,11 +99,11 @@ function bytesToBase64(bytes: Uint8Array): string {
 }
 
 async function runFlux(ai: AiBinding, subject: string): Promise<string> {
+    // flux-1-schnell allows prompt and steps only. width/height return error 5006.
+    // The binding returns { image: "<base64 jpeg>" }.
     const result = await ai.run(FLUX_MODEL, {
         prompt: coloringPrompt(subject),
         steps: 8,
-        width: 1024,
-        height: 1024,
     })
     if (isErrorPayload(result) && isNsfwError(result)) throw new Error(errorText(result))
     const dataUrl = await toDataUrl(result)
@@ -165,6 +165,7 @@ export async function generateStoryOutline(prompt: string): Promise<
         return { ok: false, message: 'Story generation is temporarily unavailable.' }
     }
     try {
+        // Instruct models accept messages and max_tokens. The sync result is { response: string }.
         const result = await ai.run(STORY_MODEL, {
             messages: [
                 {
