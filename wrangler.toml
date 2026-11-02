@@ -3,3 +3,12 @@ name = "aicoloringpage"
 compatibility_date = "2024-12-30"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".vercel/output/static"
+
+# Shared counters for /api/generate and /api/story/generate.
+# Create it once, then replace id with the printed namespace id:
+#   npx wrangler kv namespace create RATE_KV
+# Local `wrangler pages dev` uses this binding from disk; production deploy
+# needs the real id before the Worker will see RATE_KV.
+[[kv_namespaces]]
+binding = "RATE_KV"
+id = "REPLACE_WITH_RATE_KV_NAMESPACE_ID"

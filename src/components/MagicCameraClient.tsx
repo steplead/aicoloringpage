@@ -10,6 +10,7 @@ import Image from 'next/image'
 import { Header } from '@/components/Header'
 import { SocialShare } from '@/components/SocialShare'
 import { useTranslations, useLocale } from 'next-intl'
+import { TurnstileField, turnstileEnabled } from '@/components/TurnstileField'
 
 export default function MagicCameraClient({ translationNamespace = 'MagicCamera' }: { translationNamespace?: string }) {
     const t = useTranslations(translationNamespace)
@@ -19,6 +20,8 @@ export default function MagicCameraClient({ translationNamespace = 'MagicCamera'
     const [generatedImage, setGeneratedImage] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
+    const [turnstileToken, setTurnstileToken] = useState('')
+    const [turnstileReset, setTurnstileReset] = useState(0)
     const [prompt, setPrompt] = useState('')
     const [style, setStyle] = useState('realistic')
     const fileInputRef = useRef<HTMLInputElement>(null)
@@ -85,7 +88,8 @@ export default function MagicCameraClient({ translationNamespace = 'MagicCamera'
                 body: JSON.stringify({
                     prompt: prompt,
                     style: style,
-                    image: base64Image // Send base64 data to API
+                    image: base64Image,
+                    turnstileToken,
                 }),
             });
 
@@ -101,6 +105,7 @@ export default function MagicCameraClient({ translationNamespace = 'MagicCamera'
             console.error(err)
         } finally {
             setLoading(false)
+            setTurnstileReset((value) => value + 1)
         }
     }
 
@@ -231,10 +236,11 @@ export default function MagicCameraClient({ translationNamespace = 'MagicCamera'
                                 </div>
                             </div>
 
+                            <TurnstileField action="generate" onToken={setTurnstileToken} resetSignal={turnstileReset} />
                             <Button
                                 className="w-full h-12 text-lg"
                                 onClick={handleGenerate}
-                                disabled={!selectedImage || loading}
+                                disabled={!selectedImage || loading || (turnstileEnabled() && !turnstileToken)}
                             >
                                 {loading ? (
                                     <>
