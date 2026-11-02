@@ -4,12 +4,11 @@ export type Locale = (typeof LOCALES)[number]
 
 /**
  * Canonical + hreflang map.
- * Homepage matches production: `https://ai-coloringpage.com/en/` (trailing slash).
- * Every other path matches the 200 URLs, which have no trailing slash.
+ * Live URLs have no trailing slash: `/en/` 308s to `/en`.
  */
 export function pageAlternates(locale: string, path: string) {
     const href = (loc: string) =>
-        path === '' ? `${SITE_URL}/${loc}/` : `${SITE_URL}/${loc}${path}`
+        path === '' ? `${SITE_URL}/${loc}` : `${SITE_URL}/${loc}${path}`
 
     const languages: Record<string, string> = { 'x-default': href('en') }
     for (const loc of LOCALES) languages[loc] = href(loc)

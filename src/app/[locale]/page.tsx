@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     openGraph: {
       title: t('title'),
       description: t('subtitle'),
-      url: `https://ai-coloringpage.com/${locale}/`,
+      url: `https://ai-coloringpage.com/${locale}`,
       siteName: 'AI Coloring Page',
       images: [
         {

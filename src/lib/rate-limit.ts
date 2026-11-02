@@ -10,18 +10,17 @@ interface RateLimitStore {
     resetTime: number
 }
 
-// In-memory store (resets on deployment)
+// In-memory store (resets when the isolate is evicted).
+// Do not use setInterval here: Workers forbid timers in global scope, and
+// that throws before the route handler's try/catch can return JSON.
 const rateLimitStore = new Map<string, RateLimitStore>()
 
-// Cleanup expired entries every minute
-setInterval(() => {
-    const now = Date.now()
+function pruneExpired(now: number) {
+    if (rateLimitStore.size < 50) return
     for (const [key, value] of rateLimitStore.entries()) {
-        if (now > value.resetTime) {
-            rateLimitStore.delete(key)
-        }
+        if (now > value.resetTime) rateLimitStore.delete(key)
     }
-}, 60000)
+}
 
 /**
  * Check if request is rate limited
@@ -36,6 +35,7 @@ export function checkRateLimit(
     windowMs: number = 60000 // 1 minute default
 ): { allowed: boolean; remaining: number; resetTime: number } {
     const now = Date.now()
+    pruneExpired(now)
     const record = rateLimitStore.get(identifier)
 
     // No previous record or window expired
