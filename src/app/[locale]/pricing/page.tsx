@@ -1,20 +1,15 @@
 'use client'
 
-export const runtime = 'edge';
 
 import { Header } from '@/components/Header'
 import { Button } from '@/components/ui/button'
 import { Check, Sparkles, Zap } from 'lucide-react'
 import { useState } from 'react'
-import { createClient } from '@/utils/supabase/client'
-import { useRouter } from '@/i18n/routing'
 import { useTranslations } from 'next-intl'
 
 export default function PricingPage() {
     const t = useTranslations('PricingPage')
     const [loading, setLoading] = useState(false)
-    const router = useRouter()
-    const supabase = createClient()
 
     const handleSubscribe = async () => {
         alert("Pro plan is coming soon!");

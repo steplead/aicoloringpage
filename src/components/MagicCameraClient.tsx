@@ -7,7 +7,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Loader2, Upload, Camera, Image as ImageIcon, Download, Printer } from 'lucide-react'
 import Image from 'next/image'
-import { generateImage } from '@/app/actions/gen-img'
 import { Header } from '@/components/Header'
 import { SocialShare } from '@/components/SocialShare'
 import { useTranslations, useLocale } from 'next-intl'
@@ -65,44 +64,7 @@ export default function MagicCameraClient({ translationNamespace = 'MagicCamera'
     }
 
     const handleGenerate = async () => {
-        if (!selectedImage) return
-
-        setLoading(true)
-        setError('')
-        setGeneratedImage(null)
-
-        try {
-            // Updated to use the stable API route instead of Server Action
-            // Remove the data URL prefix for the payload if present
-            const base64Image = selectedImage.includes('base64,')
-                ? selectedImage.split('base64,')[1]
-                : selectedImage;
-
-            const response = await fetch('/api/generate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    prompt: prompt,
-                    style: style,
-                    image: base64Image // Send base64 data to API
-                }),
-            });
-
-            const result = await response.json();
-
-            if (response.ok && result.success && result.data) {
-                setGeneratedImage(result.data[0])
-            } else {
-                setError(result.error || 'Failed to generate image')
-            }
-        } catch (err) {
-            setError('An unexpected error occurred')
-            console.error(err)
-        } finally {
-            setLoading(false)
-        }
+        setError('Photo-to-coloring is temporarily unavailable. Describe what you want in words on the home page instead.')
     }
 
     return (
@@ -232,10 +194,13 @@ export default function MagicCameraClient({ translationNamespace = 'MagicCamera'
                                 </div>
                             </div>
 
+                            <p className="text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg p-3">
+                                Photo-to-coloring is temporarily unavailable. Use the text generator on the home page to describe what you want instead.
+                            </p>
                             <Button
                                 className="w-full h-12 text-lg"
                                 onClick={handleGenerate}
-                                disabled={!selectedImage || loading}
+                                disabled
                             >
                                 {loading ? (
                                     <>

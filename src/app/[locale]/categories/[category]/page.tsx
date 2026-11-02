@@ -2,13 +2,13 @@ import { Link } from '@/i18n/routing'
 import Image from 'next/image'
 import { Header } from '@/components/Header'
 import { Card } from '@/components/ui/card'
-import { getTranslations } from 'next-intl/server'
-import seoPages from '@/data/seo-pages.json'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { CATEGORIES, getCategoryForPage, type PageData } from '@/lib/categories'
 import { generateCategoryPageSchema } from '@/lib/schema-org'
+import { getPublishedPages } from '@/lib/seo-catalog'
 
-// Cannot use runtime = 'edge' with generateStaticParams
-// export const runtime = 'edge'
+export const dynamic = 'force-static'
+export const dynamicParams = false
 
 export async function generateStaticParams() {
   // Protocol 2: Generate static params for all categories
@@ -19,6 +19,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; category: string }> }) {
   const { category, locale } = await params
+  setRequestLocale(locale)
   const categoryData = CATEGORIES[category as keyof typeof CATEGORIES]
 
   if (!categoryData) {
@@ -54,6 +55,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function CategoryPage({ params }: { params: Promise<{ locale: string; category: string }> }) {
   const { category, locale } = await params
+  setRequestLocale(locale)
   const categoryData = CATEGORIES[category as keyof typeof CATEGORIES]
   const t = await getTranslations({ locale, namespace: 'CategoryPage' })
 
@@ -62,7 +64,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ local
   }
 
   // Get pages for this category
-  const pages: PageData[] = seoPages.filter(page => {
+  const pages: PageData[] = getPublishedPages(locale).filter(page => {
     const pageCategory = getCategoryForPage(page)
     return pageCategory === category
   })
@@ -109,7 +111,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ local
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {pages.map((page) => (
             <Card key={page.slug} className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <Link href={`/${locale}/categories/${category}/${page.slug}`} prefetch={false}>
+              <Link href={`/printable/${page.slug}`} prefetch={false}>
                 <div className="aspect-square bg-white p-2">
                   <Image
                     src={page.image_url}
@@ -142,7 +144,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ local
               .map(([key, data]) => (
                 <Link
                   key={key}
-                  href={`/${locale}/categories/${key}`}
+                  href={`/categories/${key}`}
                   className="block p-4 bg-white rounded-lg hover:shadow-md transition-shadow text-center"
                 >
                   <h3 className="font-semibold text-gray-900">{data.name}</h3>

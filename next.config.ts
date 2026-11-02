@@ -20,7 +20,8 @@ const nextConfig: any = {
       },
     ],
   },
-  trailingSlash: true, // Protocol 3: Consistency prevents duplicate content
+  // Live site returns 200 at /en and 308 from /en/ → /en. Do not force a trailing slash.
+  trailingSlash: false,
 };
 
 export default withNextIntl(nextConfig);

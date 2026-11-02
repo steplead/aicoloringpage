@@ -30,7 +30,7 @@ jobs:
       # edge functions. Using only `next build` + `--skip-build` skips that step and deploys
       # static assets without SSR/API routes (broken site).
       - name: Build for Cloudflare Pages
-        run: npx @cloudflare/next-on-pages@1.13.16
+        run: npm run pages:build
         env:
           NODE_ENV: production
 

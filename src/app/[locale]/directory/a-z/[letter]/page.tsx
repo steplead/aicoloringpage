@@ -2,12 +2,13 @@ import { Link } from '@/i18n/routing'
 import Image from 'next/image'
 import { Header } from '@/components/Header'
 import { Card } from '@/components/ui/card'
-import seoPages from '@/data/seo-pages.json'
+import { setRequestLocale } from 'next-intl/server'
 import { getCategoryForPage, type PageData } from '@/lib/categories'
 import { generateCategoryPageSchema } from '@/lib/schema-org'
+import { getPublishedPages } from '@/lib/seo-catalog'
 
-// Cannot use runtime = 'edge' with generateStaticParams
-// export const runtime = 'edge'
+export const dynamic = 'force-static'
+export const dynamicParams = false
 
 export async function generateStaticParams() {
   // Video: A-Z Index for multi-pathing
@@ -19,6 +20,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; letter: string }> }) {
   const { letter, locale } = await params
+  setRequestLocale(locale)
 
   const path = `/directory/a-z/${letter}`
 
@@ -45,9 +47,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function LetterIndexPage({ params }: { params: Promise<{ locale: string; letter: string }> }) {
   const { letter, locale } = await params
+  setRequestLocale(locale)
 
-  // Get pages starting with this letter
-  const pages: PageData[] = seoPages.filter(page => {
+  const pages: PageData[] = getPublishedPages(locale).filter(page => {
     const firstChar = page.slug.charAt(0).toLowerCase()
     return firstChar === letter.toLowerCase()
   })
@@ -93,7 +95,7 @@ export default async function LetterIndexPage({ params }: { params: Promise<{ lo
           {'abcdefghijklmnopqrstuvwxyz'.split('').map(l => (
             <Link
               key={l}
-              href={`/${locale}/directory/a-z/${l}`}
+              href={`/directory/a-z/${l}`}
               className={`w-10 h-10 flex items-center justify-center rounded-lg font-bold transition-colors ${
                 l === letter.toLowerCase()
                   ? 'bg-purple-600 text-white'
@@ -111,7 +113,7 @@ export default async function LetterIndexPage({ params }: { params: Promise<{ lo
             const category = getCategoryForPage(page) || 'uncategorized'
             return (
               <Card key={page.slug} className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <Link href={`/${locale}/categories/${category}/${page.slug}`} prefetch={false}>
+                <Link href={`/printable/${page.slug}`} prefetch={false}>
                   <div className="aspect-square bg-white p-2">
                     <Image
                       src={page.image_url}

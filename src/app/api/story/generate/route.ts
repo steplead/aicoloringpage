@@ -1,44 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateContent } from '@/lib/gemini-client';
-import { getClientIp, checkRateLimit } from '@/lib/rate-limit';
+import { authorizeStoryGeneration, getRateKv, issueStoryGrant } from '@/lib/abuse-guard';
+import { generateStoryOutline } from '@/lib/workers-ai';
 
 export const runtime = 'edge';
 
-// Rate limiting: 20 requests per minute per IP (story is cheaper)
-const RATE_LIMIT = 20;
-const RATE_WINDOW_MS = 60000; // 1 minute
+function parseSceneList(text: string): unknown {
+    let clean = text.trim()
+    clean = clean.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim()
+    try {
+        return JSON.parse(clean)
+    } catch {
+        const match = clean.match(/\[[\s\S]*\]/)
+        if (!match) throw new Error('no json array')
+        return JSON.parse(match[0])
+    }
+}
 
 export async function POST(req: NextRequest) {
     try {
-        // 1. Rate limiting check
-        const ip = getClientIp(req);
-        const rateLimitResult = checkRateLimit(ip, RATE_LIMIT, RATE_WINDOW_MS);
-
-        if (!rateLimitResult.allowed) {
-            return NextResponse.json({
-                success: false,
-                error: 'Rate limit exceeded',
-                message: `Too many requests. Please try again later.`,
-                retryAfter: Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000)
-            }, {
-                status: 429,
-                headers: {
-                    'X-RateLimit-Limit': RATE_LIMIT.toString(),
-                    'X-RateLimit-Remaining': '0',
-                    'X-RateLimit-Reset': new Date(rateLimitResult.resetTime).toISOString(),
-                    'Retry-After': Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000).toString()
-                }
-            });
-        }
-
-        // 2. API Key check
-        const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
-        if (!apiKey) {
-            return NextResponse.json({ success: false, error: 'API Key missing on server' }, { status: 500 });
-        }
-
-        // 3. Validate and sanitize input
         const body = await req.json();
+        const guard = await authorizeStoryGeneration(req, body)
+        if (!guard.ok) return guard.response
+
         const { character, theme } = body;
 
         // Input validation
@@ -68,32 +51,17 @@ export async function POST(req: NextRequest) {
         - Keep the character consistent.
         - Return ONLY the JSON array. No markdown, no code blocks.`;
 
-        const data = await generateContent(apiKey, prompt);
-
-        // Extract text from Gemini response structure
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-
-        // Check for refusal/blocking
-        if (!text || data.promptFeedback?.blockReason) {
-            return NextResponse.json({ success: false, error: 'AI refused to generate story.' }, { status: 422 });
+        const outline = await generateStoryOutline(prompt);
+        if (!outline.ok) {
+            return NextResponse.json({ success: false, error: outline.message }, { status: 503 });
         }
-
-        // Clean up response to ensure valid JSON
-        let cleanResponse = text.trim();
-        if (cleanResponse.startsWith('```json')) {
-            cleanResponse = cleanResponse.replace(/```json/g, '').replace(/```/g, '');
-        }
-
-        // Sanitize: sometimes models wrap in ``` only
-        if (cleanResponse.startsWith('```')) {
-            cleanResponse = cleanResponse.replace(/```/g, '');
-        }
+        const text = outline.text;
 
         let scenes;
         try {
-            scenes = JSON.parse(cleanResponse);
+            scenes = parseSceneList(text);
         } catch (e) {
-            console.error("JSON Parse Error", cleanResponse);
+            console.error("JSON Parse Error", text);
             return NextResponse.json({ success: false, error: 'Failed to parse story format.' }, { status: 500 });
         }
 
@@ -103,12 +71,9 @@ export async function POST(req: NextRequest) {
         }
 
         // Add rate limit headers to successful response
-        const response = NextResponse.json({ success: true, scenes });
-        response.headers.set('X-RateLimit-Limit', RATE_LIMIT.toString());
-        response.headers.set('X-RateLimit-Remaining', rateLimitResult.remaining.toString());
-        response.headers.set('X-RateLimit-Reset', new Date(rateLimitResult.resetTime).toISOString());
-
-        return response;
+        const kv = getRateKv()
+        const generationGrant = kv ? await issueStoryGrant(kv) : undefined
+        return NextResponse.json({ success: true, scenes, generationGrant });
 
     } catch (error) {
         console.error('Story API Error:', error);

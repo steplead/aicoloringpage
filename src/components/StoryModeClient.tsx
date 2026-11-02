@@ -9,6 +9,7 @@ import { Loader2, BookOpen, Sparkles, Download, Printer } from 'lucide-react'
 import Image from 'next/image'
 import { SocialShare } from '@/components/SocialShare'
 import { useTranslations, useLocale } from 'next-intl'
+import { TurnstileField, turnstileEnabled } from '@/components/TurnstileField'
 
 export default function StoryModeClient() {
     const t = useTranslations('StoryMode')
@@ -27,6 +28,10 @@ export default function StoryModeClient() {
     // Step 3: Generation
     const [generatedPages, setGeneratedPages] = useState<string[]>([])
     const [generatingIndex, setGeneratingIndex] = useState(-1)
+    const [turnstileToken, setTurnstileToken] = useState('')
+    const [turnstileReset, setTurnstileReset] = useState(0)
+    const [generationGrant, setGenerationGrant] = useState('')
+    const [error, setError] = useState('')
 
     const handleGeneratePlot = async () => {
         setLoading(true)
@@ -34,22 +39,29 @@ export default function StoryModeClient() {
             const response = await fetch('/api/story/generate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ character: `${characterName}, a ${characterDesc}`, theme })
+                body: JSON.stringify({
+                    character: `${characterName}, a ${characterDesc}`,
+                    theme,
+                    turnstileToken,
+                })
             });
 
             const result = await response.json();
 
             if (result.success && result.scenes) {
                 setScenes(result.scenes)
+                setGenerationGrant(result.generationGrant || '')
+                setError('')
                 setStep(2)
             } else {
-                console.error("Plot generation failed:", result.error);
-                // Ideally show error to user here
+                setError(result.error || 'Plot generation failed')
             }
         } catch (e) {
             console.error("Plot generation error:", e);
+            setError('Plot generation failed')
         } finally {
             setLoading(false)
+            setTurnstileReset((value) => value + 1)
         }
     }
 
@@ -71,7 +83,7 @@ export default function StoryModeClient() {
                 const response = await fetch('/api/generate', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: scenePrompt, style: 'kawaii' })
+                    body: JSON.stringify({ prompt: scenePrompt, style: 'kawaii', generationGrant })
                 });
 
                 const result = await response.json();
@@ -124,10 +136,12 @@ export default function StoryModeClient() {
                             onChange={(e) => setTheme(e.target.value)}
                         />
                     </div>
+                    {error ? <p className="text-sm text-red-600">{error}</p> : null}
+                    <TurnstileField action="story" onToken={setTurnstileToken} resetSignal={turnstileReset} />
                     <Button
                         className="w-full h-12 text-lg bg-purple-600 hover:bg-purple-700"
                         onClick={handleGeneratePlot}
-                        disabled={loading || !characterName || !characterDesc}
+                        disabled={loading || !characterName || !characterDesc || (turnstileEnabled() && !turnstileToken)}
                     >
                         {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <Sparkles className="w-5 h-5 mr-2" />}
                         {t('generatePlotBtn')}

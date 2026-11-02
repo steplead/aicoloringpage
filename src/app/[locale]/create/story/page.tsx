@@ -1,16 +1,20 @@
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import StoryModeClient from '@/components/StoryModeClient'
+import { pageAlternates } from '@/lib/alternates'
 
-export const runtime = 'edge';
 import { Header } from '@/components/Header'
+
+export const dynamic = 'force-static'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params
+    setRequestLocale(locale)
     const t = await getTranslations({ locale, namespace: 'StoryMode' })
 
     return {
         title: t('metaTitle'),
         description: t('metaDescription'),
+        alternates: pageAlternates(locale, '/create/story'),
         openGraph: {
             title: t('metaTitle'),
             description: t('metaDescription'),

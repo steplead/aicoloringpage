@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import pagesData from '@/data/seo-pages.json';
+import { generateColoringImage } from '@/lib/workers-ai';
 
 export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
@@ -8,7 +8,6 @@ export const dynamic = 'force-dynamic';
 // Environment variables
 const PINTEREST_ACCESS_TOKEN = process.env.PINTEREST_ACCESS_TOKEN;
 const PINTEREST_BOARD_ID = process.env.PINTEREST_BOARD_ID;
-const GOOGLE_API_KEY = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -28,59 +27,10 @@ interface PageData {
 // ----------------------------------------------------------------------------
 
 async function generateImage(prompt: string) {
-    const model = 'gemini-2.0-flash-exp';
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GOOGLE_API_KEY}`;
-
-    const styles = ['kawaii', 'intricate', 'realistic', 'stained-glass', 'abstract', 'fantasy'];
-    const randomStyle = styles[Math.floor(Math.random() * styles.length)];
-
-    let styleInstructions = "";
-    let simplifyInstruction = "";
-
-    switch (randomStyle) {
-        case 'intricate':
-            styleInstructions = "Style: Adult Coloring Book. Content: Fill with complex patterns. Line Weight: Fine, delicate.";
-            simplifyInstruction = "3. DO NOT SIMPLIFY. Keep all details.";
-            break;
-        case 'stained-glass':
-            styleInstructions = "Style: Stained Glass. Content: Bold geometric segments. Line Weight: EXTRA THICK, BOLD outlines.";
-            simplifyInstruction = "3. SIMPLIFY into geometric segments.";
-            break;
-        case 'abstract':
-            styleInstructions = "Style: Geometric Abstract. Content: 3D floating shapes. Line Weight: Clean, precise.";
-            simplifyInstruction = "3. Focus on GEOMETRY.";
-            break;
-        default:
-            styleInstructions = "Style: Kawaii. Content: Big eyes, rounded shapes. Line Weight: THICK, BOLD.";
-            simplifyInstruction = "3. SIMPLIFY AGGRESSIVELY.";
-            break;
-    }
-
-    const fullPrompt = `Generate a black and white coloring page of ${prompt}.
-
-    CRITICAL INSTRUCTIONS:
-    1. OUTPUT MUST BE PURE LINE ART ONLY.
-    2. NO SHADING, NO GREYSCALE, NO GRADIENTS.
-    3. Do not include any text.
-    ${simplifyInstruction}
-
-    SPECIFIC STYLE INSTRUCTIONS:
-    - ${styleInstructions}
-
-    Ensure the image is a high-quality, printable coloring page.`;
-
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            contents: [{ parts: [{ text: fullPrompt }] }],
-            generationConfig: { temperature: 0.7 }
-        })
-    });
-
-    if (!response.ok) throw new Error(`Gemini API Error: ${response.status}`);
-    const data = await response.json();
-    return data.candidates?.[0]?.content?.parts?.find((p: any) => p.inlineData)?.inlineData?.data;
+    const result = await generateColoringImage(prompt);
+    if (!result.ok) throw new Error(result.message);
+    const match = result.dataUrl.match(/^data:image\/\w+;base64,(.+)$/);
+    return match?.[1] || null;
 }
 
 async function postToPinterest(imageUrl: string, title: string, description: string, link: string) {
@@ -155,30 +105,21 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ message: 'Daily limit reached', count });
         }
 
-        // 3. Select a Random Unposted Page
-        let selectedPage: PageData | null = null;
-        const totalPages = pagesData.length;
-        let attempts = 0;
+        // 3. Select an unposted page from Supabase.
+        // The 8MB seo-pages JSON is not imported here: parsing it on the Worker
+        // blows the free-plan CPU limit for every request that shares the bundle.
+        const { data: candidates, error: pickError } = await supabase
+            .from('seo_pages')
+            .select('slug, title, description, prompt')
+            .or('pinterest_posted.eq.false,pinterest_posted.is.null')
+            .not('prompt', 'is', null)
+            .limit(1);
 
-        while (!selectedPage && attempts < 15) {
-            const randomIndex = Math.floor(Math.random() * totalPages);
-            const candidate = pagesData[randomIndex] as PageData;
+        if (pickError) throw new Error(`DB Error: ${pickError.message}`);
 
-            // Check DB
-            const { data } = await supabase
-                .from('seo_pages')
-                .select('slug')
-                .eq('slug', candidate.slug)
-                .single();
-
-            if (!data) {
-                selectedPage = candidate;
-            }
-            attempts++;
-        }
-
-        if (!selectedPage) {
-            return NextResponse.json({ message: 'Could not find unposted page after attempts' }, { status: 404 });
+        const selectedPage = (candidates?.[0] ?? null) as PageData | null;
+        if (!selectedPage?.prompt) {
+            return NextResponse.json({ message: 'No unposted page with a prompt' }, { status: 404 });
         }
 
         // 4. Generate Image
@@ -194,11 +135,11 @@ export async function GET(req: NextRequest) {
         }
 
         // 5. Upload to Supabase
-        const fileName = `${selectedPage.slug}-${Date.now()}.png`;
+        const fileName = `${selectedPage.slug}-${Date.now()}.jpg`;
         const { error: uploadError } = await supabase
             .storage
             .from('seo-images')
-            .upload(fileName, bytes, { contentType: 'image/png' });
+            .upload(fileName, bytes, { contentType: 'image/jpeg' });
 
         if (uploadError) throw new Error(`Upload Failed: ${uploadError.message}`);
 

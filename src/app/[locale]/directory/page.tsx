@@ -1,35 +1,28 @@
 import { Link } from '@/i18n/routing'
 import { Header } from '@/components/Header'
 import { Card } from '@/components/ui/card'
-import { getTranslations } from 'next-intl/server'
-import { supabase } from '@/lib/supabase'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { pageAlternates } from '@/lib/alternates'
+import { getPublishedPages } from '@/lib/seo-catalog'
 
-export const runtime = 'edge';
+export const dynamic = 'force-static'
 
-// Helper to get data
-async function getPages() {
-    try {
-        const { data, error } = await supabase
-            .from('seo_pages')
-            .select('slug, subject, audience')
-            .order('subject')
-
-        if (error) throw error
-        return data
-    } catch (e) {
-        console.error('Error reading DB data:', e)
-    }
-    return []
+function getPages(locale: string) {
+    return getPublishedPages(locale)
+        .map((page) => ({ slug: page.slug, subject: page.subject, audience: page.audience }))
+        .sort((a, b) => a.subject.localeCompare(b.subject))
 }
 
 const BASE_URL = 'https://ai-coloringpage.com'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params
+    setRequestLocale(locale)
     const t = await getTranslations({ locale, namespace: 'DirectoryPage' })
     return {
         title: t('metaTitle'),
         description: t('metaDescription'),
+        alternates: pageAlternates(locale, '/directory'),
         openGraph: {
             title: t('metaTitle'),
             description: t('metaDescription'),
@@ -41,7 +34,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function DirectoryPage({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params
-    const pages = await getPages()
+    setRequestLocale(locale)
+    const pages = getPages(locale)
     const t = await getTranslations('DirectoryPage')
     const tData = await getTranslations('Data')
 

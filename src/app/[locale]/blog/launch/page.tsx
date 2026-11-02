@@ -1,22 +1,28 @@
 import { Link } from '@/i18n/routing'
 import { Header } from '@/components/Header'
 
-export const runtime = 'edge';
 import { Button } from '@/components/ui/button'
 import { Camera, BookOpen, Sparkles } from 'lucide-react'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { pageAlternates } from '@/lib/alternates'
+
+export const dynamic = 'force-static'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params
+    setRequestLocale(locale)
     const t = await getTranslations({ locale, namespace: 'LaunchPage' })
 
     return {
         title: t('metaTitle'),
         description: t('metaDescription'),
+        alternates: pageAlternates(locale, '/blog/launch'),
     }
 }
 
-export default async function LaunchPost() {
+export default async function LaunchPost({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params
+    setRequestLocale(locale)
     const t = await getTranslations('LaunchPage')
 
     return (

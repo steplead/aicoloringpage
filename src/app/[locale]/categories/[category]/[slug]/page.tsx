@@ -3,36 +3,28 @@ import { Link } from '@/i18n/routing'
 import { Header } from '@/components/Header'
 import { DownloadButton } from '@/components/DownloadButton'
 import { ShareEmbedButton } from '@/components/ShareEmbedButton'
-import { getTranslations } from 'next-intl/server'
-import seoPages from '@/data/seo-pages.json'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { CATEGORIES, getCategoryForPage, getTagsForPage, type PageData } from '@/lib/categories'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { generateDetailPageSchema } from '@/lib/schema-org'
+import { getPublishedPages } from '@/lib/seo-catalog'
 
-// Cannot use runtime = 'edge' with generateStaticParams
-// export const runtime = 'edge'
+// These URLs 308 to /[locale]/printable/[slug] (see public/_redirects).
+// They are not prerendered: 15k slugs × locales would blow the Pages Free file cap.
+export const dynamic = 'force-static'
+export const dynamicParams = false
+
+export function generateStaticParams() {
+  return [] as { category: string; slug: string }[]
+}
 
 const BASE_URL = 'https://ai-coloringpage.com'
 const LOCALES = ['en', 'es', 'pt', 'fr']
 
-export async function generateStaticParams({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params
-
-  // Generate params for all pages with their categories
-  const pageParams = seoPages.map(page => {
-    const category = getCategoryForPage(page) || 'uncategorized'
-    return {
-      category,
-      slug: page.slug
-    }
-  })
-
-  return pageParams
-}
-
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; category: string; slug: string }> }): Promise<MetadataRoute.Sitemap> {
   const { slug, category, locale } = await params
-  const pageData = seoPages.find(page => page.slug === slug)
+  setRequestLocale(locale)
+  const pageData = getPublishedPages(locale).find(page => page.slug === slug)
 
   if (!pageData) {
     return {
@@ -75,7 +67,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function CategoryDetailPage({ params }: { params: Promise<{ locale: string; category: string; slug: string }> }) {
   const { slug, category, locale } = await params
-  const pageData = seoPages.find(page => page.slug === slug) as PageData | undefined
+  setRequestLocale(locale)
+  const pageData = getPublishedPages(locale).find(page => page.slug === slug) as PageData | undefined
 
   if (!pageData) {
     return <div>Page not found</div>
@@ -85,15 +78,16 @@ export default async function CategoryDetailPage({ params }: { params: Promise<{
   const tags = getTagsForPage(pageData)
 
   // Protocol 5: Multi-pathing - Get related pages
-  const sameCategory = seoPages.filter(page =>
+  const catalog = getPublishedPages(locale)
+  const sameCategory = catalog.filter(page =>
     page.slug !== slug && getCategoryForPage(page) === category
   ).slice(0, 4)
 
-  const sameAudience = seoPages.filter(page =>
+  const sameAudience = catalog.filter(page =>
     page.slug !== slug && page.audience === pageData.audience
   ).slice(0, 4)
 
-  const sameSubject = seoPages.filter(page =>
+  const sameSubject = catalog.filter(page =>
     page.slug !== slug && page.subject === pageData.subject
   ).slice(0, 4)
 
