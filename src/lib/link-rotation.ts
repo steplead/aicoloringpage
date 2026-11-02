@@ -1,8 +1,12 @@
 // Protocol 5: "Frying Beans" - Dynamic Link Rotation Strategy
 // Video: "换一换，不停的换一换" - Keep changing links to help Google crawl all pages
 
-import seoPages from '@/data/seo-pages.json'
 import { getCategoryForPage, getTagsForPage, type PageData } from './categories'
+import { getPublishedPages } from './seo-catalog'
+
+function seoPages(): PageData[] {
+  return getPublishedPages('en') as PageData[]
+}
 
 const ROTATION_INTERVAL = 24 * 60 * 60 * 1000 // 24 hours
 const WEEK_IN_MS = 7 * 24 * 60 * 60 * 1000 // 1 week
@@ -41,7 +45,7 @@ export async function getRotatedRelatedPages(
   const cycle = getRotationCycle()
   const seed = cycle + currentSlug.length // Deterministic seed
 
-  const otherPages = seoPages.filter(page => page.slug !== currentSlug)
+  const otherPages = seoPages().filter(page => page.slug !== currentSlug)
 
   // Shuffle based on cycle seed (deterministic for 24h period)
   const shuffled = otherPages
@@ -63,13 +67,13 @@ export async function getRotatedSameCategory(
   currentSlug: string,
   count: number = 4
 ): Promise<PageData[]> {
-  const currentPage = seoPages.find(p => p.slug === currentSlug)
+  const currentPage = seoPages().find(p => p.slug === currentSlug)
   if (!currentPage) return []
 
   const category = getCategoryForPage(currentPage)
   if (!category) return []
 
-  const sameCategory = seoPages.filter(page => {
+  const sameCategory = seoPages().filter(page => {
     return page.slug !== currentSlug && getCategoryForPage(page) === category
   })
 
@@ -95,12 +99,12 @@ export async function getRotatedSameTags(
   currentSlug: string,
   count: number = 4
 ): Promise<PageData[]> {
-  const currentPage = seoPages.find(p => p.slug === currentSlug)
+  const currentPage = seoPages().find(p => p.slug === currentSlug)
   if (!currentPage) return []
 
   const currentTags = getTagsForPage(currentPage)
 
-  const sameTags = seoPages.filter(page => {
+  const sameTags = seoPages().filter(page => {
     if (page.slug === currentSlug) return false
     const tags = getTagsForPage(page)
     const intersection = tags.filter(t => currentTags.includes(t))
@@ -129,12 +133,12 @@ export async function getRotatedSameLetter(
   currentSlug: string,
   count: number = 4
 ): Promise<PageData[]> {
-  const currentPage = seoPages.find(p => p.slug === currentSlug)
+  const currentPage = seoPages().find(p => p.slug === currentSlug)
   if (!currentPage) return []
 
   const firstLetter = currentPage.slug.charAt(0).toLowerCase()
 
-  const sameLetter = seoPages.filter(page => {
+  const sameLetter = seoPages().filter(page => {
     return page.slug !== currentSlug && page.slug.charAt(0).toLowerCase() === firstLetter
   })
 
@@ -162,7 +166,7 @@ export async function getPopularThisWeek(count: number = 10): Promise<PageData[]
   const weekCycle = getWeekCycle()
   const seed = weekCycle * 999
 
-  const shuffled = seoPages
+  const shuffled = seoPages()
     .map((page, index) => ({
       page,
       sortKey: seededRandom(seed, index)
@@ -181,7 +185,7 @@ export async function getTrendingPages(count: number = 10): Promise<PageData[]> 
   const dayCycle = getRotationCycle()
   const seed = dayCycle * 777
 
-  const shuffled = seoPages
+  const shuffled = seoPages()
     .map((page, index) => ({
       page,
       sortKey: seededRandom(seed, index)
@@ -200,7 +204,7 @@ export async function getTrendingPages(count: number = 10): Promise<PageData[]> 
 export async function getNewPages(count: number = 5): Promise<PageData[]> {
   const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000)
 
-  const newPages = seoPages.filter(page => {
+  const newPages = seoPages().filter(page => {
     const createdAt = new Date(page.created_at).getTime()
     return createdAt > thirtyDaysAgo
   })

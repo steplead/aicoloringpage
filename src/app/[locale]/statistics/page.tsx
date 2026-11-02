@@ -4,11 +4,15 @@ import { Badge } from '@/components/ui/badge'
 import statisticsData from '@/data/coloring-statistics.json'
 import { BarChart3, TrendingUp, Users, BookOpen, Quote, Link2 } from 'lucide-react'
 import { Link } from '@/i18n/routing'
+import { setRequestLocale } from 'next-intl/server'
+
+export const dynamic = 'force-static'
 
 const BASE_URL = 'https://ai-coloringpage.com';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
+    setRequestLocale(locale);
 
     return {
         title: 'Coloring Page Statistics & Research 2026 | Data-Driven Insights',
@@ -34,6 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function StatisticsPage({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
+    setRequestLocale(locale);
 
     // Structured Data: Dataset (for rich results)
     const datasetJsonLd = {

@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { generateImage } from '@/app/actions/gen-img'
 import { generateSinglePagePDF, generateBookPDF } from '@/lib/pdf-utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'

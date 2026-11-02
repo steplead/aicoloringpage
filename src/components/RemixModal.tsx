@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { X, Sparkles, Download, Loader2, Wand2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { generateImage } from '@/app/actions/gen-img'
 import Image from 'next/image'
 
 interface RemixModalProps {
@@ -32,7 +31,12 @@ export function RemixModal({ isOpen, onClose, originalPrompt }: RemixModalProps)
             : originalPrompt
 
         try {
-            const result = await generateImage(fullPrompt, 'kawaii') // Default to kawaii for now, or add style selector
+            const response = await fetch('/api/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: fullPrompt, style: 'kawaii' }),
+            })
+            const result = await response.json()
             if (result.success && result.data) {
                 setRemixedImage(String(result.data[0]))
             } else {

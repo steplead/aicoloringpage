@@ -114,7 +114,8 @@
         "suffix": "Pages",
         "variations": "+ many more variations",
         "metaTitle": "Coloring Page Directory - Browse All Categories",
-        "metaDescription": "Browse our extensive collection of free printable coloring pages. Find pages for kids, adults, and every subject imaginable."
+        "metaDescription": "Browse our extensive collection of free printable coloring pages. Find pages for kids, adults, and every subject imaginable.",
+        "viewMore": "View more"
     },
     "PrintablePage": {
         "breadcrumbs": {

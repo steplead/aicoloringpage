@@ -1,20 +1,26 @@
 import { Header } from '@/components/Header'
 import { Card } from '@/components/ui/card'
 
-export const runtime = 'edge';
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { pageAlternates } from '@/lib/alternates'
+
+export const dynamic = 'force-static'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params
+    setRequestLocale(locale)
     const t = await getTranslations({ locale, namespace: 'TermsPage' })
     return {
         title: `${t('title')} - AI Coloring Page`,
+        alternates: pageAlternates(locale, '/terms'),
     }
 }
 
-export default async function TermsPage() {
+export default async function TermsPage({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params
+    setRequestLocale(locale)
     const t = await getTranslations('TermsPage')
-    const year = new Date().getFullYear()
+    const year = 2026
 
     return (
         <div className="min-h-screen bg-gray-50 font-sans">

@@ -1,5 +1,19 @@
 {
   "version": 1,
-  "include": ["/*"],
-  "exclude": ["/api/*"]
+  "include": ["/api/*"],
+  "exclude": [
+    "/",
+    "/sitemap.xml",
+    "/robots.txt",
+    "/favicon.ico",
+    "/_next/static/*",
+    "/en",
+    "/en/*",
+    "/es",
+    "/es/*",
+    "/pt",
+    "/pt/*",
+    "/fr",
+    "/fr/*"
+  ]
 }

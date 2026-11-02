@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import pagesData from '@/data/seo-pages.json';
 
 export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
@@ -155,30 +154,21 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ message: 'Daily limit reached', count });
         }
 
-        // 3. Select a Random Unposted Page
-        let selectedPage: PageData | null = null;
-        const totalPages = pagesData.length;
-        let attempts = 0;
+        // 3. Select an unposted page from Supabase.
+        // The 8MB seo-pages JSON is not imported here: parsing it on the Worker
+        // blows the free-plan CPU limit for every request that shares the bundle.
+        const { data: candidates, error: pickError } = await supabase
+            .from('seo_pages')
+            .select('slug, title, description, prompt')
+            .or('pinterest_posted.eq.false,pinterest_posted.is.null')
+            .not('prompt', 'is', null)
+            .limit(1);
 
-        while (!selectedPage && attempts < 15) {
-            const randomIndex = Math.floor(Math.random() * totalPages);
-            const candidate = pagesData[randomIndex] as PageData;
+        if (pickError) throw new Error(`DB Error: ${pickError.message}`);
 
-            // Check DB
-            const { data } = await supabase
-                .from('seo_pages')
-                .select('slug')
-                .eq('slug', candidate.slug)
-                .single();
-
-            if (!data) {
-                selectedPage = candidate;
-            }
-            attempts++;
-        }
-
-        if (!selectedPage) {
-            return NextResponse.json({ message: 'Could not find unposted page after attempts' }, { status: 404 });
+        const selectedPage = (candidates?.[0] ?? null) as PageData | null;
+        if (!selectedPage?.prompt) {
+            return NextResponse.json({ message: 'No unposted page with a prompt' }, { status: 404 });
         }
 
         // 4. Generate Image

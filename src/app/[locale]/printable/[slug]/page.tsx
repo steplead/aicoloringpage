@@ -5,56 +5,23 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { ShareEmbedButton } from '@/components/ShareEmbedButton'
 import { Check, Download, Printer, Sparkles, Star } from 'lucide-react'
-import { getTranslations } from 'next-intl/server'
-import { supabase } from '@/lib/supabase'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { pageAlternates } from '@/lib/alternates'
+import { getPublishedPage, getPublishedPages, getRelatedPages } from '@/lib/seo-catalog'
 
-export const runtime = 'edge';
+export const dynamic = 'force-static'
+export const dynamicParams = false
 
-// Helper to get specific page data - always use DB to avoid large JSON imports
-async function getPageData(slug: string, locale: string) {
-    try {
-        const { data, error } = await supabase
-            .from('seo_pages')
-            .select('*')
-            .eq('slug', slug)
-            .eq('locale', locale)
-            .single()
-
-        if (error) throw error
-        return data
-    } catch (e) {
-        console.error('Error reading page data:', e)
-    }
-    return null
-}
-
-// Helper to get related pages
-async function getRelatedPages(slug: string, locale: string, limit: number = 4) {
-    try {
-        const { data, error } = await supabase
-            .from('seo_pages')
-            .select('*')
-            .eq('locale', locale)
-            .neq('slug', slug)
-            .limit(limit * 2) // Get more to randomize
-
-        if (error) throw error
-
-        // Return random subset
-        return (data || [])
-            .sort(() => Math.random() - 0.5)
-            .slice(0, limit)
-    } catch (e) {
-        console.error('Error getting related pages:', e)
-        return []
-    }
+export function generateStaticParams() {
+    return getPublishedPages('en').map((page) => ({ slug: page.slug }))
 }
 
 const BASE_URL = 'https://ai-coloringpage.com'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; locale: string }> }) {
     const { slug, locale } = await params
-    const pageData = await getPageData(slug, locale)
+    setRequestLocale(locale)
+    const pageData = getPublishedPage(locale, slug)
 
     if (!pageData) {
         return {
@@ -69,16 +36,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     return {
         title: pageData.title,
         description: pageData.description || t('descriptionTemplate', { subject: pageData.subject, audience: pageData.audience }),
-        alternates: {
-            canonical: `${BASE_URL}/${locale}${path}`,
-            languages: {
-                'en': `${BASE_URL}/en${path}`,
-                'es': `${BASE_URL}/es${path}`,
-                'pt': `${BASE_URL}/pt${path}`,
-                'fr': `${BASE_URL}/fr${path}`,
-                'x-default': `${BASE_URL}/en${path}`,
-            },
-        },
+        alternates: pageAlternates(locale, path),
         openGraph: {
             title: pageData.title,
             description: pageData.description,
@@ -89,7 +47,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function PrintablePage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
     const { slug, locale } = await params
-    const pageData = await getPageData(slug, locale)
+    setRequestLocale(locale)
+    const pageData = getPublishedPage(locale, slug)
     const t = await getTranslations('PrintablePage')
     const tData = await getTranslations('Data')
 
@@ -102,8 +61,7 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
     const translatedAudience = tData.has(pageData.audience) ? tData(pageData.audience) : pageData.audience
     const translatedTitle = tData('titlePattern', { subject: translatedSubject, audience: translatedAudience })
 
-    // Get related pages from database
-    const relatedPages = await getRelatedPages(slug, locale, 4)
+    const relatedPages = getRelatedPages(locale, slug, 4)
 
     // Structured Data: Breadcrumbs
     const breadcrumbJsonLd = {

@@ -2,12 +2,13 @@ import { Link } from '@/i18n/routing'
 import Image from 'next/image'
 import { Header } from '@/components/Header'
 import { Card } from '@/components/ui/card'
-import seoPages from '@/data/seo-pages.json'
+import { setRequestLocale } from 'next-intl/server'
 import { TAGS, getTagsForPage, getCategoryForPage, type PageData } from '@/lib/categories'
 import { generateCategoryPageSchema } from '@/lib/schema-org'
+import { getPublishedPages } from '@/lib/seo-catalog'
 
-// Cannot use runtime = 'edge' with generateStaticParams
-// export const runtime = 'edge'
+export const dynamic = 'force-static'
+export const dynamicParams = false
 
 export async function generateStaticParams() {
   // Protocol 2: Generate static params for all 20+ tags
@@ -18,6 +19,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; tag: string }> }) {
   const { tag, locale } = await params
+  setRequestLocale(locale)
   const tagData = TAGS[tag as keyof typeof TAGS]
 
   if (!tagData) {
@@ -52,14 +54,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function TagPage({ params }: { params: Promise<{ locale: string; tag: string }> }) {
   const { tag, locale } = await params
+  setRequestLocale(locale)
   const tagData = TAGS[tag as keyof typeof TAGS]
 
   if (!tagData) {
     return <div>Tag not found</div>
   }
 
-  // Get pages for this tag
-  const pages: PageData[] = seoPages.filter(page => {
+  const pages: PageData[] = getPublishedPages(locale).filter(page => {
     const tags = getTagsForPage(page)
     return tags.includes(tag)
   })
@@ -108,7 +110,7 @@ export default async function TagPage({ params }: { params: Promise<{ locale: st
             const category = getCategoryForPage(page) || 'uncategorized'
             return (
               <Card key={page.slug} className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <Link href={`/${locale}/categories/${category}/${page.slug}`} prefetch={false}>
+                <Link href={`/printable/${page.slug}`} prefetch={false}>
                   <div className="aspect-square bg-white p-2">
                     <Image
                       src={page.image_url}
@@ -143,7 +145,7 @@ export default async function TagPage({ params }: { params: Promise<{ locale: st
               .map(([key, data]) => (
                 <Link
                   key={key}
-                  href={`/${locale}/tags/${key}`}
+                  href={`/tags/${key}`}
                   className="block p-4 bg-white rounded-lg hover:shadow-md transition-shadow text-center"
                 >
                   <h3 className="font-semibold text-gray-900">{data.name}</h3>

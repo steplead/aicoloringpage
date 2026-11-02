@@ -1,45 +1,39 @@
 import { getRequestConfig } from 'next-intl/server';
-import { headers } from 'next/headers';
+import { routing } from './routing';
 import en from '../../messages/en.json';
-import es from '../../messages/es.json';
-import pt from '../../messages/pt.json';
-import fr from '../../messages/fr.json';
 
-const messagesSource = {
-  en,
-  es,
-  pt,
-  fr
-};
+type MessageTree = Record<string, unknown>;
+
+function englishFallback(namespace: string | undefined, key: string): string {
+  const root = en as MessageTree;
+  const bucket = namespace ? root[namespace] : root;
+  if (bucket && typeof bucket === 'object' && key in (bucket as MessageTree)) {
+    const value = (bucket as MessageTree)[key];
+    if (typeof value === 'string') return value;
+  }
+  return namespace ? `${namespace}.${key}` : key;
+}
 
 export default getRequestConfig(async ({ requestLocale }) => {
-  // Try to get locale from the custom header injected by our middleware first
-  const headerList = await headers();
-  const localeHeader = headerList.get('X-NEXT-INTL-LOCALE');
-  const referer = headerList.get('referer');
+  // Locale comes from the `[locale]` segment (setRequestLocale during SSG).
+  // Do not read headers() here — that opts every page into per-request SSR.
+  let locale = await requestLocale;
 
-  let locale = localeHeader || await requestLocale;
-
-  // Fallback: Try to extract from Referer URL if everything else fails
-  if (!locale && referer) {
-    try {
-      const url = new URL(referer);
-      const match = url.pathname.match(/^\/([a-z]{2})(\/|$)/);
-      if (match) {
-        locale = match[1];
-      }
-    } catch (e) {
-      // Ignore invalid URL errors
-    }
-  }
-
-  // Ensure that a valid locale is used
-  if (!locale || !['en', 'es', 'pt', 'fr'].includes(locale)) {
-    locale = 'en';
+  if (!locale || !routing.locales.includes(locale as (typeof routing.locales)[number])) {
+    locale = routing.defaultLocale;
   }
 
   return {
     locale,
-    messages: messagesSource[locale as keyof typeof messagesSource]
+    messages: (await import(`../../messages/${locale}.json`)).default,
+    onError(error) {
+      // Incomplete locale files (PetPage, a few DirectoryPage keys) must not
+      // fail static generation. English copy is used instead.
+      if (error.code === 'MISSING_MESSAGE') return;
+      console.error(error);
+    },
+    getMessageFallback({ namespace, key }) {
+      return englishFallback(namespace, key);
+    },
   };
 });

@@ -1,14 +1,18 @@
 import { Header } from '@/components/Header'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { generateAboutPageSchema } from '@/lib/schema-org'
+import { pageAlternates } from '@/lib/alternates'
 
-export const runtime = 'edge';
+export const dynamic = 'force-static'
 
-export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params
+    setRequestLocale(locale)
     const t = await getTranslations({ locale, namespace: 'AboutPage' })
     return {
         title: `${t('title')} | AI Coloring Page`,
         description: t('p1').replace(/<[^>]*>?/gm, ""), // Strip HTML tags for description
+        alternates: pageAlternates(locale, '/about'),
         openGraph: {
             title: `${t('title')} | AI Coloring Page`,
             description: t('p1').replace(/<[^>]*>?/gm, ""),
@@ -17,7 +21,9 @@ export async function generateMetadata({ params: { locale } }: { params: { local
     }
 }
 
-export default async function AboutPage() {
+export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params
+    setRequestLocale(locale)
     const t = await getTranslations('AboutPage')
 
     // Generate About Page Schema.org with Organization and WebPage
