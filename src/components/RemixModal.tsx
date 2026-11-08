@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { X, Sparkles, Download, Loader2, Wand2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { generateImage } from '@/app/actions/gen-img'
 import Image from 'next/image'
+import { TurnstileField, turnstileEnabled } from '@/components/TurnstileField'
 
 interface RemixModalProps {
     isOpen: boolean
@@ -18,6 +18,8 @@ export function RemixModal({ isOpen, onClose, originalPrompt }: RemixModalProps)
     const [loading, setLoading] = useState(false)
     const [remixedImage, setRemixedImage] = useState('')
     const [error, setError] = useState('')
+    const [turnstileToken, setTurnstileToken] = useState('')
+    const [turnstileReset, setTurnstileReset] = useState(0)
 
     if (!isOpen) return null
 
@@ -32,7 +34,12 @@ export function RemixModal({ isOpen, onClose, originalPrompt }: RemixModalProps)
             : originalPrompt
 
         try {
-            const result = await generateImage(fullPrompt, 'kawaii') // Default to kawaii for now, or add style selector
+            const response = await fetch('/api/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: fullPrompt, style: 'kawaii', turnstileToken }),
+            })
+            const result = await response.json()
             if (result.success && result.data) {
                 setRemixedImage(String(result.data[0]))
             } else {
@@ -42,6 +49,7 @@ export function RemixModal({ isOpen, onClose, originalPrompt }: RemixModalProps)
             setError('Something went wrong')
         } finally {
             setLoading(false)
+            setTurnstileReset((value) => value + 1)
         }
     }
 
@@ -91,9 +99,10 @@ export function RemixModal({ isOpen, onClose, originalPrompt }: RemixModalProps)
                                 className="flex-1"
                                 onKeyDown={(e) => e.key === 'Enter' && handleRemix()}
                             />
+                            <TurnstileField action="generate" onToken={setTurnstileToken} resetSignal={turnstileReset} />
                             <Button
                                 onClick={handleRemix}
-                                disabled={loading}
+                                disabled={loading || (turnstileEnabled() && !turnstileToken)}
                                 className="bg-purple-600 hover:bg-purple-700 text-white"
                             >
                                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}

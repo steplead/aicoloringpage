@@ -4,11 +4,15 @@ import { Badge } from '@/components/ui/badge'
 import statisticsData from '@/data/coloring-statistics.json'
 import { BarChart3, TrendingUp, Users, BookOpen, Quote, Link2 } from 'lucide-react'
 import { Link } from '@/i18n/routing'
+import { setRequestLocale } from 'next-intl/server'
+
+export const dynamic = 'force-static'
 
 const BASE_URL = 'https://ai-coloringpage.com';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
+    setRequestLocale(locale);
 
     return {
         title: 'Coloring Page Statistics & Research 2026 | Data-Driven Insights',
@@ -34,6 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function StatisticsPage({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
+    setRequestLocale(locale);
 
     // Structured Data: Dataset (for rich results)
     const datasetJsonLd = {
@@ -149,7 +154,7 @@ export default async function StatisticsPage({ params }: { params: Promise<{ loc
                                                         <div className="flex justify-between text-sm mb-1">
                                                             <span className="text-gray-700">{key}</span>
                                                             <span className="font-bold text-blue-600">
-                                                                {typeof value === 'number' ? value : value}
+                                                                {typeof value === 'number' ? value : String(value)}
                                                             </span>
                                                         </div>
                                                         <div className="w-full bg-gray-200 rounded-full h-3">

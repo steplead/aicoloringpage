@@ -1,0 +1,43 @@
+{
+  "mandala_form_a_records": 0,
+  "mandala_form_a_published": 0,
+  "published_mandala_subject": 23,
+  "published_mandala_subject_by_style": {
+    "Standard": 14,
+    "Realistic": 1,
+    "Cartoon": 1,
+    "Kawaii": 1,
+    "Chibi": 1,
+    "Anime": 1,
+    "Manga": 1,
+    "Comic Book": 1,
+    "Steampunk": 1,
+    "Cyberpunk": 1
+  },
+  "published_mandala_subject_slugs": [
+    "mandala-coloring-page-for-kids",
+    "mandala-coloring-page-for-adults",
+    "mandala-coloring-page-for-toddlers",
+    "mandala-coloring-page-for-preschoolers",
+    "mandala-coloring-page-for-kindergarteners",
+    "mandala-coloring-page-for-teens",
+    "mandala-coloring-page-for-boys",
+    "mandala-coloring-page-for-girls",
+    "mandala-coloring-page-for-men",
+    "mandala-coloring-page-for-women",
+    "mandala-coloring-page-for-seniors",
+    "mandala-coloring-page-for-beginners",
+    "mandala-coloring-page-for-intermediates",
+    "mandala-coloring-page-for-experts",
+    "realistic-mandala-coloring-page",
+    "cartoon-mandala-coloring-page",
+    "kawaii-mandala-coloring-page",
+    "chibi-mandala-coloring-page",
+    "anime-mandala-coloring-page",
+    "manga-mandala-coloring-page",
+    "comic-book-mandala-coloring-page",
+    "steampunk-mandala-coloring-page",
+    "cyberpunk-mandala-coloring-page"
+  ],
+  "notes": "No mandala hub added. Existing candidates are subject Mandala pages, not 128 mandala-style subject pages; list policy remains blocked on owner/GSC."
+}

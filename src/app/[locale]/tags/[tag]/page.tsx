@@ -1,13 +1,17 @@
+import { notFound } from 'next/navigation'
+import { isStyleTag } from '@/lib/styles'
+import { getStyleGuide, styleTitle, styleCount } from '@/lib/style-guides'
 import { Link } from '@/i18n/routing'
 import Image from 'next/image'
 import { Header } from '@/components/Header'
 import { Card } from '@/components/ui/card'
-import seoPages from '@/data/seo-pages.json'
+import { setRequestLocale } from 'next-intl/server'
 import { TAGS, getTagsForPage, getCategoryForPage, type PageData } from '@/lib/categories'
 import { generateCategoryPageSchema } from '@/lib/schema-org'
+import { getPublishedPages } from '@/lib/seo-catalog'
 
-// Cannot use runtime = 'edge' with generateStaticParams
-// export const runtime = 'edge'
+export const dynamic = 'force-static'
+export const dynamicParams = false
 
 export async function generateStaticParams() {
   // Protocol 2: Generate static params for all 20+ tags
@@ -18,6 +22,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; tag: string }> }) {
   const { tag, locale } = await params
+  setRequestLocale(locale)
   const tagData = TAGS[tag as keyof typeof TAGS]
 
   if (!tagData) {
@@ -27,11 +32,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   }
 
   const path = `/tags/${tag}`
+  const title = isStyleTag(tag) ? styleTitle(locale, tag) : `${tagData.name} Coloring Pages`
+  const description = isStyleTag(tag) ? getStyleGuide(locale, tag).sections[0].body : tagData.description
 
   // Protocol 3: Keyword leftmost
   return {
-    title: `${tagData.name} Coloring Pages - ${tagData.description}`,
-    description: tagData.description,
+    title,
+    description,
     alternates: {
       canonical: `https://ai-coloringpage.com/${locale}${path}`,
       languages: {
@@ -43,8 +50,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       },
     },
     openGraph: {
-      title: `${tagData.name} Coloring Pages`,
-      description: tagData.description,
+      title,
+      description,
       type: 'website',
     }
   }
@@ -52,28 +59,31 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function TagPage({ params }: { params: Promise<{ locale: string; tag: string }> }) {
   const { tag, locale } = await params
+  setRequestLocale(locale)
   const tagData = TAGS[tag as keyof typeof TAGS]
 
   if (!tagData) {
-    return <div>Tag not found</div>
+    notFound()
   }
 
-  // Get pages for this tag
-  const pages: PageData[] = seoPages.filter(page => {
+  const pages: PageData[] = getPublishedPages(locale).filter(page => {
     const tags = getTagsForPage(page)
     return tags.includes(tag)
   })
 
+  const guide = isStyleTag(tag) ? getStyleGuide(locale, tag) : null
+  const title = isStyleTag(tag) ? styleTitle(locale, tag) : `${tagData.name} Coloring Pages`
+
   // Generate Schema.org structured data
   const schemaData = generateCategoryPageSchema({
-    name: `${tagData.name} Coloring Pages`,
+    name: title,
     description: tagData.description,
     count: pages.length,
-    url: `https://ai-coloringpage.com/tags/${tag}`,
+    url: `https://ai-coloringpage.com/${locale}/tags/${tag}`,
     breadcrumbs: [
-      { name: 'Home', url: 'https://ai-coloringpage.com/' },
-      { name: 'Tags', url: 'https://ai-coloringpage.com/tags' },
-      { name: tagData.name, url: `https://ai-coloringpage.com/tags/${tag}` }
+      { name: 'Home', url: `https://ai-coloringpage.com/${locale}` },
+      { name: 'Tags', url: `https://ai-coloringpage.com/${locale}/tags` },
+      { name: tagData.name, url: `https://ai-coloringpage.com/${locale}/tags/${tag}` }
     ]
   })
 
@@ -92,15 +102,22 @@ export default async function TagPage({ params }: { params: Promise<{ locale: st
         <div className="text-center max-w-3xl mx-auto mb-12">
           {/* Video: H1 must have id attribute */}
           <h1 id={tag} className="text-4xl font-extrabold text-gray-900 mb-4">
-            {tagData.name} Coloring Pages
+            {title}
           </h1>
           <p className="text-lg text-gray-600">
-            {tagData.description}
+            {guide ? guide.sections[0].heading : tagData.description}
           </p>
           <p className="text-sm text-gray-500 mt-2">
-            Browse {pages.length} {tagData.name.toLowerCase()} coloring pages
+            {styleCount(locale, pages.length)}
           </p>
         </div>
+
+        {guide && <article data-style-guide={tag} className="prose max-w-4xl mx-auto mb-12">
+          {guide.sections.map(section => <section key={section.heading} className="mb-6">
+            <h2 className="text-2xl font-semibold mb-3">{section.heading}</h2>
+            <p className="text-gray-700 leading-relaxed">{section.body}</p>
+          </section>)}
+        </article>}
 
         {/* Protocol 2: Classified Listing Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
@@ -108,7 +125,7 @@ export default async function TagPage({ params }: { params: Promise<{ locale: st
             const category = getCategoryForPage(page) || 'uncategorized'
             return (
               <Card key={page.slug} className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <Link href={`/${locale}/categories/${category}/${page.slug}`} prefetch={false}>
+                <Link href={`/printable/${page.slug}`} prefetch={false}>
                   <div className="aspect-square bg-white p-2">
                     <Image
                       src={page.image_url}
@@ -143,7 +160,7 @@ export default async function TagPage({ params }: { params: Promise<{ locale: st
               .map(([key, data]) => (
                 <Link
                   key={key}
-                  href={`/${locale}/tags/${key}`}
+                  href={`/tags/${key}`}
                   className="block p-4 bg-white rounded-lg hover:shadow-md transition-shadow text-center"
                 >
                   <h3 className="font-semibold text-gray-900">{data.name}</h3>

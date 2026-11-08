@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { generateImage } from '@/app/actions/gen-img'
 import { generateSinglePagePDF, generateBookPDF } from '@/lib/pdf-utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -14,6 +13,7 @@ import { useSearchParams } from 'next/navigation'
 import { Suspense } from 'react'
 import { useTranslations } from 'next-intl'
 import { useLocale } from 'next-intl'
+import { TurnstileField, turnstileEnabled } from '@/components/TurnstileField'
 
 function HomeContent() {
     const t = useTranslations('HomePage')
@@ -25,6 +25,8 @@ function HomeContent() {
     const [imageUrl, setImageUrl] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
+    const [turnstileToken, setTurnstileToken] = useState('')
+    const [turnstileReset, setTurnstileReset] = useState(0)
 
     // Style State
     const [style, setStyle] = useState('kawaii')
@@ -50,7 +52,8 @@ function HomeContent() {
                 },
                 body: JSON.stringify({
                     prompt,
-                    style
+                    style,
+                    turnstileToken,
                 })
             })
 
@@ -66,6 +69,7 @@ function HomeContent() {
             setError(err instanceof Error ? err.message : 'Failed to generate image. Please try again.')
         } finally {
             setLoading(false)
+            setTurnstileReset((value) => value + 1)
         }
     }
 
@@ -200,9 +204,11 @@ function HomeContent() {
                                 </p>
                             </div>
 
+                            <TurnstileField action="generate" onToken={setTurnstileToken} resetSignal={turnstileReset} />
+
                             <Button
                                 onClick={handleGenerate}
-                                disabled={loading || !prompt.trim()}
+                                disabled={loading || !prompt.trim() || (turnstileEnabled() && !turnstileToken)}
                                 className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all"
                             >
                                 {loading ? (

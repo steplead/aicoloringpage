@@ -1,0 +1,97 @@
+# Static redirects (no wildcards) must come before dynamic ones.
+# These run only for paths excluded from the Pages Function. See scripts/finalize-pages-output.mjs.
+
+# Live behavior: GET / → 308 /en (no trailing slash)
+/ /en 308
+
+# Docs/crawlers sometimes request the Next.js folder name literally.
+/[locale] /en 308
+/[locale]/ /en 308
+/%5Blocale%5d /en 308
+/%5Blocale%5d/ /en 308
+
+# Live behavior: trailing slash on a locale home is stripped (/en/ → /en)
+/en/ /en 308
+/es/ /es 308
+/pt/ /pt 308
+/fr/ /fr 308
+
+# Unlocalized paths → default locale (middleware used to do this)
+/about /en/about 308
+/about/ /en/about 308
+/privacy /en/privacy 308
+/privacy/ /en/privacy 308
+/terms /en/terms 308
+/terms/ /en/terms 308
+/pricing /en/pricing 308
+/pricing/ /en/pricing 308
+/statistics /en/statistics 308
+/statistics/ /en/statistics 308
+/directory /en/directory 308
+/directory/ /en/directory 308
+/blog /en/blog 308
+/blog/ /en/blog 308
+/categories /en/categories 308
+/categories/ /en/categories 308
+/tags /en/tags 308
+/tags/ /en/tags 308
+/create/photo /en/create/photo 308
+/create/photo/ /en/create/photo 308
+/create/story /en/create/story 308
+/create/story/ /en/create/story 308
+/create/pet /en/create/pet 308
+/create/pet/ /en/create/pet 308
+
+# Dynamic redirects
+/[locale]/* /en/:splat 308
+/%5Blocale%5d/* /en/:splat 308
+
+# Strip one trailing slash on real pages (live /en/about/ → /en/about)
+/:locale/:page/ /:locale/:page 308
+/:locale/:a/:b/ /:locale/:a/:b 308
+/:locale/:a/:b/:c/ /:locale/:a/:b/:c 308
+
+# Category detail URLs are not separate HTML files (file-count limit).
+# Send them at the printable page, which is the indexed URL.
+/categories/:category/:slug /en/printable/:slug 308
+/categories/:category/:slug/ /en/printable/:slug 308
+/en/categories/:category/:slug /en/printable/:slug 308
+/es/categories/:category/:slug /es/printable/:slug 308
+/pt/categories/:category/:slug /pt/printable/:slug 308
+/fr/categories/:category/:slug /fr/printable/:slug 308
+/en/categories/:category/:slug/ /en/printable/:slug 308
+/es/categories/:category/:slug/ /es/printable/:slug 308
+/pt/categories/:category/:slug/ /pt/printable/:slug 308
+/fr/categories/:category/:slug/ /fr/printable/:slug 308
+
+/printable/:slug /en/printable/:slug 308
+/printable/:slug/ /en/printable/:slug 308
+/blog/:slug /en/blog/:slug 308
+/blog/:slug/ /en/blog/:slug 308
+/categories/:category /en/categories/:category 308
+/categories/:category/ /en/categories/:category 308
+/tags/:tag /en/tags/:tag 308
+/tags/:tag/ /en/tags/:tag 308
+/directory/a-z/:letter /en/directory/a-z/:letter 308
+/directory/a-z/:letter/ /en/directory/a-z/:letter 308
+
+/:locale/[locale] /:locale 308
+/:locale/[locale]/ /:locale 308
+/:locale/[locale]/* /:locale/:splat 308
+# v21: unrecoverable placeholder-only legacy style + subject + audience records
+/en/printable/kawaii-:noun-coloring-page-for-:audience /en/printable/kawaii-:noun-coloring-page 301
+/en/printable/realistic-:noun-coloring-page-for-:audience /en/printable/realistic-:noun-coloring-page 301
+/en/printable/steampunk-:noun-coloring-page-for-:audience /en/printable/steampunk-:noun-coloring-page 301
+/en/printable/mandala-:noun-coloring-page-for-:audience /en/printable/mandala-coloring-page-for-adults 301
+/es/printable/kawaii-:noun-coloring-page-for-:audience /es/printable/kawaii-:noun-coloring-page 301
+/es/printable/realistic-:noun-coloring-page-for-:audience /es/printable/realistic-:noun-coloring-page 301
+/es/printable/steampunk-:noun-coloring-page-for-:audience /es/printable/steampunk-:noun-coloring-page 301
+/es/printable/mandala-:noun-coloring-page-for-:audience /es/printable/mandala-coloring-page-for-adults 301
+/fr/printable/kawaii-:noun-coloring-page-for-:audience /fr/printable/kawaii-:noun-coloring-page 301
+/fr/printable/realistic-:noun-coloring-page-for-:audience /fr/printable/realistic-:noun-coloring-page 301
+/fr/printable/steampunk-:noun-coloring-page-for-:audience /fr/printable/steampunk-:noun-coloring-page 301
+/fr/printable/mandala-:noun-coloring-page-for-:audience /fr/printable/mandala-coloring-page-for-adults 301
+/pt/printable/kawaii-:noun-coloring-page-for-:audience /pt/printable/kawaii-:noun-coloring-page 301
+/pt/printable/realistic-:noun-coloring-page-for-:audience /pt/printable/realistic-:noun-coloring-page 301
+/pt/printable/steampunk-:noun-coloring-page-for-:audience /pt/printable/steampunk-:noun-coloring-page 301
+/pt/printable/mandala-:noun-coloring-page-for-:audience /pt/printable/mandala-coloring-page-for-adults 301

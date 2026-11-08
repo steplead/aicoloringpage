@@ -1,36 +1,29 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { HomeClient } from '@/components/HomeClient';
+import { pageAlternates } from '@/lib/alternates';
 
-export const runtime = 'edge';
+export const dynamic = 'force-static';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: 'HomePage' });
 
   return {
-    title: t('title'),
-    description: t('subtitle'),
-    alternates: {
-      canonical: 'https://ai-coloringpage.com',
-      languages: {
-        'en': 'https://ai-coloringpage.com/en',
-        'es': 'https://ai-coloringpage.com/es',
-        'pt': 'https://ai-coloringpage.com/pt',
-        'fr': 'https://ai-coloringpage.com/fr',
-        'x-default': 'https://ai-coloringpage.com/en',
-      }
-    },
+    title: t('metaTitle'),
+    description: t('metaDescription'),
+    alternates: pageAlternates(locale, ''),
     openGraph: {
-      title: t('title'),
-      description: t('subtitle'),
+      title: t('metaTitle'),
+      description: t('metaDescription'),
       url: `https://ai-coloringpage.com/${locale}`,
       siteName: 'AI Coloring Page',
       images: [
         {
-          url: '/og-image.png',
+          url: 'https://ai-coloringpage.com/images/homepage.webp',
           width: 1200,
           height: 630,
-          alt: t('title'),
+          alt: t('metaTitle'),
         },
       ],
       locale: locale,
@@ -39,7 +32,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   };
 }
 
-export default async function Home() {
+export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   // Enhanced Schema.org for homepage
   const webSiteSchema = {
     '@context': 'https://schema.org',

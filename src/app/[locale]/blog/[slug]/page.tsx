@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { Header } from '@/components/Header'
 import { Calendar, User, ArrowLeft } from 'lucide-react'
 import { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { generateBlogPostingSchema } from '@/lib/schema-org'
 
 // Import blog data directly for Edge compatibility
@@ -12,7 +12,6 @@ import blogPostsEs from '@/data/blog-posts.es.json'
 import blogPostsPt from '@/data/blog-posts.pt.json'
 import blogPostsFr from '@/data/blog-posts.fr.json'
 
-export const runtime = 'edge';
 
 const BLOG_DATA: Record<string, any[]> = {
     en: blogPostsEn,
@@ -26,9 +25,23 @@ function getPosts(locale: string = 'en') {
     return BLOG_DATA[locale] || BLOG_DATA['en'];
 }
 
+export const dynamic = 'force-static'
+export const dynamicParams = false
+
+export function generateStaticParams() {
+    const slugs = new Set<string>()
+    for (const posts of Object.values(BLOG_DATA)) {
+        for (const post of posts) {
+            if (post.slug && post.slug !== 'launch') slugs.add(post.slug)
+        }
+    }
+    return Array.from(slugs).map((slug) => ({ slug }))
+}
+
 // Metadata remains based on post content for now
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; locale: string }> }): Promise<Metadata> {
     const { slug, locale } = await params
+    setRequestLocale(locale)
     const posts = getPosts(locale)
     const post = posts.find((p: any) => p.slug === slug)
 
@@ -57,6 +70,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
     const { slug, locale } = await params
+    setRequestLocale(locale)
     const posts = getPosts(locale)
     const t = await getTranslations('BlogPage')
     const post = posts.find((p: any) => p.slug === slug)

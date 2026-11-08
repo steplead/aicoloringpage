@@ -5,9 +5,16 @@ import { Footer } from '@/components/Footer'
 import { InstallPrompt } from '@/components/InstallPrompt'
 import "../globals.css";
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getMessages, setRequestLocale } from 'next-intl/server';
+import { routing } from '@/i18n/routing';
+import { notFound } from 'next/navigation';
 
-export const runtime = 'edge';
+export const dynamic = 'force-static';
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,22 +39,12 @@ export const viewport: Viewport = {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const baseUrl = 'https://ai-coloringpage.com';
+  setRequestLocale(locale);
 
   return {
     title: "AI Coloring Page | Free Printable Coloring Pages Generator",
     description: "Turn your ideas and photos into high-quality, printable coloring pages instantly with AI.",
     manifest: "/manifest.json",
-    alternates: {
-      canonical: `${baseUrl}/${locale}`,
-      languages: {
-        'en': `${baseUrl}/en`,
-        'es': `${baseUrl}/es`,
-        'pt': `${baseUrl}/pt`,
-        'fr': `${baseUrl}/fr`,
-        'x-default': `${baseUrl}/en`,
-      },
-    },
     appleWebApp: {
       capable: true,
       statusBarStyle: "default",
@@ -64,6 +61,10 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
+  if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
+    notFound();
+  }
+  setRequestLocale(locale);
   const messages = await getMessages();
 
   return (
@@ -76,7 +77,12 @@ export default async function RootLayout({
           {children}
           <Footer />
           <InstallPrompt />
-          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || 'G-MKSF7CEXN3'} />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `document.addEventListener('click',function(e){var a=e.target&&e.target.closest?e.target.closest('a'):null;if(!a||!a.href||a.hasAttribute('download'))return;if(a.target&&a.target!=='_self')return;if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button)return;var u;try{u=new URL(a.href,location.href)}catch(err){return}if(u.origin!==location.origin)return;if(u.pathname===location.pathname&&u.search===location.search)return;e.preventDefault();location.href=u.href},true);`,
+            }}
+          />
         </NextIntlClientProvider>
       </body>
     </html>

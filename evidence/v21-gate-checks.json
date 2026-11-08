@@ -1,0 +1,32 @@
+[
+  {
+    "page": "*",
+    "action": "internal_link",
+    "verdict": "PASS\n - 新站当前第2关"
+  },
+  {
+    "page": "/*",
+    "action": "body",
+    "verdict": "BLOCK\n - 新站第2关：第6关（前20名的词位次在涨）前不调内容（body/h2h3/h1/title）\n - 新站当前第2关"
+  },
+  {
+    "page": "/*",
+    "action": "h1",
+    "verdict": "BLOCK\n - 新站第2关：第6关（前20名的词位次在涨）前不调内容（body/h2h3/h1/title）\n - 新站当前第2关"
+  },
+  {
+    "page": "/*",
+    "action": "title",
+    "verdict": "BLOCK\n - 新站第2关：第6关（前20名的词位次在涨）前不调内容（body/h2h3/h1/title）\n - 新站当前第2关"
+  },
+  {
+    "page": "/*/tags/*",
+    "action": "new_page",
+    "verdict": "BLOCK\n - 新站第2关：第4关（有出词、有曝光、点击不为0）前只允许首批布局页（第1关加 --initial）"
+  },
+  {
+    "page": "/*/printable/*",
+    "action": "url",
+    "verdict": "NEED_USER\n - url 属高风险动作，按规则一律先报用户"
+  }
+]

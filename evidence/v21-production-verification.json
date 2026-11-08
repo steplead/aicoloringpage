@@ -1,0 +1,1417 @@
+{
+  "base": "https://ai-coloringpage.com",
+  "checked_at": "2026-11-08T20:47:23.622583+08:00",
+  "timezone": "Asia/Shanghai UTC+8",
+  "checks": [
+    {
+      "path": "/en/tags/realistic",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/tags/kawaii",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/tags/anime",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/tags/cartoon",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/tags/realistic",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/tags/kawaii",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/tags/anime",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/tags/cartoon",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/tags/realistic",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/tags/kawaii",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/tags/anime",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/tags/cartoon",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/tags/realistic",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/tags/kawaii",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/tags/anime",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/tags/cartoon",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/en/printable/realistic-cat-coloring-page",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/en/create/photo",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/es",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/realistic-cat-coloring-page",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/create/photo",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/realistic-cat-coloring-page",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/create/photo",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/realistic-cat-coloring-page",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/create/photo",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/steampunk-cupcake-coloring-page-for-intermediates",
+      "status": 404,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/pt/printable/steampunk-cupcake-coloring-page-for-beginners",
+      "status": 404,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/fr/printable/steampunk-donut-coloring-page-for-adults",
+      "status": 404,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/es/printable/kawaii-pattern-coloring-page-for-kindergarteners",
+      "status": 404,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/en/printable/mandala-cat-coloring-page-for-kids",
+      "status": 301,
+      "location": "/en/printable/mandala-coloring-page-for-adults",
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/mandala-coloring-page-for-adults",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/tags/realistic?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/tags/kawaii?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/tags/anime?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/tags/cartoon?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/tags/realistic?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/tags/kawaii?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/tags/anime?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/tags/cartoon?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/tags/realistic?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/tags/kawaii?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/tags/anime?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/tags/cartoon?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/tags/realistic?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/tags/kawaii?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/tags/anime?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/tags/cartoon?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/realistic-cat-coloring-page?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/create/photo?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/realistic-cat-coloring-page?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/create/photo?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/realistic-cat-coloring-page?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/create/photo?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/realistic-cat-coloring-page?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/create/photo?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/steampunk-cupcake-coloring-page-for-intermediates?v21-check=production",
+      "status": 301,
+      "location": "/en/printable/steampunk-cupcake-coloring-page?v21-check=production",
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/steampunk-cupcake-coloring-page?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/steampunk-cupcake-coloring-page-for-beginners?v21-check=production",
+      "status": 301,
+      "location": "/pt/printable/steampunk-cupcake-coloring-page?v21-check=production",
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/steampunk-cupcake-coloring-page?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/steampunk-donut-coloring-page-for-adults?v21-check=production",
+      "status": 301,
+      "location": "/fr/printable/steampunk-donut-coloring-page?v21-check=production",
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/steampunk-donut-coloring-page?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/kawaii-pattern-coloring-page-for-kindergarteners?v21-check=production",
+      "status": 301,
+      "location": "/es/printable/kawaii-pattern-coloring-page?v21-check=production",
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/kawaii-pattern-coloring-page?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/mandala-cat-coloring-page-for-kids?v21-check=production",
+      "status": 301,
+      "location": "/en/printable/mandala-coloring-page-for-adults?v21-check=production",
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/mandala-coloring-page-for-adults?v21-check=production",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/en/about",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/blog",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/create/photo",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/en/create/story",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/directory",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/en/printable/bear-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/butterfly-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/cat-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/christmas-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/dinosaur-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/dog-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/dragon-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/easter-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/fairy-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/forest-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/fox-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/halloween-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/horse-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/lion-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/mandala-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/mermaid-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/owl-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/princess-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/rabbit-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/robot-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/shark-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/space-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/superhero-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/tiger-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/unicorn-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/printable/wolf-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/privacy",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/en/tags/anime",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/en/tags/cartoon",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/en/tags/kawaii",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/en/tags/realistic",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/en/terms",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/es/about",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/blog",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/create/photo",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/es/create/story",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/directory",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/bear-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/butterfly-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/cat-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/christmas-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/dinosaur-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/dog-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/dragon-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/easter-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/fairy-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/forest-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/fox-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/halloween-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/horse-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/lion-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/mandala-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/mermaid-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/owl-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/princess-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/rabbit-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/robot-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/shark-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/space-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/superhero-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/tiger-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/unicorn-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/printable/wolf-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/privacy",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/es/tags/anime",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/es/tags/cartoon",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/es/tags/kawaii",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/es/tags/realistic",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/es/terms",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/fr/about",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/blog",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/create/photo",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/fr/create/story",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/directory",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/bear-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/butterfly-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/cat-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/christmas-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/dinosaur-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/dog-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/dragon-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/easter-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/fairy-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/forest-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/fox-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/halloween-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/horse-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/lion-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/mandala-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/mermaid-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/owl-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/princess-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/rabbit-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/robot-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/shark-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/space-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/superhero-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/tiger-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/unicorn-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/printable/wolf-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/privacy",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/fr/tags/anime",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/fr/tags/cartoon",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/fr/tags/kawaii",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/fr/tags/realistic",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/fr/terms",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/pt/about",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/blog",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/create/photo",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/pt/create/story",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/directory",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/bear-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/butterfly-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/cat-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/christmas-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/dinosaur-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/dog-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/dragon-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/easter-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/fairy-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/forest-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/fox-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/halloween-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/horse-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/lion-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/mandala-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/mermaid-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/owl-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/princess-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/rabbit-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/robot-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/shark-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/space-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/superhero-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/tiger-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/unicorn-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/printable/wolf-coloring-page-for-kids",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/privacy",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/pt/tags/anime",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/pt/tags/cartoon",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/pt/tags/kawaii",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/pt/tags/realistic",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/pt/terms",
+      "status": 200,
+      "location": null,
+      "cache": "MISS"
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "location": null,
+      "cache": "HIT"
+    },
+    {
+      "path": "/api/generate",
+      "status": 403,
+      "location": null,
+      "cache": "DYNAMIC"
+    }
+  ],
+  "errors": [
+    {
+      "path": "/en",
+      "expected": 200,
+      "actual": 200,
+      "body_preview": "<!DOCTYPE html><!--wf0DetQs02K4qGpjDYEdO--><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=5, user-sc"
+    },
+    {
+      "path": "/en/printable/realistic-cat-coloring-page",
+      "expected": 200,
+      "actual": 200,
+      "body_preview": "<!DOCTYPE html><!--wf0DetQs02K4qGpjDYEdO--><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=5, user-sc"
+    },
+    {
+      "path": "/en/create/photo",
+      "expected": 200,
+      "actual": 200,
+      "body_preview": "<!DOCTYPE html><!--wf0DetQs02K4qGpjDYEdO--><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=5, user-sc"
+    },
+    {
+      "path": "/en/printable/steampunk-cupcake-coloring-page-for-intermediates",
+      "expected": 301,
+      "actual": 404,
+      "body_preview": "<script src=\"/_next/static/chunks/polyfills-42372ed130431b0a.js\" noModule=\"\"></script><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><l"
+    },
+    {
+      "path": "/pt/printable/steampunk-cupcake-coloring-page-for-beginners",
+      "expected": 301,
+      "actual": 404,
+      "body_preview": "<script src=\"/_next/static/chunks/polyfills-42372ed130431b0a.js\" noModule=\"\"></script><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><l"
+    },
+    {
+      "path": "/fr/printable/steampunk-donut-coloring-page-for-adults",
+      "expected": 301,
+      "actual": 404,
+      "body_preview": "<script src=\"/_next/static/chunks/polyfills-42372ed130431b0a.js\" noModule=\"\"></script><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><l"
+    },
+    {
+      "path": "/es/printable/kawaii-pattern-coloring-page-for-kindergarteners",
+      "expected": 301,
+      "actual": 404,
+      "body_preview": "<script src=\"/_next/static/chunks/polyfills-42372ed130431b0a.js\" noModule=\"\"></script><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><l"
+    },
+    {
+      "path": "/sitemap.xml",
+      "expected": 200,
+      "actual": 200,
+      "body_preview": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xhtml=\"http://www.w3.org/1999/xhtml\">\n<url>\n<loc>https://ai-coloringpage.co"
+    }
+  ],
+  "unique_footer_links": 152,
+  "sitemap_urls": 824,
+  "expected_sitemap_urls": 832,
+  "passed": false
+}

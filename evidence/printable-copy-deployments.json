@@ -1,0 +1,33 @@
+{
+  "at": "2026-11-09T06:51:30.481192+08:00",
+  "timezone": "Asia/Shanghai UTC+8",
+  "code_commit": "5bf00075141083e622d5f80d759103dfaf8ea6b8",
+  "preview": {
+    "id": "3cf4bb54-a749-4e44-894e-ebe84c905383",
+    "url": "https://3cf4bb54.aicoloringpage.pages.dev",
+    "environment": "Preview",
+    "branch_reported_by_API": "v21-seo",
+    "content_checks": "28/28 PASS"
+  },
+  "production": {
+    "id": "0ad9c996-7763-4c4d-b0d3-3f9acadfa478",
+    "url": "https://0ad9c996.aicoloringpage.pages.dev",
+    "environment": "Production",
+    "branch": "multilanguages",
+    "content_checks": "28/28 PASS"
+  },
+  "rollback_id": "65e7ff88-6d6c-4bd8-b06a-8c457368683b",
+  "ordinary_custom_domain": {
+    "passed": false,
+    "status_200": 28,
+    "stale_cache_HIT": 28,
+    "needs_purge_or_TTL_expiry": true
+  },
+  "cache_purged": false,
+  "cache_rule_changed": false,
+  "transient_attempts": [
+    "First preview packaging failed because a new build removed its artifact directory; no deployment success. Rebuilt completely before retry.",
+    "Space-separated --branch attempt returned an existing preview id even for production request. Do not trust CLI success: checked deployment list. Explicit --branch=multilanguages with flags before directory created a real Production deployment. Root cause not established."
+  ],
+  "production_config_changes": "None intended; existing wrangler.toml/secrets/bindings left unchanged; no generation requests issued."
+}

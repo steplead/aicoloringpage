@@ -4,7 +4,7 @@ import { Header } from '@/components/Header'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Calendar, User } from 'lucide-react'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { generateBlogSchema } from '@/lib/schema-org'
 
 // Import blog data directly for Edge compatibility
@@ -13,7 +13,8 @@ import blogPostsEs from '@/data/blog-posts.es.json'
 import blogPostsPt from '@/data/blog-posts.pt.json'
 import blogPostsFr from '@/data/blog-posts.fr.json'
 
-export const runtime = 'edge';
+export const dynamic = 'force-static'
+
 
 const BLOG_DATA: Record<string, any[]> = {
     en: blogPostsEn,
@@ -29,6 +30,7 @@ function getPosts(locale: string = 'en') {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params
+    setRequestLocale(locale)
     const t = await getTranslations({ locale, namespace: 'BlogPage' })
     return {
         title: t('metaTitle'),
@@ -54,6 +56,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function BlogPage({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params
+    setRequestLocale(locale)
     const posts = getPosts(locale)
     const t = await getTranslations('BlogPage')
 

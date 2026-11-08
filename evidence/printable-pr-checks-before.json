@@ -1,0 +1,25 @@
+{
+  "checked_at": "2026-11-09T06:42:18.194699+08:00",
+  "timezone": "Asia/Shanghai UTC+8",
+  "pr": "https://github.com/steplead/aicoloringpage/pull/3",
+  "head": "a949431b949e5a73aa6fbbe616eaa490b67125c8",
+  "mergeable": true,
+  "mergeable_state": "unstable",
+  "check_runs": [
+    {
+      "name": "Cloudflare Pages",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://dash.cloudflare.com/?to=/3f6574529f3c55800b32c156a157e4f3/pages/view/aicoloringpage/bc5a0261-64a7-4652-8c17-f0052193a777"
+    }
+  ],
+  "statuses": [
+    {
+      "context": "Vercel",
+      "state": "failure",
+      "description": "Account is blocked.",
+      "target_url": "https://vercel.com/knowledge/why-is-my-account-deployment-blocked"
+    }
+  ],
+  "cause": "Vercel Account is blocked. Not lint or a build self-check. Cloudflare Pages succeeds. No merge or bypass of GitHub branch protection performed."
+}

@@ -1,27 +1,22 @@
 'use client'
 
 import { useState, useRef } from 'react'
+import { photoOutline } from '@/lib/photo-outline'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Loader2, Upload, Camera, Image as ImageIcon, Download, Printer } from 'lucide-react'
 import Image from 'next/image'
-import { generateImage } from '@/app/actions/gen-img'
 import { Header } from '@/components/Header'
 import { SocialShare } from '@/components/SocialShare'
-import { useTranslations, useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 
 export default function MagicCameraClient({ translationNamespace = 'MagicCamera' }: { translationNamespace?: string }) {
     const t = useTranslations(translationNamespace)
-    const tHome = useTranslations('HomePage') // For styles
-    const locale = useLocale()
     const [selectedImage, setSelectedImage] = useState<string | null>(null)
     const [generatedImage, setGeneratedImage] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
-    const [prompt, setPrompt] = useState('')
-    const [style, setStyle] = useState('realistic')
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,41 +60,31 @@ export default function MagicCameraClient({ translationNamespace = 'MagicCamera'
     }
 
     const handleGenerate = async () => {
-        if (!selectedImage) return
-
+        if (!selectedImage || loading) return
         setLoading(true)
         setError('')
-        setGeneratedImage(null)
-
         try {
-            // Updated to use the stable API route instead of Server Action
-            // Remove the data URL prefix for the payload if present
-            const base64Image = selectedImage.includes('base64,')
-                ? selectedImage.split('base64,')[1]
-                : selectedImage;
-
-            const response = await fetch('/api/generate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    prompt: prompt,
-                    style: style,
-                    image: base64Image // Send base64 data to API
-                }),
-            });
-
-            const result = await response.json();
-
-            if (response.ok && result.success && result.data) {
-                setGeneratedImage(result.data[0])
-            } else {
-                setError(result.error || 'Failed to generate image')
-            }
-        } catch (err) {
-            setError('An unexpected error occurred')
-            console.error(err)
+            // True photo outlines, entirely local. Flux Schnell is text-only;
+            // never pretend a text prompt preserves an uploaded photograph.
+            const image = new window.Image()
+            image.src = selectedImage
+            await image.decode()
+            const canvas = document.createElement('canvas')
+            canvas.width = image.naturalWidth
+            canvas.height = image.naturalHeight
+            const ctx = canvas.getContext('2d')
+            if (!ctx) throw new Error(t('localError'))
+            ctx.filter = 'blur(1px)'
+            ctx.drawImage(image, 0, 0)
+            ctx.filter = 'none'
+            const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height)
+            const width = canvas.width, height = canvas.height
+            const outline = ctx.createImageData(width, height)
+            outline.data.set(photoOutline(pixels.data, width, height))
+            ctx.putImageData(outline, 0, 0)
+            setGeneratedImage(canvas.toDataURL('image/png'))
+        } catch {
+            setError(t('localError'))
         } finally {
             setLoading(false)
         }
@@ -161,77 +146,9 @@ export default function MagicCameraClient({ translationNamespace = 'MagicCamera'
                                 />
                             </div>
 
-                            <div className="space-y-2">
-                                <Label>{t('describeLabel')}</Label>
-                                <Input
-                                    placeholder={t('describePlaceholder')}
-                                    value={prompt}
-                                    onChange={(e) => setPrompt(e.target.value)}
-                                />
-                            </div>
-
-                            <div className="space-y-2">
-                                <Label>{t('chooseStyle')}</Label>
-                                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
-                                    <button
-                                        onClick={() => setStyle('kawaii')}
-                                        className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${style === 'kawaii'
-                                            ? 'border-blue-500 bg-blue-50 text-blue-700'
-                                            : 'border-gray-200 hover:border-gray-300 text-gray-600'
-                                            }`}
-                                    >
-                                        {tHome('styles.kawaii')}
-                                    </button>
-                                    <button
-                                        onClick={() => setStyle('intricate')}
-                                        className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${style === 'intricate'
-                                            ? 'border-purple-500 bg-purple-50 text-purple-700'
-                                            : 'border-gray-200 hover:border-gray-300 text-gray-600'
-                                            }`}
-                                    >
-                                        {tHome('styles.intricate')}
-                                    </button>
-                                    <button
-                                        onClick={() => setStyle('realistic')}
-                                        className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${style === 'realistic'
-                                            ? 'border-green-500 bg-green-50 text-green-700'
-                                            : 'border-gray-200 hover:border-gray-300 text-gray-600'
-                                            }`}
-                                    >
-                                        {tHome('styles.realistic')}
-                                    </button>
-
-                                    {/* New Styles */}
-                                    <button
-                                        onClick={() => setStyle('stained-glass')}
-                                        className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${style === 'stained-glass'
-                                            ? 'border-orange-500 bg-orange-50 text-orange-700'
-                                            : 'border-gray-200 hover:border-gray-300 text-gray-600'
-                                            }`}
-                                    >
-                                        {tHome('styles.stainedGlass')}
-                                    </button>
-                                    <button
-                                        onClick={() => setStyle('abstract')}
-                                        className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${style === 'abstract'
-                                            ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
-                                            : 'border-gray-200 hover:border-gray-300 text-gray-600'
-                                            }`}
-                                    >
-                                        {tHome('styles.abstract')}
-                                    </button>
-                                    <button
-                                        onClick={() => setStyle('fantasy')}
-                                        className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${style === 'fantasy'
-                                            ? 'border-pink-500 bg-pink-50 text-pink-700'
-                                            : 'border-gray-200 hover:border-gray-300 text-gray-600'
-                                            }`}
-                                    >
-                                        {tHome('styles.fantasy')}
-                                    </button>
-                                </div>
-                            </div>
-
+                            <p data-photo-local="true" className="text-sm text-blue-800 bg-blue-50 border border-blue-200 rounded-lg p-3">
+                                {t('localMode')}
+                            </p>
                             <Button
                                 className="w-full h-12 text-lg"
                                 onClick={handleGenerate}
@@ -304,8 +221,8 @@ export default function MagicCameraClient({ translationNamespace = 'MagicCamera'
                                     <p className="text-sm font-medium text-gray-500 mb-2 text-center">{t('shareMsg')}</p>
                                     <div className="flex justify-center">
                                         <SocialShare
-                                            url="https://ai-coloringpage.com/create/photo"
-                                            title="I just turned my photo into a coloring page with AI! 📸✨"
+                                            url="https://ai-coloringpage.com/en/create/photo"
+                                            title="I just turned my photo into a coloring page! 📸✨"
                                         />
                                     </div>
                                 </div>

@@ -4,7 +4,8 @@ import { Card } from '@/components/ui/card'
 import { TAGS } from '@/lib/categories'
 import { generateCategoryPageSchema } from '@/lib/schema-org'
 
-export const runtime = 'edge'
+export const dynamic = 'force-static'
+
 
 export async function generateMetadata() {
   return {

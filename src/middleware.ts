@@ -85,7 +85,7 @@ export default function middleware(request: NextRequest) {
     // Content Security Policy (basic, allow inline scripts for Next.js)
     response.headers.set(
         'Content-Security-Policy',
-        "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.google.com *.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: *.supabase.co *.unsplash.com https:; font-src 'self' data:; connect-src 'self' *.google.com *.googleapis.com *.supabase.co; frame-ancestors 'self';"
+        "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.google.com *.googleapis.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: *.supabase.co *.unsplash.com https:; font-src 'self' data:; connect-src 'self' *.google.com *.googleapis.com *.supabase.co https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; frame-ancestors 'self';"
     );
 
     return response;
