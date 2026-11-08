@@ -1,4 +1,4 @@
-import { MetadataRoute } from 'next'
+import { Metadata } from 'next'
 import { Link } from '@/i18n/routing'
 import { Header } from '@/components/Header'
 import { DownloadButton } from '@/components/DownloadButton'
@@ -21,7 +21,7 @@ export function generateStaticParams() {
 const BASE_URL = 'https://ai-coloringpage.com'
 const LOCALES = ['en', 'es', 'pt', 'fr']
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string; category: string; slug: string }> }): Promise<MetadataRoute.Sitemap> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string; category: string; slug: string }> }): Promise<Metadata> {
   const { slug, category, locale } = await params
   setRequestLocale(locale)
   const pageData = getPublishedPages(locale).find(page => page.slug === slug)

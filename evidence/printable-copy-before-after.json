@@ -1,0 +1,76 @@
+{
+  "pt": {
+    "before": {
+      "title": "Kawaii Lion Página de Colorir",
+      "description": "Gratuito imprimível Kawaii style Lion Página de Colorir. Download this unique Kawaii art design or Gere seu próprio personalizado Lion coloring sheets with AI"
+    },
+    "after": {
+      "title": "Leão para colorir no estilo Kawaii",
+      "description": "Explore este desenho de Leão para colorir no estilo Kawaii e observe seus contornos. Escolha cores que realcem o visual Kawaii e imprima a folha para aproveitar uma atividade criativa tranquila.",
+      "fact": "A arte Kawaii valoriza formas arredondadas e expressões simples e amigáveis.",
+      "tips": [
+        "Experimente dois ou três tons pastel nas formas Kawaii e mantenha o fundo claro.",
+        "Acrescente um leve rubor com lápis rosa-claro sem cobrir os contornos do rosto."
+      ],
+      "style_group": "kawaii",
+      "body_characters": 925,
+      "related": [
+        {
+          "href": "/pt/printable/kawaii-tiger-coloring-page",
+          "title": "Tigre para colorir no estilo Kawaii"
+        },
+        {
+          "href": "/pt/printable/kawaii-elephant-coloring-page",
+          "title": "Elefante para colorir no estilo Kawaii"
+        },
+        {
+          "href": "/pt/printable/kawaii-butterfly-coloring-page",
+          "title": "Borboleta para colorir no estilo Kawaii"
+        },
+        {
+          "href": "/pt/printable/kawaii-unicorn-coloring-page",
+          "title": "Unicórnio para colorir no estilo Kawaii"
+        }
+      ]
+    }
+  },
+  "en": {
+    "before": {
+      "fact": "Did you know? Cat is a favorite subject for Everyone.",
+      "ymal": "Dog Coloring Page for Everyone",
+      "tips": [
+        "Try using soft pastels for background areas.",
+        "Mix marker and colored pencil techniques for depth."
+      ]
+    },
+    "after": {
+      "title": "Chibi Cat Coloring Page",
+      "description": "Explore this Chibi Cat coloring page and its distinctive outlines. Choose colors that highlight the Chibi design, then print your sheet for a relaxed creative session.",
+      "fact": "Did you know? Chibi art exaggerates the head and keeps the body proportions small.",
+      "tips": [
+        "Use gentle color transitions on Chibi faces and leave tiny highlights in the eyes.",
+        "Keep clothing colors simple so the oversized head remains the main focal point."
+      ],
+      "style_group": "chibi",
+      "body_characters": 791,
+      "related": [
+        {
+          "href": "/en/printable/chibi-dog-coloring-page",
+          "title": "Chibi Dog Coloring Page"
+        },
+        {
+          "href": "/en/printable/chibi-owl-coloring-page",
+          "title": "Chibi Owl Coloring Page"
+        },
+        {
+          "href": "/en/printable/chibi-lion-coloring-page",
+          "title": "Chibi Lion Coloring Page"
+        },
+        {
+          "href": "/en/printable/chibi-tiger-coloring-page",
+          "title": "Chibi Tiger Coloring Page"
+        }
+      ]
+    }
+  }
+}

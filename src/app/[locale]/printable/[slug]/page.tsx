@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card'
 import { ShareEmbedButton } from '@/components/ShareEmbedButton'
 import { Check, Download, Printer, Sparkles, Star } from 'lucide-react'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { styleName } from '@/lib/styles'
 import { pageAlternates } from '@/lib/alternates'
 import { getPublishedPage, getPublishedPages, getRelatedPages } from '@/lib/seo-catalog'
 
@@ -15,6 +16,8 @@ export const dynamicParams = false
 export function generateStaticParams() {
     return getPublishedPages('en').map((page) => ({ slug: page.slug }))
 }
+
+const subjectKey = (subject: string) => subject === "St. Patrick's Day" ? 'St Patricks Day' : subject
 
 const BASE_URL = 'https://ai-coloringpage.com'
 
@@ -31,15 +34,21 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     const t = await getTranslations({ locale, namespace: 'PrintablePage' })
 
+    const tData = await getTranslations({ locale, namespace: 'Data' })
+    const subject = tData.has(subjectKey(pageData.subject)) ? tData(subjectKey(pageData.subject)) : pageData.subject
+    const audience = pageData.audience === 'Everyone' ? t('allAges') : tData.has(pageData.audience) ? tData(pageData.audience) : pageData.audience
+    const styled = pageData.style.toLowerCase() !== 'standard'
+    const title = styled ? t('styleTitle', { style: styleName(pageData.style), subject }) : tData('titlePattern', { subject, audience })
+    const description = styled ? t('styleBody', { style: styleName(pageData.style), subject }) : t('plainDescription', { subject })
     const path = `/printable/${slug}`
 
     return {
-        title: pageData.title,
-        description: pageData.description || t('descriptionTemplate', { subject: pageData.subject, audience: pageData.audience }),
+        title,
+        description,
         alternates: pageAlternates(locale, path),
         openGraph: {
-            title: pageData.title,
-            description: pageData.description,
+            title,
+            description,
             images: [pageData.image_url || '/og-image.jpg'],
         },
     }
@@ -57,10 +66,14 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
     }
 
     // Dynamic translations helper
-    const translatedSubject = tData.has(pageData.subject) ? tData(pageData.subject) : pageData.subject
-    const translatedAudience = tData.has(pageData.audience) ? tData(pageData.audience) : pageData.audience
-    const translatedTitle = tData('titlePattern', { subject: translatedSubject, audience: translatedAudience })
+    const translatedSubject = tData.has(subjectKey(pageData.subject)) ? tData(subjectKey(pageData.subject)) : pageData.subject
+    const translatedAudience = pageData.audience === 'Everyone' ? t('allAges') : tData.has(pageData.audience) ? tData(pageData.audience) : pageData.audience
+    const styleLabel = styleName(pageData.style)
+    const styled = pageData.style.toLowerCase() !== 'standard'
+    const translatedTitle = styled ? t('styleTitle', { style: styleLabel, subject: translatedSubject }) : tData('titlePattern', { subject: translatedSubject, audience: translatedAudience })
 
+    const copyKey = ['anime', 'kawaii', 'realistic', 'cartoon', 'chibi', 'steampunk', 'mandala'].includes(pageData.style.toLowerCase())
+        ? pageData.style.toLowerCase() : pageData.subject.toLowerCase() === 'mandala' ? 'mandala' : 'generic'
     const relatedPages = getRelatedPages(locale, slug, 4)
 
     // Structured Data: Breadcrumbs
@@ -94,30 +107,10 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
         mainEntity: [
-            {
-                '@type': 'Question',
-                name: `Is this ${pageData.subject} coloring page free?`,
-                acceptedAnswer: {
-                    '@type': 'Answer',
-                    text: `Yes, all coloring pages on AI Coloring Page, including this ${pageData.subject} coloring sheet, are completely free to download and print for personal use.`
-                }
-            },
-            {
-                '@type': 'Question',
-                name: `Is this coloring page suitable for ${pageData.audience}?`,
-                acceptedAnswer: {
-                    '@type': 'Answer',
-                    text: `Absolutely! This ${pageData.subject} coloring page has been specifically designed to be appropriate and engaging for ${pageData.audience}.`
-                }
-            },
-            {
-                '@type': 'Question',
-                name: `How do I print this AI-generated coloring page?`,
-                acceptedAnswer: {
-                    '@type': 'Answer',
-                    text: `Simply click the "Print Page" button above to send it directly to your printer, or download the high-quality PDF to save it for later.`
-                }
-            }
+            { '@type': 'Question', name: t('faqFreeQuestion', { title: translatedTitle }),
+              acceptedAnswer: { '@type': 'Answer', text: t('faqFreeAnswer') } },
+            { '@type': 'Question', name: t('faqColorQuestion'),
+              acceptedAnswer: { '@type': 'Answer', text: t('faqColorAnswer') } }
         ]
     }
 
@@ -163,14 +156,14 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                                 {/* Simulated Coloring Page Image */}
                                 <img
                                     src={pageData.image_url}
-                                    alt={`Free printable ${translatedSubject} coloring page for ${translatedAudience}. High-quality black and white coloring sheet designed for ${translatedAudience}. Perfect for creativity and fun.`}
+                                    alt={t('imageAlt', { title: translatedTitle })}
                                     className="object-contain max-h-full max-w-full p-4 hover:scale-105 transition-transform duration-500"
                                     fetchPriority="high"
                                     decoding="async"
                                 />
                                 <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-600 shadow-sm border border-gray-100 flex items-center">
                                     <Sparkles className="w-3 h-3 mr-1 text-yellow-500" />
-                                    AI Generated
+                                    {t('aiGenerated')}
                                 </div>
                             </div>
                         </Card>
@@ -178,11 +171,11 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                         <div className="mt-6 flex flex-col sm:flex-row gap-4">
                             <Button className="flex-1 h-14 text-lg bg-green-600 hover:bg-green-700 shadow-lg shadow-green-600/20 transition-all hover:-translate-y-1">
                                 <Printer className="mr-2 w-5 h-5" />
-                                Print Page
+                                {t('printPage')}
                             </Button>
                             <Button className="flex-1 h-14 text-lg bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-600/20 transition-all hover:-translate-y-1">
                                 <Download className="mr-2 w-5 h-5" />
-                                Download PDF
+                                {t('downloadPdf')}
                             </Button>
                         </div>
 
@@ -209,12 +202,12 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                             </h1>
                             <div className="prose text-gray-600 mb-6">
                                 <p>
-                                    {pageData.description || t('descriptionTemplate', { subject: translatedSubject, audience: translatedAudience })}
+                                    {styled ? t('styleBody', { style: styleLabel, subject: translatedSubject }) : t('plainDescription', { subject: translatedSubject })}
                                 </p>
                             </div>
 
                             <div className="flex flex-wrap gap-2 mb-6">
-                                {pageData.keywords && pageData.keywords.map((kw: string) => (
+                                {[translatedSubject, ...(styled ? [styleLabel] : [])].map((kw: string) => (
                                     <span key={kw} className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">
                                         #{kw}
                                     </span>
@@ -229,11 +222,11 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                             <ul className="space-y-3">
                                 <li className="flex items-start text-sm text-gray-700">
                                     <span className="mr-2 mt-1 min-w-[16px]">👉</span>
-                                    <span>Did you know? {translatedSubject} is a favorite subject for {translatedAudience}.</span>
+                                    <span data-style-fact={copyKey}>{t(`styleCopy.${copyKey}.fact`, { subject: translatedSubject })}</span>
                                 </li>
                                 <li className="flex items-start text-sm text-gray-700">
                                     <span className="mr-2 mt-1 min-w-[16px]">👉</span>
-                                    <span>Coloring helps improve focus and hand-eye coordination.</span>
+                                    <span>{t('focusFact')}</span>
                                 </li>
                             </ul>
                         </Card>
@@ -245,11 +238,11 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                             <ul className="space-y-3">
                                 <li className="flex items-start text-sm text-gray-700">
                                     <Check className="w-4 h-4 mr-2 text-green-600 mt-0.5" />
-                                    <span>Try using soft pastels for background areas.</span>
+                                    <span data-style-tip={copyKey}>{t(`styleCopy.${copyKey}.tip1`, { subject: translatedSubject })}</span>
                                 </li>
                                 <li className="flex items-start text-sm text-gray-700">
                                     <Check className="w-4 h-4 mr-2 text-green-600 mt-0.5" />
-                                    <span>Mix marker and colored pencil techniques for depth.</span>
+                                    <span data-style-tip={copyKey}>{t(`styleCopy.${copyKey}.tip2`, { subject: translatedSubject })}</span>
                                 </li>
                             </ul>
                         </Card>
@@ -260,10 +253,10 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                 <div className="mt-16 border-t pt-12">
                     <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t('relatedTitle')}</h2>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                        {relatedPages.map((page: any) => {
-                            const pSubject = tData.has(page.subject) ? tData(page.subject) : page.subject
-                            const pAudience = tData.has(page.audience) ? tData(page.audience) : page.audience
-                            const pTitle = tData('titlePattern', { subject: pSubject, audience: pAudience })
+                        {relatedPages.map((page) => {
+                            const pSubject = tData.has(subjectKey(page.subject)) ? tData(subjectKey(page.subject)) : page.subject
+                            const pAudience = page.audience === 'Everyone' ? t('allAges') : tData.has(page.audience) ? tData(page.audience) : page.audience
+                            const pTitle = page.style.toLowerCase() !== 'standard' ? t('styleTitle', { style: styleName(page.style), subject: pSubject }) : tData('titlePattern', { subject: pSubject, audience: pAudience })
                             return (
                                 <Link key={page.slug} href={`/printable/${page.slug}`} className="group block" prefetch={false}>
                                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">

@@ -10,12 +10,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const t = await getTranslations({ locale, namespace: 'HomePage' });
 
   return {
-    title: t('title'),
-    description: t('subtitle'),
+    title: t('metaTitle'),
+    description: t('metaDescription'),
     alternates: pageAlternates(locale, ''),
     openGraph: {
-      title: t('title'),
-      description: t('subtitle'),
+      title: t('metaTitle'),
+      description: t('metaDescription'),
       url: `https://ai-coloringpage.com/${locale}`,
       siteName: 'AI Coloring Page',
       images: [
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
           url: 'https://ai-coloringpage.com/images/homepage.webp',
           width: 1200,
           height: 630,
-          alt: t('title'),
+          alt: t('metaTitle'),
         },
       ],
       locale: locale,

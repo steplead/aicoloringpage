@@ -78,3 +78,20 @@
 /:locale/[locale] /:locale 308
 /:locale/[locale]/ /:locale 308
 /:locale/[locale]/* /:locale/:splat 308
+# v21: unrecoverable placeholder-only legacy style + subject + audience records
+/en/printable/kawaii-:noun-coloring-page-for-:audience /en/printable/kawaii-:noun-coloring-page 301
+/en/printable/realistic-:noun-coloring-page-for-:audience /en/printable/realistic-:noun-coloring-page 301
+/en/printable/steampunk-:noun-coloring-page-for-:audience /en/printable/steampunk-:noun-coloring-page 301
+/en/printable/mandala-:noun-coloring-page-for-:audience /en/printable/mandala-coloring-page-for-adults 301
+/es/printable/kawaii-:noun-coloring-page-for-:audience /es/printable/kawaii-:noun-coloring-page 301
+/es/printable/realistic-:noun-coloring-page-for-:audience /es/printable/realistic-:noun-coloring-page 301
+/es/printable/steampunk-:noun-coloring-page-for-:audience /es/printable/steampunk-:noun-coloring-page 301
+/es/printable/mandala-:noun-coloring-page-for-:audience /es/printable/mandala-coloring-page-for-adults 301
+/fr/printable/kawaii-:noun-coloring-page-for-:audience /fr/printable/kawaii-:noun-coloring-page 301
+/fr/printable/realistic-:noun-coloring-page-for-:audience /fr/printable/realistic-:noun-coloring-page 301
+/fr/printable/steampunk-:noun-coloring-page-for-:audience /fr/printable/steampunk-:noun-coloring-page 301
+/fr/printable/mandala-:noun-coloring-page-for-:audience /fr/printable/mandala-coloring-page-for-adults 301
+/pt/printable/kawaii-:noun-coloring-page-for-:audience /pt/printable/kawaii-:noun-coloring-page 301
+/pt/printable/realistic-:noun-coloring-page-for-:audience /pt/printable/realistic-:noun-coloring-page 301
+/pt/printable/steampunk-:noun-coloring-page-for-:audience /pt/printable/steampunk-:noun-coloring-page 301
+/pt/printable/mandala-:noun-coloring-page-for-:audience /pt/printable/mandala-coloring-page-for-adults 301

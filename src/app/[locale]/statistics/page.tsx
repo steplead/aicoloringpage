@@ -154,7 +154,7 @@ export default async function StatisticsPage({ params }: { params: Promise<{ loc
                                                         <div className="flex justify-between text-sm mb-1">
                                                             <span className="text-gray-700">{key}</span>
                                                             <span className="font-bold text-blue-600">
-                                                                {typeof value === 'number' ? value : value}
+                                                                {typeof value === 'number' ? value : String(value)}
                                                             </span>
                                                         </div>
                                                         <div className="w-full bg-gray-200 rounded-full h-3">

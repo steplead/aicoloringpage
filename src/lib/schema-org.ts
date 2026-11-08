@@ -278,8 +278,8 @@ export function generateProductSchema(params: {
   aggregateRating?: {
     ratingValue: string
     ratingCount: string
-    bestRating: string
-    worstRating: string
+    bestRating?: string
+    worstRating?: string
   }
 }): object {
   const { name, description, image, url, category = 'Coloring Pages', aggregateRating } = params

@@ -1,10 +1,21 @@
 import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 
-import { getTranslations } from 'next-intl/server';
+import { getPublishedPages } from '@/lib/seo-catalog';
+import { STYLE_TAGS, styleName } from '@/lib/styles';
+import { getLocale, getTranslations } from 'next-intl/server';
 
 export async function Footer() {
     const t = await getTranslations('Footer');
+    const locale = await getLocale();
+    const pages = getPublishedPages(locale);
+    const published = new Set(pages.map(page => page.slug));
+    function themeHref(tag: string) {
+        const base = tag.toLowerCase().replace(/ /g, '-');
+        const preferred = [`${base}-coloring-page-for-kids`, `${base}-coloring-page`, `${base}-coloring-page-for-adults`];
+        const slug = preferred.find(slug => published.has(slug)) ?? pages.find(page => page.subject.toLowerCase() === tag.toLowerCase())?.slug;
+        return slug ? `/printable/${slug}` : '/directory';
+    }
     return (
         <footer className="bg-white border-t border-gray-100 pt-16 pb-8 mt-24">
             <div className="container mx-auto px-4">
@@ -54,7 +65,7 @@ export async function Footer() {
                             </li>
                             <li>
                                 <Link href="/directory" className="hover:text-purple-600 transition-colors block" prefetch={false}>
-                                    {t('browseAll')}
+                                    {t('browseAllCount', { count: new Intl.NumberFormat(locale).format(pages.length) })}
                                 </Link>
                             </li>
                         </ul>
@@ -65,27 +76,27 @@ export async function Footer() {
                         <h3 className="font-semibold text-gray-900 mb-4">{t('popularThemes')}</h3>
                         <ul className="space-y-3 text-sm text-gray-600">
                             <li>
-                                <Link href="/printable/cat-coloring-page-for-kids" className="hover:text-purple-600 transition-colors block" prefetch={false}>
+                                <Link href={themeHref('Cat')} className="hover:text-purple-600 transition-colors block" prefetch={false}>
                                     Cat Coloring Pages
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/printable/dog-coloring-page-for-kids" className="hover:text-purple-600 transition-colors block" prefetch={false}>
+                                <Link href={themeHref('Dog')} className="hover:text-purple-600 transition-colors block" prefetch={false}>
                                     Dog Coloring Pages
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/printable/dinosaur-coloring-page-for-kids" className="hover:text-purple-600 transition-colors block" prefetch={false}>
+                                <Link href={themeHref('Dinosaur')} className="hover:text-purple-600 transition-colors block" prefetch={false}>
                                     Dinosaur Coloring Pages
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/printable/unicorn-coloring-page-for-kids" className="hover:text-purple-600 transition-colors block" prefetch={false}>
+                                <Link href={themeHref('Unicorn')} className="hover:text-purple-600 transition-colors block" prefetch={false}>
                                     Unicorn Coloring Pages
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/printable/mandala-coloring-page-for-adults" className="hover:text-purple-600 transition-colors block" prefetch={false}>
+                                <Link href={themeHref('Mandala')} className="hover:text-purple-600 transition-colors block" prefetch={false}>
                                     Mandala (Adults)
                                 </Link>
                             </li>
@@ -127,7 +138,7 @@ export async function Footer() {
                             <h4 className="font-bold text-xs text-gray-400 uppercase tracking-wider mb-3">{t('byAnimal')}</h4>
                             <div className="flex flex-wrap gap-2 text-xs text-gray-500">
                                 {["Cat", "Dog", "Lion", "Tiger", "Bear", "Wolf", "Fox", "Owl", "Butterfly", "Horse", "Rabbit", "Shark"].map(tag => (
-                                    <Link key={tag} href={`/printable/${tag.toLowerCase()}-coloring-page-for-kids`} className="hover:text-purple-600" prefetch={false}>
+                                    <Link key={tag} href={themeHref(tag)} className="hover:text-purple-600" prefetch={false}>
                                         {tag} •
                                     </Link>
                                 ))}
@@ -136,9 +147,9 @@ export async function Footer() {
                         <div>
                             <h4 className="font-bold text-xs text-gray-400 uppercase tracking-wider mb-3">{t('byStyle')}</h4>
                             <div className="flex flex-wrap gap-2 text-xs text-gray-500">
-                                {["Kawaii", "Realistic", "Stained Glass", "Mandala", "Geometric", "Minimalist", "Cartoon", "Anime", "Chibi"].map(tag => (
-                                    <Link key={tag} href={`/printable/${tag.toLowerCase().replace(/ /g, '-')}-coloring-page`} className="hover:text-purple-600" prefetch={false}>
-                                        {tag} •
+                                {STYLE_TAGS.map(tag => (
+                                    <Link key={tag} data-style-link={tag} href={`/tags/${tag}`} className="hover:text-purple-600" prefetch={false}>
+                                        {styleName(tag)} •
                                     </Link>
                                 ))}
                             </div>
@@ -146,8 +157,8 @@ export async function Footer() {
                         <div>
                             <h4 className="font-bold text-xs text-gray-400 uppercase tracking-wider mb-3">{t('byTheme')}</h4>
                             <div className="flex flex-wrap gap-2 text-xs text-gray-500">
-                                {["Christmas", "Halloween", "Easter", "Summer", "Winter", "Space", "Underwater", "Forest", "Farm"].map(tag => (
-                                    <Link key={tag} href={`/printable/${tag.toLowerCase()}-coloring-page`} className="hover:text-purple-600" prefetch={false}>
+                                {["Christmas", "Halloween", "Easter", "Summer", "Winter", "Space", "Underwater", "Forest", "Farm"].filter(tag => themeHref(tag) !== '/directory').map(tag => (
+                                    <Link key={tag} href={themeHref(tag)} className="hover:text-purple-600" prefetch={false}>
                                         {tag} •
                                     </Link>
                                 ))}
@@ -156,8 +167,8 @@ export async function Footer() {
                         <div>
                             <h4 className="font-bold text-xs text-gray-400 uppercase tracking-wider mb-3">{t('popular')}</h4>
                             <div className="flex flex-wrap gap-2 text-xs text-gray-500">
-                                {["Unicorn", "Dragon", "Mermaid", "Fairy", "Robot", "Dinosaur", "Princess", "Superhero", "Pokemon"].map(tag => (
-                                    <Link key={tag} href={`/printable/${tag.toLowerCase()}-coloring-page-for-kids`} className="hover:text-purple-600" prefetch={false}>
+                                {["Unicorn", "Dragon", "Mermaid", "Fairy", "Robot", "Dinosaur", "Princess", "Superhero", "Pokemon"].filter(tag => themeHref(tag) !== '/directory').map(tag => (
+                                    <Link key={tag} href={themeHref(tag)} className="hover:text-purple-600" prefetch={false}>
                                         {tag} •
                                     </Link>
                                 ))}

@@ -1,0 +1,864 @@
+{
+  "checked": {
+    "en": 3017,
+    "es": 3017,
+    "fr": 3017,
+    "pt": 3017
+  },
+  "samples": {
+    "en/chibi-cat-coloring-page": {
+      "title": "Chibi Cat Coloring Page",
+      "description": "Explore this Chibi Cat coloring page and its distinctive outlines. Choose colors that highlight the Chibi design, then print your sheet for a relaxed creative session.",
+      "fact": "Did you know? Chibi art exaggerates the head and keeps the body proportions small.",
+      "tips": [
+        "Use gentle color transitions on Chibi faces and leave tiny highlights in the eyes.",
+        "Keep clothing colors simple so the oversized head remains the main focal point."
+      ],
+      "style_group": "chibi",
+      "body_characters": 791,
+      "related": [
+        {
+          "href": "/en/printable/chibi-dog-coloring-page",
+          "title": "Chibi Dog Coloring Page"
+        },
+        {
+          "href": "/en/printable/chibi-owl-coloring-page",
+          "title": "Chibi Owl Coloring Page"
+        },
+        {
+          "href": "/en/printable/chibi-lion-coloring-page",
+          "title": "Chibi Lion Coloring Page"
+        },
+        {
+          "href": "/en/printable/chibi-tiger-coloring-page",
+          "title": "Chibi Tiger Coloring Page"
+        }
+      ]
+    },
+    "en/cartoon-cat-coloring-page": {
+      "title": "Cartoon Cat Coloring Page",
+      "description": "Explore this Cartoon Cat coloring page and its distinctive outlines. Choose colors that highlight the Cartoon design, then print your sheet for a relaxed creative session.",
+      "fact": "Did you know? Cartoon art simplifies shapes and exaggerates expressions to tell a story.",
+      "tips": [
+        "Give each Cartoon shape a clear base color before adding a single darker shadow.",
+        "Choose contrasting colors for neighboring areas so the bold outlines remain easy to read."
+      ],
+      "style_group": "cartoon",
+      "body_characters": 823,
+      "related": [
+        {
+          "href": "/en/printable/cartoon-dog-coloring-page",
+          "title": "Cartoon Dog Coloring Page"
+        },
+        {
+          "href": "/en/printable/cartoon-owl-coloring-page",
+          "title": "Cartoon Owl Coloring Page"
+        },
+        {
+          "href": "/en/printable/cartoon-lion-coloring-page",
+          "title": "Cartoon Lion Coloring Page"
+        },
+        {
+          "href": "/en/printable/cartoon-tiger-coloring-page",
+          "title": "Cartoon Tiger Coloring Page"
+        }
+      ]
+    },
+    "en/realistic-cat-coloring-page": {
+      "title": "Realistic Cat Coloring Page",
+      "description": "Explore this Realistic Cat coloring page and its distinctive outlines. Choose colors that highlight the Realistic design, then print your sheet for a relaxed creative session.",
+      "fact": "Did you know? Realistic drawing uses light, shadow and texture to suggest natural forms.",
+      "tips": [
+        "Build the Realistic shading with light pencil layers, following the direction of fur or surfaces.",
+        "Keep the brightest areas white and deepen only the shadows to preserve the line details."
+      ],
+      "style_group": "realistic",
+      "body_characters": 857,
+      "related": [
+        {
+          "href": "/en/printable/realistic-dog-coloring-page",
+          "title": "Realistic Dog Coloring Page"
+        },
+        {
+          "href": "/en/printable/realistic-owl-coloring-page",
+          "title": "Realistic Owl Coloring Page"
+        },
+        {
+          "href": "/en/printable/realistic-lion-coloring-page",
+          "title": "Realistic Lion Coloring Page"
+        },
+        {
+          "href": "/en/printable/realistic-tiger-coloring-page",
+          "title": "Realistic Tiger Coloring Page"
+        }
+      ]
+    },
+    "en/steampunk-cat-coloring-page": {
+      "title": "Steampunk Cat Coloring Page",
+      "description": "Explore this Steampunk Cat coloring page and its distinctive outlines. Choose colors that highlight the Steampunk design, then print your sheet for a relaxed creative session.",
+      "fact": "Did you know? Steampunk art combines historical design influences with imagined machinery.",
+      "tips": [
+        "Try brass, copper and brown tones for Steampunk details, with one cool accent color.",
+        "Shade small mechanical shapes one at a time, leaving thin highlights to suggest metal."
+      ],
+      "style_group": "steampunk",
+      "body_characters": 844,
+      "related": [
+        {
+          "href": "/en/printable/steampunk-dog-coloring-page",
+          "title": "Steampunk Dog Coloring Page"
+        },
+        {
+          "href": "/en/printable/steampunk-owl-coloring-page",
+          "title": "Steampunk Owl Coloring Page"
+        },
+        {
+          "href": "/en/printable/steampunk-lion-coloring-page",
+          "title": "Steampunk Lion Coloring Page"
+        },
+        {
+          "href": "/en/printable/steampunk-tiger-coloring-page",
+          "title": "Steampunk Tiger Coloring Page"
+        }
+      ]
+    },
+    "en/kawaii-cat-coloring-page": {
+      "title": "Kawaii Cat Coloring Page",
+      "description": "Explore this Kawaii Cat coloring page and its distinctive outlines. Choose colors that highlight the Kawaii design, then print your sheet for a relaxed creative session.",
+      "fact": "Did you know? Kawaii art favors rounded shapes and simple, friendly expressions.",
+      "tips": [
+        "Try two or three pastel colors for the Kawaii shapes and keep the background light.",
+        "Add a small blush with a pale pink pencil without covering the facial outlines."
+      ],
+      "style_group": "kawaii",
+      "body_characters": 799,
+      "related": [
+        {
+          "href": "/en/printable/kawaii-dog-coloring-page",
+          "title": "Kawaii Dog Coloring Page"
+        },
+        {
+          "href": "/en/printable/kawaii-owl-coloring-page",
+          "title": "Kawaii Owl Coloring Page"
+        },
+        {
+          "href": "/en/printable/kawaii-lion-coloring-page",
+          "title": "Kawaii Lion Coloring Page"
+        },
+        {
+          "href": "/en/printable/kawaii-tiger-coloring-page",
+          "title": "Kawaii Tiger Coloring Page"
+        }
+      ]
+    },
+    "en/anime-cat-coloring-page": {
+      "title": "Anime Cat Coloring Page",
+      "description": "Explore this Anime Cat coloring page and its distinctive outlines. Choose colors that highlight the Anime design, then print your sheet for a relaxed creative session.",
+      "fact": "Did you know? Anime drawings often use expressive eyes and sharp contrasts to suggest emotion.",
+      "tips": [
+        "Choose a light direction before shading Anime hair, and leave narrow highlights uncolored.",
+        "Use a small palette for the main shapes, then add a darker tone beneath overlapping lines."
+      ],
+      "style_group": "anime",
+      "body_characters": 822,
+      "related": [
+        {
+          "href": "/en/printable/anime-dog-coloring-page",
+          "title": "Anime Dog Coloring Page"
+        },
+        {
+          "href": "/en/printable/anime-owl-coloring-page",
+          "title": "Anime Owl Coloring Page"
+        },
+        {
+          "href": "/en/printable/anime-lion-coloring-page",
+          "title": "Anime Lion Coloring Page"
+        },
+        {
+          "href": "/en/printable/anime-tiger-coloring-page",
+          "title": "Anime Tiger Coloring Page"
+        }
+      ]
+    },
+    "en/mandala-coloring-page-for-adults": {
+      "title": "Mandala Coloring Page for Adults",
+      "description": "Printable Mandala coloring sheet. Choose your colors and enjoy a quiet creative activity.",
+      "fact": "Did you know? Mandala designs arrange repeated shapes around a central point.",
+      "tips": [
+        "Begin at the Mandala center and repeat the same colors around each ring.",
+        "Test a three-color palette on scrap paper before filling the smallest spaces."
+      ],
+      "style_group": "mandala",
+      "body_characters": 759,
+      "related": [
+        {
+          "href": "/en/printable/mandala-coloring-page-for-toddlers",
+          "title": "Mandala Coloring Page for Toddlers"
+        },
+        {
+          "href": "/en/printable/mandala-coloring-page-for-preschoolers",
+          "title": "Mandala Coloring Page for Preschoolers"
+        },
+        {
+          "href": "/en/printable/mandala-coloring-page-for-kindergarteners",
+          "title": "Mandala Coloring Page for Kindergarteners"
+        },
+        {
+          "href": "/en/printable/mandala-coloring-page-for-teens",
+          "title": "Mandala Coloring Page for Teens"
+        }
+      ]
+    },
+    "es/chibi-cat-coloring-page": {
+      "title": "Gato para colorear: estilo Chibi",
+      "description": "Explora este dibujo de Gato para colorear en estilo Chibi y observa sus contornos. Elige colores que destaquen el diseño Chibi e imprime la lámina para disfrutar de una actividad creativa.",
+      "fact": "El arte Chibi exagera el tamaño de la cabeza y mantiene pequeño el cuerpo.",
+      "tips": [
+        "Usa transiciones suaves en las caras Chibi y deja pequeños reflejos en los ojos.",
+        "Mantén sencillos los colores de la ropa para destacar la cabeza de gran tamaño."
+      ],
+      "style_group": "chibi",
+      "body_characters": 903,
+      "related": [
+        {
+          "href": "/es/printable/chibi-dog-coloring-page",
+          "title": "Perro para colorear: estilo Chibi"
+        },
+        {
+          "href": "/es/printable/chibi-owl-coloring-page",
+          "title": "Búho para colorear: estilo Chibi"
+        },
+        {
+          "href": "/es/printable/chibi-lion-coloring-page",
+          "title": "León para colorear: estilo Chibi"
+        },
+        {
+          "href": "/es/printable/chibi-tiger-coloring-page",
+          "title": "Tigre para colorear: estilo Chibi"
+        }
+      ]
+    },
+    "es/cartoon-cat-coloring-page": {
+      "title": "Gato para colorear: estilo Cartoon",
+      "description": "Explora este dibujo de Gato para colorear en estilo Cartoon y observa sus contornos. Elige colores que destaquen el diseño Cartoon e imprime la lámina para disfrutar de una actividad creativa.",
+      "fact": "El arte Cartoon simplifica las formas y exagera las expresiones para contar una historia.",
+      "tips": [
+        "Da a cada forma Cartoon un color base definido antes de añadir una sombra más oscura.",
+        "Elige colores contrastantes para las zonas vecinas y conserva la claridad de los contornos."
+      ],
+      "style_group": "cartoon",
+      "body_characters": 953,
+      "related": [
+        {
+          "href": "/es/printable/cartoon-dog-coloring-page",
+          "title": "Perro para colorear: estilo Cartoon"
+        },
+        {
+          "href": "/es/printable/cartoon-owl-coloring-page",
+          "title": "Búho para colorear: estilo Cartoon"
+        },
+        {
+          "href": "/es/printable/cartoon-lion-coloring-page",
+          "title": "León para colorear: estilo Cartoon"
+        },
+        {
+          "href": "/es/printable/cartoon-tiger-coloring-page",
+          "title": "Tigre para colorear: estilo Cartoon"
+        }
+      ]
+    },
+    "es/realistic-cat-coloring-page": {
+      "title": "Gato para colorear: estilo Realistic",
+      "description": "Explora este dibujo de Gato para colorear en estilo Realistic y observa sus contornos. Elige colores que destaquen el diseño Realistic e imprime la lámina para disfrutar de una actividad creativa.",
+      "fact": "El dibujo Realistic utiliza luces, sombras y texturas para sugerir formas naturales.",
+      "tips": [
+        "Aplica capas suaves de lápiz al sombrear el dibujo Realistic, siguiendo la dirección del pelo o de las superficies.",
+        "Deja blancas las zonas luminosas y oscurece solo las sombras para conservar los detalles."
+      ],
+      "style_group": "realistic",
+      "body_characters": 994,
+      "related": [
+        {
+          "href": "/es/printable/realistic-dog-coloring-page",
+          "title": "Perro para colorear: estilo Realistic"
+        },
+        {
+          "href": "/es/printable/realistic-owl-coloring-page",
+          "title": "Búho para colorear: estilo Realistic"
+        },
+        {
+          "href": "/es/printable/realistic-lion-coloring-page",
+          "title": "León para colorear: estilo Realistic"
+        },
+        {
+          "href": "/es/printable/realistic-tiger-coloring-page",
+          "title": "Tigre para colorear: estilo Realistic"
+        }
+      ]
+    },
+    "es/steampunk-cat-coloring-page": {
+      "title": "Gato para colorear: estilo Steampunk",
+      "description": "Explora este dibujo de Gato para colorear en estilo Steampunk y observa sus contornos. Elige colores que destaquen el diseño Steampunk e imprime la lámina para disfrutar de una actividad creativa.",
+      "fact": "El arte Steampunk combina influencias del diseño histórico con máquinas imaginarias.",
+      "tips": [
+        "Prueba tonos de latón, cobre y marrón en los detalles Steampunk, con un acento de color frío.",
+        "Sombrea las piezas pequeñas una a una y deja reflejos finos para sugerir metal."
+      ],
+      "style_group": "steampunk",
+      "body_characters": 962,
+      "related": [
+        {
+          "href": "/es/printable/steampunk-dog-coloring-page",
+          "title": "Perro para colorear: estilo Steampunk"
+        },
+        {
+          "href": "/es/printable/steampunk-owl-coloring-page",
+          "title": "Búho para colorear: estilo Steampunk"
+        },
+        {
+          "href": "/es/printable/steampunk-lion-coloring-page",
+          "title": "León para colorear: estilo Steampunk"
+        },
+        {
+          "href": "/es/printable/steampunk-tiger-coloring-page",
+          "title": "Tigre para colorear: estilo Steampunk"
+        }
+      ]
+    },
+    "es/kawaii-cat-coloring-page": {
+      "title": "Gato para colorear: estilo Kawaii",
+      "description": "Explora este dibujo de Gato para colorear en estilo Kawaii y observa sus contornos. Elige colores que destaquen el diseño Kawaii e imprime la lámina para disfrutar de una actividad creativa.",
+      "fact": "¿Sabías que el arte Kawaii prefiere las formas redondeadas y las expresiones sencillas y amigables?",
+      "tips": [
+        "Prueba dos o tres tonos pastel para las formas Kawaii y mantén el fondo claro.",
+        "Añade un rubor suave con un lápiz rosa pálido sin tapar los contornos de la cara."
+      ],
+      "style_group": "kawaii",
+      "body_characters": 937,
+      "related": [
+        {
+          "href": "/es/printable/kawaii-dog-coloring-page",
+          "title": "Perro para colorear: estilo Kawaii"
+        },
+        {
+          "href": "/es/printable/kawaii-owl-coloring-page",
+          "title": "Búho para colorear: estilo Kawaii"
+        },
+        {
+          "href": "/es/printable/kawaii-lion-coloring-page",
+          "title": "León para colorear: estilo Kawaii"
+        },
+        {
+          "href": "/es/printable/kawaii-tiger-coloring-page",
+          "title": "Tigre para colorear: estilo Kawaii"
+        }
+      ]
+    },
+    "es/anime-cat-coloring-page": {
+      "title": "Gato para colorear: estilo Anime",
+      "description": "Explora este dibujo de Gato para colorear en estilo Anime y observa sus contornos. Elige colores que destaquen el diseño Anime e imprime la lámina para disfrutar de una actividad creativa.",
+      "fact": "¿Sabías que el arte Anime suele usar ojos expresivos y contrastes marcados para transmitir emociones?",
+      "tips": [
+        "Elige la dirección de la luz antes de sombrear el cabello Anime y deja reflejos sin colorear.",
+        "Usa pocos colores en las formas principales y un tono más oscuro bajo las líneas superpuestas."
+      ],
+      "style_group": "anime",
+      "body_characters": 958,
+      "related": [
+        {
+          "href": "/es/printable/anime-dog-coloring-page",
+          "title": "Perro para colorear: estilo Anime"
+        },
+        {
+          "href": "/es/printable/anime-owl-coloring-page",
+          "title": "Búho para colorear: estilo Anime"
+        },
+        {
+          "href": "/es/printable/anime-lion-coloring-page",
+          "title": "León para colorear: estilo Anime"
+        },
+        {
+          "href": "/es/printable/anime-tiger-coloring-page",
+          "title": "Tigre para colorear: estilo Anime"
+        }
+      ]
+    },
+    "es/mandala-coloring-page-for-adults": {
+      "title": "Dibujos de Mandala para colorear para Adultos",
+      "description": "Lámina imprimible del motivo Mandala para colorear. Elige tus colores y disfruta de una actividad creativa tranquila.",
+      "fact": "Los diseños Mandala distribuyen formas repetidas alrededor de un punto central.",
+      "tips": [
+        "Empieza en el centro del Mandala y repite los mismos colores alrededor de cada anillo.",
+        "Prueba una paleta de tres colores en otro papel antes de rellenar los espacios pequeños."
+      ],
+      "style_group": "mandala",
+      "body_characters": 948,
+      "related": [
+        {
+          "href": "/es/printable/mandala-coloring-page-for-toddlers",
+          "title": "Dibujos de Mandala para colorear para Niños pequeños"
+        },
+        {
+          "href": "/es/printable/mandala-coloring-page-for-preschoolers",
+          "title": "Dibujos de Mandala para colorear para Preescolares"
+        },
+        {
+          "href": "/es/printable/mandala-coloring-page-for-kindergarteners",
+          "title": "Dibujos de Mandala para colorear para Niños de Kinder"
+        },
+        {
+          "href": "/es/printable/mandala-coloring-page-for-teens",
+          "title": "Dibujos de Mandala para colorear para Adolescentes"
+        }
+      ]
+    },
+    "fr/chibi-cat-coloring-page": {
+      "title": "Coloriage Chat de style Chibi",
+      "description": "Découvrez ce coloriage Chat de style Chibi et ses contours caractéristiques. Choisissez des couleurs qui soulignent le dessin Chibi, puis imprimez votre feuille pour un moment créatif et calme.",
+      "fact": "Le dessin Chibi exagère la taille de la tête et conserve un petit corps.",
+      "tips": [
+        "Utilisez des transitions douces sur les visages Chibi et laissez de petits reflets dans les yeux.",
+        "Gardez des couleurs simples pour les vêtements afin de mettre en valeur la grande tête."
+      ],
+      "style_group": "chibi",
+      "body_characters": 929,
+      "related": [
+        {
+          "href": "/fr/printable/chibi-dog-coloring-page",
+          "title": "Coloriage Chien de style Chibi"
+        },
+        {
+          "href": "/fr/printable/chibi-owl-coloring-page",
+          "title": "Coloriage Hibou de style Chibi"
+        },
+        {
+          "href": "/fr/printable/chibi-lion-coloring-page",
+          "title": "Coloriage Lion de style Chibi"
+        },
+        {
+          "href": "/fr/printable/chibi-tiger-coloring-page",
+          "title": "Coloriage Tigre de style Chibi"
+        }
+      ]
+    },
+    "fr/cartoon-cat-coloring-page": {
+      "title": "Coloriage Chat de style Cartoon",
+      "description": "Découvrez ce coloriage Chat de style Cartoon et ses contours caractéristiques. Choisissez des couleurs qui soulignent le dessin Cartoon, puis imprimez votre feuille pour un moment créatif et calme.",
+      "fact": "Le dessin Cartoon simplifie les formes et exagère les expressions pour raconter une histoire.",
+      "tips": [
+        "Donnez à chaque forme Cartoon une couleur de base nette avant de poser une ombre plus foncée.",
+        "Choisissez des couleurs contrastées dans les zones voisines pour garder les contours bien lisibles."
+      ],
+      "style_group": "cartoon",
+      "body_characters": 976,
+      "related": [
+        {
+          "href": "/fr/printable/cartoon-dog-coloring-page",
+          "title": "Coloriage Chien de style Cartoon"
+        },
+        {
+          "href": "/fr/printable/cartoon-owl-coloring-page",
+          "title": "Coloriage Hibou de style Cartoon"
+        },
+        {
+          "href": "/fr/printable/cartoon-lion-coloring-page",
+          "title": "Coloriage Lion de style Cartoon"
+        },
+        {
+          "href": "/fr/printable/cartoon-tiger-coloring-page",
+          "title": "Coloriage Tigre de style Cartoon"
+        }
+      ]
+    },
+    "fr/realistic-cat-coloring-page": {
+      "title": "Coloriage Chat de style Realistic",
+      "description": "Découvrez ce coloriage Chat de style Realistic et ses contours caractéristiques. Choisissez des couleurs qui soulignent le dessin Realistic, puis imprimez votre feuille pour un moment créatif et calme.",
+      "fact": "Le dessin Realistic utilise la lumière, les ombres et les textures pour évoquer les formes naturelles.",
+      "tips": [
+        "Superposez de fines couches de crayon pour le dessin Realistic en suivant le sens du pelage ou des surfaces.",
+        "Gardez les zones lumineuses blanches et renforcez seulement les ombres pour préserver les détails."
+      ],
+      "style_group": "realistic",
+      "body_characters": 1017,
+      "related": [
+        {
+          "href": "/fr/printable/realistic-dog-coloring-page",
+          "title": "Coloriage Chien de style Realistic"
+        },
+        {
+          "href": "/fr/printable/realistic-owl-coloring-page",
+          "title": "Coloriage Hibou de style Realistic"
+        },
+        {
+          "href": "/fr/printable/realistic-lion-coloring-page",
+          "title": "Coloriage Lion de style Realistic"
+        },
+        {
+          "href": "/fr/printable/realistic-tiger-coloring-page",
+          "title": "Coloriage Tigre de style Realistic"
+        }
+      ]
+    },
+    "fr/steampunk-cat-coloring-page": {
+      "title": "Coloriage Chat de style Steampunk",
+      "description": "Découvrez ce coloriage Chat de style Steampunk et ses contours caractéristiques. Choisissez des couleurs qui soulignent le dessin Steampunk, puis imprimez votre feuille pour un moment créatif et calme.",
+      "fact": "Le dessin Steampunk associe des influences historiques à des machines imaginaires.",
+      "tips": [
+        "Essayez des tons laiton, cuivre et brun pour les détails Steampunk avec une touche de couleur froide.",
+        "Ombrez les petites pièces une à une et réservez de fins reflets pour évoquer le métal."
+      ],
+      "style_group": "steampunk",
+      "body_characters": 978,
+      "related": [
+        {
+          "href": "/fr/printable/steampunk-dog-coloring-page",
+          "title": "Coloriage Chien de style Steampunk"
+        },
+        {
+          "href": "/fr/printable/steampunk-owl-coloring-page",
+          "title": "Coloriage Hibou de style Steampunk"
+        },
+        {
+          "href": "/fr/printable/steampunk-lion-coloring-page",
+          "title": "Coloriage Lion de style Steampunk"
+        },
+        {
+          "href": "/fr/printable/steampunk-tiger-coloring-page",
+          "title": "Coloriage Tigre de style Steampunk"
+        }
+      ]
+    },
+    "fr/kawaii-cat-coloring-page": {
+      "title": "Coloriage Chat de style Kawaii",
+      "description": "Découvrez ce coloriage Chat de style Kawaii et ses contours caractéristiques. Choisissez des couleurs qui soulignent le dessin Kawaii, puis imprimez votre feuille pour un moment créatif et calme.",
+      "fact": "Le dessin Kawaii privilégie les formes arrondies et les expressions simples et amicales.",
+      "tips": [
+        "Essayez deux ou trois tons pastel pour les formes Kawaii et gardez un fond clair.",
+        "Ajoutez des joues rosées au crayon rose pâle sans masquer les contours du visage."
+      ],
+      "style_group": "kawaii",
+      "body_characters": 932,
+      "related": [
+        {
+          "href": "/fr/printable/kawaii-dog-coloring-page",
+          "title": "Coloriage Chien de style Kawaii"
+        },
+        {
+          "href": "/fr/printable/kawaii-owl-coloring-page",
+          "title": "Coloriage Hibou de style Kawaii"
+        },
+        {
+          "href": "/fr/printable/kawaii-lion-coloring-page",
+          "title": "Coloriage Lion de style Kawaii"
+        },
+        {
+          "href": "/fr/printable/kawaii-tiger-coloring-page",
+          "title": "Coloriage Tigre de style Kawaii"
+        }
+      ]
+    },
+    "fr/anime-cat-coloring-page": {
+      "title": "Coloriage Chat de style Anime",
+      "description": "Découvrez ce coloriage Chat de style Anime et ses contours caractéristiques. Choisissez des couleurs qui soulignent le dessin Anime, puis imprimez votre feuille pour un moment créatif et calme.",
+      "fact": "Le dessin Anime emploie souvent des yeux expressifs et des contrastes nets pour suggérer les émotions.",
+      "tips": [
+        "Choisissez la direction de la lumière avant de colorier les cheveux Anime et laissez des reflets blancs.",
+        "Limitez la palette des grandes formes, puis ajoutez une teinte sombre sous les lignes superposées."
+      ],
+      "style_group": "anime",
+      "body_characters": 977,
+      "related": [
+        {
+          "href": "/fr/printable/anime-dog-coloring-page",
+          "title": "Coloriage Chien de style Anime"
+        },
+        {
+          "href": "/fr/printable/anime-owl-coloring-page",
+          "title": "Coloriage Hibou de style Anime"
+        },
+        {
+          "href": "/fr/printable/anime-lion-coloring-page",
+          "title": "Coloriage Lion de style Anime"
+        },
+        {
+          "href": "/fr/printable/anime-tiger-coloring-page",
+          "title": "Coloriage Tigre de style Anime"
+        }
+      ]
+    },
+    "fr/mandala-coloring-page-for-adults": {
+      "title": "Coloriage Mandala pour Adultes",
+      "description": "Coloriage à imprimer sur le thème Mandala. Choisissez vos couleurs et profitez d’une activité créative au calme.",
+      "fact": "Les motifs Mandala répètent des formes autour d’un point central.",
+      "tips": [
+        "Commencez au centre du Mandala et répétez les mêmes couleurs autour de chaque anneau.",
+        "Testez trois couleurs sur une autre feuille avant de remplir les plus petits espaces."
+      ],
+      "style_group": "mandala",
+      "body_characters": 834,
+      "related": [
+        {
+          "href": "/fr/printable/mandala-coloring-page-for-toddlers",
+          "title": "Coloriage Mandala pour Tout-petits"
+        },
+        {
+          "href": "/fr/printable/mandala-coloring-page-for-preschoolers",
+          "title": "Coloriage Mandala pour Préscolaires"
+        },
+        {
+          "href": "/fr/printable/mandala-coloring-page-for-kindergarteners",
+          "title": "Coloriage Mandala pour Maternelle"
+        },
+        {
+          "href": "/fr/printable/mandala-coloring-page-for-teens",
+          "title": "Coloriage Mandala pour Ados"
+        }
+      ]
+    },
+    "pt/chibi-cat-coloring-page": {
+      "title": "Gato para colorir no estilo Chibi",
+      "description": "Explore este desenho de Gato para colorir no estilo Chibi e observe seus contornos. Escolha cores que realcem o visual Chibi e imprima a folha para aproveitar uma atividade criativa tranquila.",
+      "fact": "A arte Chibi exagera o tamanho da cabeça e mantém o corpo pequeno.",
+      "tips": [
+        "Use transições suaves nos rostos Chibi e deixe pequenos reflexos nos olhos.",
+        "Mantenha simples as cores das roupas para destacar a cabeça de tamanho exagerado."
+      ],
+      "style_group": "chibi",
+      "body_characters": 895,
+      "related": [
+        {
+          "href": "/pt/printable/chibi-dog-coloring-page",
+          "title": "Cachorro para colorir no estilo Chibi"
+        },
+        {
+          "href": "/pt/printable/chibi-owl-coloring-page",
+          "title": "Coruja para colorir no estilo Chibi"
+        },
+        {
+          "href": "/pt/printable/chibi-lion-coloring-page",
+          "title": "Leão para colorir no estilo Chibi"
+        },
+        {
+          "href": "/pt/printable/chibi-tiger-coloring-page",
+          "title": "Tigre para colorir no estilo Chibi"
+        }
+      ]
+    },
+    "pt/cartoon-cat-coloring-page": {
+      "title": "Gato para colorir no estilo Cartoon",
+      "description": "Explore este desenho de Gato para colorir no estilo Cartoon e observe seus contornos. Escolha cores que realcem o visual Cartoon e imprima a folha para aproveitar uma atividade criativa tranquila.",
+      "fact": "A arte Cartoon simplifica formas e exagera expressões para contar uma história.",
+      "tips": [
+        "Dê a cada forma Cartoon uma cor de base definida antes de acrescentar uma sombra mais escura.",
+        "Escolha cores contrastantes nas áreas vizinhas para manter os contornos bem visíveis."
+      ],
+      "style_group": "cartoon",
+      "body_characters": 948,
+      "related": [
+        {
+          "href": "/pt/printable/cartoon-dog-coloring-page",
+          "title": "Cachorro para colorir no estilo Cartoon"
+        },
+        {
+          "href": "/pt/printable/cartoon-owl-coloring-page",
+          "title": "Coruja para colorir no estilo Cartoon"
+        },
+        {
+          "href": "/pt/printable/cartoon-lion-coloring-page",
+          "title": "Leão para colorir no estilo Cartoon"
+        },
+        {
+          "href": "/pt/printable/cartoon-tiger-coloring-page",
+          "title": "Tigre para colorir no estilo Cartoon"
+        }
+      ]
+    },
+    "pt/realistic-cat-coloring-page": {
+      "title": "Gato para colorir no estilo Realistic",
+      "description": "Explore este desenho de Gato para colorir no estilo Realistic e observe seus contornos. Escolha cores que realcem o visual Realistic e imprima a folha para aproveitar uma atividade criativa tranquila.",
+      "fact": "O desenho Realistic usa luz, sombra e textura para sugerir formas naturais.",
+      "tips": [
+        "Construa o sombreado Realistic com camadas leves de lápis, seguindo a direção dos pelos ou das superfícies.",
+        "Deixe as áreas mais claras em branco e escureça apenas as sombras para preservar os detalhes."
+      ],
+      "style_group": "realistic",
+      "body_characters": 984,
+      "related": [
+        {
+          "href": "/pt/printable/realistic-dog-coloring-page",
+          "title": "Cachorro para colorir no estilo Realistic"
+        },
+        {
+          "href": "/pt/printable/realistic-owl-coloring-page",
+          "title": "Coruja para colorir no estilo Realistic"
+        },
+        {
+          "href": "/pt/printable/realistic-lion-coloring-page",
+          "title": "Leão para colorir no estilo Realistic"
+        },
+        {
+          "href": "/pt/printable/realistic-tiger-coloring-page",
+          "title": "Tigre para colorir no estilo Realistic"
+        }
+      ]
+    },
+    "pt/steampunk-cat-coloring-page": {
+      "title": "Gato para colorir no estilo Steampunk",
+      "description": "Explore este desenho de Gato para colorir no estilo Steampunk e observe seus contornos. Escolha cores que realcem o visual Steampunk e imprima a folha para aproveitar uma atividade criativa tranquila.",
+      "fact": "A arte Steampunk combina influências do desenho histórico com máquinas imaginárias.",
+      "tips": [
+        "Experimente tons de latão, cobre e marrom nos detalhes Steampunk, com um toque de cor fria.",
+        "Sombreie as peças pequenas uma de cada vez e deixe reflexos finos para sugerir metal."
+      ],
+      "style_group": "steampunk",
+      "body_characters": 968,
+      "related": [
+        {
+          "href": "/pt/printable/steampunk-dog-coloring-page",
+          "title": "Cachorro para colorir no estilo Steampunk"
+        },
+        {
+          "href": "/pt/printable/steampunk-owl-coloring-page",
+          "title": "Coruja para colorir no estilo Steampunk"
+        },
+        {
+          "href": "/pt/printable/steampunk-lion-coloring-page",
+          "title": "Leão para colorir no estilo Steampunk"
+        },
+        {
+          "href": "/pt/printable/steampunk-tiger-coloring-page",
+          "title": "Tigre para colorir no estilo Steampunk"
+        }
+      ]
+    },
+    "pt/kawaii-cat-coloring-page": {
+      "title": "Gato para colorir no estilo Kawaii",
+      "description": "Explore este desenho de Gato para colorir no estilo Kawaii e observe seus contornos. Escolha cores que realcem o visual Kawaii e imprima a folha para aproveitar uma atividade criativa tranquila.",
+      "fact": "A arte Kawaii valoriza formas arredondadas e expressões simples e amigáveis.",
+      "tips": [
+        "Experimente dois ou três tons pastel nas formas Kawaii e mantenha o fundo claro.",
+        "Acrescente um leve rubor com lápis rosa-claro sem cobrir os contornos do rosto."
+      ],
+      "style_group": "kawaii",
+      "body_characters": 917,
+      "related": [
+        {
+          "href": "/pt/printable/kawaii-dog-coloring-page",
+          "title": "Cachorro para colorir no estilo Kawaii"
+        },
+        {
+          "href": "/pt/printable/kawaii-owl-coloring-page",
+          "title": "Coruja para colorir no estilo Kawaii"
+        },
+        {
+          "href": "/pt/printable/kawaii-lion-coloring-page",
+          "title": "Leão para colorir no estilo Kawaii"
+        },
+        {
+          "href": "/pt/printable/kawaii-tiger-coloring-page",
+          "title": "Tigre para colorir no estilo Kawaii"
+        }
+      ]
+    },
+    "pt/anime-cat-coloring-page": {
+      "title": "Gato para colorir no estilo Anime",
+      "description": "Explore este desenho de Gato para colorir no estilo Anime e observe seus contornos. Escolha cores que realcem o visual Anime e imprima a folha para aproveitar uma atividade criativa tranquila.",
+      "fact": "O desenho Anime costuma usar olhos expressivos e contrastes fortes para sugerir emoções.",
+      "tips": [
+        "Escolha a direção da luz antes de sombrear o cabelo Anime e deixe reflexos sem colorir.",
+        "Use poucas cores nas formas principais e acrescente um tom escuro sob as linhas sobrepostas."
+      ],
+      "style_group": "anime",
+      "body_characters": 940,
+      "related": [
+        {
+          "href": "/pt/printable/anime-dog-coloring-page",
+          "title": "Cachorro para colorir no estilo Anime"
+        },
+        {
+          "href": "/pt/printable/anime-owl-coloring-page",
+          "title": "Coruja para colorir no estilo Anime"
+        },
+        {
+          "href": "/pt/printable/anime-lion-coloring-page",
+          "title": "Leão para colorir no estilo Anime"
+        },
+        {
+          "href": "/pt/printable/anime-tiger-coloring-page",
+          "title": "Tigre para colorir no estilo Anime"
+        }
+      ]
+    },
+    "pt/mandala-coloring-page-for-adults": {
+      "title": "Página de Colorir de Mandala para Adultos",
+      "description": "Desenho do tema Mandala para imprimir e colorir. Escolha suas cores e aproveite uma atividade criativa tranquila.",
+      "fact": "Os desenhos Mandala organizam formas repetidas ao redor de um ponto central.",
+      "tips": [
+        "Comece no centro do Mandala e repita as mesmas cores ao redor de cada anel.",
+        "Teste uma paleta de três cores em outro papel antes de preencher os espaços menores."
+      ],
+      "style_group": "mandala",
+      "body_characters": 897,
+      "related": [
+        {
+          "href": "/pt/printable/mandala-coloring-page-for-toddlers",
+          "title": "Página de Colorir de Mandala para Crianças pequenas"
+        },
+        {
+          "href": "/pt/printable/mandala-coloring-page-for-preschoolers",
+          "title": "Página de Colorir de Mandala para Pré-escolares"
+        },
+        {
+          "href": "/pt/printable/mandala-coloring-page-for-kindergarteners",
+          "title": "Página de Colorir de Mandala para Jardim de Infância"
+        },
+        {
+          "href": "/pt/printable/mandala-coloring-page-for-teens",
+          "title": "Página de Colorir de Mandala para Adolescentes"
+        }
+      ]
+    }
+  },
+  "unique_tips": {
+    "en": {
+      "generic": 127,
+      "anime": 1,
+      "cartoon": 1,
+      "kawaii": 1,
+      "chibi": 1,
+      "steampunk": 1,
+      "realistic": 1,
+      "mandala": 1
+    },
+    "es": {
+      "generic": 127,
+      "anime": 1,
+      "cartoon": 1,
+      "kawaii": 1,
+      "chibi": 1,
+      "steampunk": 1,
+      "realistic": 1,
+      "mandala": 1
+    },
+    "fr": {
+      "generic": 127,
+      "anime": 1,
+      "cartoon": 1,
+      "kawaii": 1,
+      "chibi": 1,
+      "steampunk": 1,
+      "realistic": 1,
+      "mandala": 1
+    },
+    "pt": {
+      "generic": 127,
+      "anime": 1,
+      "cartoon": 1,
+      "kawaii": 1,
+      "chibi": 1,
+      "steampunk": 1,
+      "realistic": 1,
+      "mandala": 1
+    }
+  }
+}

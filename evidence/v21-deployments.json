@@ -1,0 +1,11 @@
+{
+  "preview": "2173201d-5119-467d-93b5-04997f5cf4f1",
+  "production": "65e7ff88-6d6c-4bd8-b06a-8c457368683b",
+  "rollback": "2c35ed1d-c86f-4a4e-8159-73aea1b7f8fc",
+  "code_commit": "3004279",
+  "pr": "https://github.com/steplead/aicoloringpage/pull/3",
+  "branch": "v21-seo",
+  "production_branch": "multilanguages",
+  "configuration_inventories_unchanged": true,
+  "production_env_names_count": 21
+}

@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-11-09T06:47:46.765499+08:00",
+  "timezone": "Asia/Shanghai UTC+8",
+  "head": "5bf00075141083e622d5f80d759103dfaf8ea6b8",
+  "checks": [
+    {
+      "name": "Cloudflare Pages",
+      "status": "in_progress",
+      "conclusion": null,
+      "details_url": "https://dash.cloudflare.com/?to=/3f6574529f3c55800b32c156a157e4f3/pages/view/aicoloringpage/3cf4bb54-a749-4e44-894e-ebe84c905383"
+    }
+  ],
+  "statuses": [
+    {
+      "context": "Vercel",
+      "state": "failure",
+      "description": "Account is blocked.",
+      "target_url": "https://vercel.com/knowledge/why-is-my-account-deployment-blocked"
+    }
+  ]
+}
