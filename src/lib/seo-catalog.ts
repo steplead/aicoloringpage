@@ -66,7 +66,10 @@ export function getPublishedPages(locale: string): SeoPage[] {
     const cached = publishedCache.get(safe)
     if (cached) return cached
     const allowed = getPublishedSlugSet()
-    const pages = readRaw(safe).filter((page) => allowed.has(page.slug))
+    const originals = new Map(readRaw('en').map(page => [page.slug, page]))
+    const pages = readRaw(safe).filter((page) => allowed.has(page.slug)).map(page => ({
+        ...page, image_url: originals.get(page.slug)?.image_url ?? page.image_url,
+    }))
     publishedCache.set(safe, pages)
     return pages
 }

@@ -11,9 +11,23 @@ pages_build_output_dir = ".vercel/output/static"
 # needs the real id before the Worker will see RATE_KV.
 [[kv_namespaces]]
 binding = "RATE_KV"
-id = "REPLACE_WITH_RATE_KV_NAMESPACE_ID"
+id = "8a96b0f94044477080795429ca4021ad"
 
 # Workers AI. One binding per project. Local `wrangler pages dev` calls the
 # real account API and can incur Workers AI usage.
 [ai]
+binding = "AI"
+
+# Mirror existing dashboard hostname allowlists; do not change remote configuration.
+[vars]
+TURNSTILE_HOSTNAMES = "ai-coloringpage.com"
+
+[env.preview.vars]
+TURNSTILE_HOSTNAMES = "example.com"
+
+[[env.preview.kv_namespaces]]
+binding = "RATE_KV"
+id = "8a96b0f94044477080795429ca4021ad"
+
+[env.preview.ai]
 binding = "AI"

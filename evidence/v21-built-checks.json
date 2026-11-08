@@ -1,0 +1,91 @@
+{
+  "guides": {
+    "en": {
+      "realistic": {
+        "words": 314,
+        "sections": 5
+      },
+      "kawaii": {
+        "words": 316,
+        "sections": 5
+      },
+      "anime": {
+        "words": 318,
+        "sections": 5
+      },
+      "cartoon": {
+        "words": 316,
+        "sections": 5
+      }
+    },
+    "es": {
+      "realistic": {
+        "words": 312,
+        "sections": 5
+      },
+      "kawaii": {
+        "words": 314,
+        "sections": 5
+      },
+      "anime": {
+        "words": 313,
+        "sections": 5
+      },
+      "cartoon": {
+        "words": 314,
+        "sections": 5
+      }
+    },
+    "fr": {
+      "realistic": {
+        "words": 318,
+        "sections": 5
+      },
+      "kawaii": {
+        "words": 321,
+        "sections": 5
+      },
+      "anime": {
+        "words": 318,
+        "sections": 5
+      },
+      "cartoon": {
+        "words": 321,
+        "sections": 5
+      }
+    },
+    "pt": {
+      "realistic": {
+        "words": 315,
+        "sections": 5
+      },
+      "kawaii": {
+        "words": 313,
+        "sections": 5
+      },
+      "anime": {
+        "words": 318,
+        "sections": 5
+      },
+      "cartoon": {
+        "words": 316,
+        "sections": 5
+      }
+    }
+  },
+  "footer_links": {
+    "en": 37,
+    "es": 37,
+    "fr": 37,
+    "pt": 37
+  },
+  "form_b_redirects": 28672,
+  "checked_footers": 12348,
+  "unique_footer_links": 152,
+  "redirect_rules": {
+    "static": 33,
+    "dynamic": 44
+  },
+  "sitemap_urls": 832,
+  "shared_4grams": 0
+}

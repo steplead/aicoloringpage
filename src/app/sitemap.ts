@@ -27,7 +27,7 @@ const CATEGORY_ROUTES = ['animals', 'characters', 'holidays', 'nature', 'vehicle
 const TAG_ROUTES = [
     'easy', 'difficult', 'preschool', 'kindergarten', 'adult', 'teen',
     'free', 'printable', 'educational', 'fun', 'fantasy', 'realistic',
-    'cartoon', 'seasonal', 'beginner', 'intermediate', 'advanced', 'detailed',
+    'cartoon', 'anime', 'kawaii', 'seasonal', 'beginner', 'intermediate', 'advanced', 'detailed',
 ].map((tag) => `/tags/${tag}`)
 
 const AZ_ROUTES = 'abcdefghijklmnopqrstuvwxyz'.split('').map((letter) => `/directory/a-z/${letter}`)

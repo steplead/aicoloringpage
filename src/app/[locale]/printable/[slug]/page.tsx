@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card'
 import { ShareEmbedButton } from '@/components/ShareEmbedButton'
 import { Check, Download, Printer, Sparkles, Star } from 'lucide-react'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { isStylePage, styleName } from '@/lib/styles'
 import { pageAlternates } from '@/lib/alternates'
 import { getPublishedPage, getPublishedPages, getRelatedPages } from '@/lib/seo-catalog'
 
@@ -59,7 +60,10 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
     // Dynamic translations helper
     const translatedSubject = tData.has(pageData.subject) ? tData(pageData.subject) : pageData.subject
     const translatedAudience = tData.has(pageData.audience) ? tData(pageData.audience) : pageData.audience
-    const translatedTitle = tData('titlePattern', { subject: translatedSubject, audience: translatedAudience })
+    const styleLabel = styleName(pageData.style)
+    const styled = isStylePage(slug)
+    const styleSubject = styled ? `${styleLabel} ${translatedSubject}` : translatedSubject
+    const translatedTitle = styled ? t('styleTitle', { style: styleLabel, subject: translatedSubject }) : tData('titlePattern', { subject: translatedSubject, audience: translatedAudience })
 
     const relatedPages = getRelatedPages(locale, slug, 4)
 
@@ -96,10 +100,10 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
         mainEntity: [
             {
                 '@type': 'Question',
-                name: `Is this ${pageData.subject} coloring page free?`,
+                name: `Is this ${styleSubject} coloring page free?`,
                 acceptedAnswer: {
                     '@type': 'Answer',
-                    text: `Yes, all coloring pages on AI Coloring Page, including this ${pageData.subject} coloring sheet, are completely free to download and print for personal use.`
+                    text: `Yes, all coloring pages on AI Coloring Page, including this ${styleSubject} coloring sheet, are completely free to download and print for personal use.`
                 }
             },
             {
@@ -107,7 +111,7 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                 name: `Is this coloring page suitable for ${pageData.audience}?`,
                 acceptedAnswer: {
                     '@type': 'Answer',
-                    text: `Absolutely! This ${pageData.subject} coloring page has been specifically designed to be appropriate and engaging for ${pageData.audience}.`
+                    text: `Absolutely! This ${styleSubject} coloring page has been specifically designed to be appropriate and engaging for ${pageData.audience}.`
                 }
             },
             {
@@ -163,7 +167,7 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                                 {/* Simulated Coloring Page Image */}
                                 <img
                                     src={pageData.image_url}
-                                    alt={`Free printable ${translatedSubject} coloring page for ${translatedAudience}. High-quality black and white coloring sheet designed for ${translatedAudience}. Perfect for creativity and fun.`}
+                                    alt={`Free printable ${styleSubject} coloring page for ${translatedAudience}. High-quality black and white coloring sheet designed for ${translatedAudience}. Perfect for creativity and fun.`}
                                     className="object-contain max-h-full max-w-full p-4 hover:scale-105 transition-transform duration-500"
                                     fetchPriority="high"
                                     decoding="async"
@@ -209,7 +213,7 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                             </h1>
                             <div className="prose text-gray-600 mb-6">
                                 <p>
-                                    {pageData.description || t('descriptionTemplate', { subject: translatedSubject, audience: translatedAudience })}
+                                    {styled ? t('styleBody', { style: styleLabel, subject: translatedSubject }) : (pageData.description || t('descriptionTemplate', { subject: translatedSubject, audience: translatedAudience }))}
                                 </p>
                             </div>
 

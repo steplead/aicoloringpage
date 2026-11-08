@@ -1,0 +1,33 @@
+{
+  "unique_style_slugs": 8192,
+  "form_a": 1024,
+  "form_b": 7168,
+  "form_a_published": 768,
+  "form_b_with_real_image": 0,
+  "form_a_by_style": {
+    "Realistic": 128,
+    "Cartoon": 128,
+    "Kawaii": 128,
+    "Chibi": 128,
+    "Anime": 128,
+    "Steampunk": 128,
+    "Minimalist": 128,
+    "Stained Glass": 128
+  },
+  "form_a_published_by_style": {
+    "Realistic": 128,
+    "Cartoon": 128,
+    "Kawaii": 128,
+    "Chibi": 128,
+    "Anime": 128,
+    "Steampunk": 128
+  },
+  "form_b_by_style": {
+    "Kawaii": 1792,
+    "Realistic": 1792,
+    "Mandala": 1792,
+    "Steampunk": 1792
+  },
+  "published_catalog": 3017,
+  "verdict": "Form B rows retained, all placeholder-only. Publication filter rejects them; not an audience-suffix validator. Operational branch ②: unrecoverable legacy pages 301 to existing Form A; mandala to existing adult mandala base. No placeholder pages published."
+}

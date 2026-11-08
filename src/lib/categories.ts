@@ -45,6 +45,8 @@ export const CATEGORIES = {
 
 // Protocol 2: 20+ Tags (Multi-pathing Strategy)
 export const TAGS = {
+  anime: { name: 'Anime', description: 'Expressive anime line drawings to print and color' },
+  kawaii: { name: 'Kawaii', description: 'Cute, rounded kawaii coloring sheets' },
   // Difficulty-based tags
   easy: { name: 'Easy', description: 'Simple coloring pages perfect for beginners' },
   difficult: { name: 'Difficult', description: 'Challenging designs for experienced colorists' },
@@ -104,6 +106,9 @@ export function getTagsForPage(page: PageData): string[] {
   } else if (page.audience === 'Teens') {
     tags.push('teen', 'intermediate')
   }
+
+  const style = page.style.toLowerCase().replace(/ /g, '-')
+  if (['anime', 'kawaii', 'cartoon', 'realistic'].includes(style)) tags.push(style)
 
   // Add universal tags
   tags.push('free', 'printable', 'fun')
