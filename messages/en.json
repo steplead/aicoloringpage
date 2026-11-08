@@ -133,7 +133,76 @@
     "coloringTips": "🎨 Coloring Tips",
     "relatedTitle": "You Might Also Like",
     "styleTitle": "{style} {subject} Coloring Page",
-    "styleBody": "Explore this {style} {subject} coloring page and its distinctive outlines. Choose colors that highlight the {style} design, then print your sheet for a relaxed creative session."
+    "styleBody": "Explore this {style} {subject} coloring page and its distinctive outlines. Choose colors that highlight the {style} design, then print your sheet for a relaxed creative session.",
+    "allAges": "all ages",
+    "focusFact": "Coloring gives you time to observe shapes and practice careful hand movements.",
+    "aiGenerated": "AI generated",
+    "printPage": "Print Page",
+    "downloadPdf": "Download PDF",
+    "plainDescription": "Printable {subject} coloring sheet. Choose your colors and enjoy a quiet creative activity.",
+    "imageAlt": "Free printable {title}.",
+    "faqFreeQuestion": "Is this {title} free?",
+    "faqFreeAnswer": "Yes. Download and print this sheet for personal use at no charge.",
+    "faqColorQuestion": "How can I color this sheet?",
+    "faqColorAnswer": "Use crayons, markers or colored pencils, and test your colors on scrap paper first.",
+    "styleCopy": {
+      "anime": {
+        "fact": "Did you know? Anime drawings often use expressive eyes and sharp contrasts to suggest emotion.",
+        "tip1": "Choose a light direction before shading Anime hair, and leave narrow highlights uncolored.",
+        "tip2": "Use a small palette for the main shapes, then add a darker tone beneath overlapping lines."
+      },
+      "kawaii": {
+        "fact": "Did you know? Kawaii art favors rounded shapes and simple, friendly expressions.",
+        "tip1": "Try two or three pastel colors for the Kawaii shapes and keep the background light.",
+        "tip2": "Add a small blush with a pale pink pencil without covering the facial outlines."
+      },
+      "realistic": {
+        "fact": "Did you know? Realistic drawing uses light, shadow and texture to suggest natural forms.",
+        "tip1": "Build the Realistic shading with light pencil layers, following the direction of fur or surfaces.",
+        "tip2": "Keep the brightest areas white and deepen only the shadows to preserve the line details."
+      },
+      "cartoon": {
+        "fact": "Did you know? Cartoon art simplifies shapes and exaggerates expressions to tell a story.",
+        "tip1": "Give each Cartoon shape a clear base color before adding a single darker shadow.",
+        "tip2": "Choose contrasting colors for neighboring areas so the bold outlines remain easy to read."
+      },
+      "chibi": {
+        "fact": "Did you know? Chibi art exaggerates the head and keeps the body proportions small.",
+        "tip1": "Use gentle color transitions on Chibi faces and leave tiny highlights in the eyes.",
+        "tip2": "Keep clothing colors simple so the oversized head remains the main focal point."
+      },
+      "steampunk": {
+        "fact": "Did you know? Steampunk art combines historical design influences with imagined machinery.",
+        "tip1": "Try brass, copper and brown tones for Steampunk details, with one cool accent color.",
+        "tip2": "Shade small mechanical shapes one at a time, leaving thin highlights to suggest metal."
+      },
+      "mandala": {
+        "fact": "Did you know? Mandala designs arrange repeated shapes around a central point.",
+        "tip1": "Begin at the Mandala center and repeat the same colors around each ring.",
+        "tip2": "Test a three-color palette on scrap paper before filling the smallest spaces."
+      },
+      "generic": {
+        "fact": "Did you know? Observing the outlines of {subject} can help you plan a balanced color palette.",
+        "tip1": "Start with the largest areas of {subject}, using light pressure for an even base layer.",
+        "tip2": "Test a darker shade on scrap paper before adding small details and shadows."
+      }
+    },
+    "share": {
+      "button": "Share & Embed",
+      "title": "Share this Coloring Page",
+      "description": "Embed this image on your blog with source attribution.",
+      "preview": "Preview",
+      "embedLabel": "Embed this image",
+      "embedHelp": "Copy this code to embed the image with a source link.",
+      "copied": "Copied!",
+      "copyCode": "Copy code",
+      "directLink": "Direct link",
+      "linkHelp": "Share the link to this sheet.",
+      "copyLink": "Copy link",
+      "termsLabel": "Usage terms",
+      "terms": "For personal and educational use. Keep the source link visible when embedding.",
+      "source": "Source"
+    }
   },
   "PrivacyPage": {
     "title": "Privacy Policy",
@@ -289,7 +358,9 @@
     "Seniors": "Seniors",
     "Beginners": "Beginners",
     "Intermediates": "Intermediates",
-    "Experts": "Experts"
+    "Experts": "Experts",
+    "Everyone": "all ages",
+    "St Patricks Day": "St. Patrick's Day"
   },
   "PetPage": {
     "metaTitle": "Free Pet Coloring Page Generator | Turn Dog & Cat Photos into Art",

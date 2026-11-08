@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import {
     Dialog,
@@ -29,15 +30,16 @@ interface ShareEmbedButtonProps {
  * 3. Proper link attribution for SEO
  */
 export function ShareEmbedButton({ imageUrl, title, pageUrl }: ShareEmbedButtonProps) {
+    const t = useTranslations('PrintablePage.share')
     const [copiedEmbed, setCopiedEmbed] = useState(false)
     const [copiedLink, setCopiedLink] = useState(false)
 
     // Generate embed code (100% client-side, no API calls)
     const generateEmbedCode = () => {
         return `<a href="${pageUrl}" target="_blank" rel="noopener" title="${title} - AI Coloring Page">
-  <img src="${imageUrl}" alt="${title} coloring page" style="max-width:100%; height:auto; border:1px solid #e5e7eb; border-radius:8px;" />
+  <img src="${imageUrl}" alt="${title}" style="max-width:100%; height:auto; border:1px solid #e5e7eb; border-radius:8px;" />
   <br/>
-  <small style="color:#6b7280;">Source: <a href="${pageUrl}">ai-coloringpage.com</a></small>
+  <small style="color:#6b7280;">${t('source')}: <a href="${pageUrl}">ai-coloringpage.com</a></small>
 </a>`
     }
 
@@ -68,15 +70,14 @@ export function ShareEmbedButton({ imageUrl, title, pageUrl }: ShareEmbedButtonP
             <DialogTrigger asChild>
                 <Button variant="outline" size="sm" className="gap-2">
                     <Code2 className="w-4 h-4" />
-                    Share & Embed
+                    {t('button')}
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[700px]">
                 <DialogHeader>
-                    <DialogTitle>Share this Coloring Page</DialogTitle>
+                    <DialogTitle>{t('title')}</DialogTitle>
                     <DialogDescription>
-                        Embed this image on your blog or website with proper attribution.
-                        100% free for personal and educational use.
+                        {t('description')}
                     </DialogDescription>
                 </DialogHeader>
 
@@ -89,7 +90,7 @@ export function ShareEmbedButton({ imageUrl, title, pageUrl }: ShareEmbedButtonP
                             className="max-h-[300px] mx-auto rounded border border-gray-200"
                         />
                         <p className="text-center text-xs text-gray-500 mt-2">
-                            Preview: {title}
+                            {t('preview')}: {title}
                         </p>
                     </div>
 
@@ -97,10 +98,10 @@ export function ShareEmbedButton({ imageUrl, title, pageUrl }: ShareEmbedButtonP
                     <div>
                         <label className="text-sm font-semibold mb-2 block flex items-center gap-2">
                             <Code2 className="w-4 h-4" />
-                            Embed this Image (Recommended for Bloggers)
+                            {t('embedLabel')}
                         </label>
                         <p className="text-xs text-gray-600 mb-3">
-                            Copy this code to embed the image with a source link back to this page.
+                            {t('embedHelp')}
                         </p>
                         <div className="relative">
                             <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg text-xs overflow-x-auto font-mono">
@@ -114,26 +115,26 @@ export function ShareEmbedButton({ imageUrl, title, pageUrl }: ShareEmbedButtonP
                                 {copiedEmbed ? (
                                     <>
                                         <Check className="w-4 h-4" />
-                                        Copied!
+                                        {t('copied')}
                                     </>
                                 ) : (
                                     <>
                                         <Copy className="w-4 h-4" />
-                                        Copy Code
+                                        {t('copyCode')}
                                     </>
                                 )}
                             </Button>
                         </div>
                     </div>
 
-                    {/* Direct Link Section */}
+                    {/* {t('directLink')} Section */}
                     <div>
                         <label className="text-sm font-semibold mb-2 block flex items-center gap-2">
                             <Link2 className="w-4 h-4" />
-                            Direct Link
+                            {t('directLink')}
                         </label>
                         <p className="text-xs text-gray-600 mb-3">
-                            Share the URL to this coloring page.
+                            {t('linkHelp')}
                         </p>
                         <div className="relative">
                             <div className="bg-gray-100 p-3 rounded-lg text-sm font-mono break-all pr-20">
@@ -148,12 +149,12 @@ export function ShareEmbedButton({ imageUrl, title, pageUrl }: ShareEmbedButtonP
                                 {copiedLink ? (
                                     <>
                                         <Check className="w-4 h-4" />
-                                        Copied!
+                                        {t('copied')}
                                     </>
                                 ) : (
                                     <>
                                         <Copy className="w-4 h-4" />
-                                        Copy Link
+                                        {t('copyLink')}
                                     </>
                                 )}
                             </Button>
@@ -163,8 +164,7 @@ export function ShareEmbedButton({ imageUrl, title, pageUrl }: ShareEmbedButtonP
                     {/* Usage Terms */}
                     <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
                         <p className="text-xs text-blue-900">
-                            <strong>Usage Terms:</strong> Free for personal use, educational purposes, and blogging.
-                            The source link must remain visible when embedding on websites.
+                            <strong>{t('termsLabel')}:</strong> {t('terms')}
                         </p>
                     </div>
                 </div>

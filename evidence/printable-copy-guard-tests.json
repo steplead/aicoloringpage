@@ -1,0 +1,18 @@
+{
+  "allowed": [
+    "Coloriage Chat de style Kawaii",
+    "Leão para colorir no estilo Kawaii",
+    "AI Coloring Page",
+    "Dibujo Anime"
+  ],
+  "rejected": [
+    "Kawaii style Lion",
+    "Did you know?",
+    "para Everyone",
+    "Download this unique art",
+    "coloring sheets with AI",
+    "Try using soft pastels for background areas.",
+    "Coloring Page"
+  ],
+  "passed": true
+}
