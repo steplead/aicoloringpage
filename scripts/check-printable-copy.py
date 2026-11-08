@@ -21,6 +21,7 @@ def require(ok,message):
 # and French "de style" is ordinary French (not English filler).
 ENGLISH = re.compile(r'\b(?:Coloring Pages?|Did you know|Everyone|Download this|coloring sheets with AI|Try using soft pastels|Mix marker and colored pencil|Coloring helps improve|Free printable|AI Generated|Print Page|Download PDF|Share & Embed|favorite subject for)\b|\b(?:Kawaii|Anime|Chibi|Realistic|Cartoon|Steampunk) style\b',re.I)
 def inspect(source,locale):
+    require('Everyone' not in source, 'Everyone leaked into HTML, including serialized data')
     title=html.unescape(re.search(r'<title>(.*?)</title>',source,re.S)[1])
     desc=html.unescape(re.search(r'<meta name="description" content="([^"]*)"',source)[1])
     main=re.search(r'<main\b[^>]*>(.*?)</main>',source,re.S)[1]
@@ -29,6 +30,9 @@ def inspect(source,locale):
     require(h1 in title, 'Metadata title must follow localized H1')
     require('Everyone' not in title+' '+desc+' '+body,'Everyone leaked')
     if locale!='en':
+        # French 'de style' is correct; elsewhere an isolated 'style' is English filler.
+        filler = re.search(r'(?<!de )\bstyle\b' if locale=='fr' else r'\bstyle\b', title+' '+desc+' '+body, re.I)
+        require(not filler, 'English style filler')
         for label,value in [('title',title),('description',desc),('body',body)]:
             m=ENGLISH.search(value.replace('AI Coloring Page',''))
             require(not m,f'{locale} {label}: English fragment {m[0] if m else ""}')

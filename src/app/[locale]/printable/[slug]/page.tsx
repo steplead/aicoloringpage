@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     const tData = await getTranslations({ locale, namespace: 'Data' })
     const subject = tData.has(subjectKey(pageData.subject)) ? tData(subjectKey(pageData.subject)) : pageData.subject
-    const audience = tData.has(pageData.audience) ? tData(pageData.audience) : pageData.audience
+    const audience = pageData.audience === 'Everyone' ? t('allAges') : tData.has(pageData.audience) ? tData(pageData.audience) : pageData.audience
     const styled = pageData.style.toLowerCase() !== 'standard'
     const title = styled ? t('styleTitle', { style: styleName(pageData.style), subject }) : tData('titlePattern', { subject, audience })
     const description = styled ? t('styleBody', { style: styleName(pageData.style), subject }) : t('plainDescription', { subject })
@@ -67,7 +67,7 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
 
     // Dynamic translations helper
     const translatedSubject = tData.has(subjectKey(pageData.subject)) ? tData(subjectKey(pageData.subject)) : pageData.subject
-    const translatedAudience = tData.has(pageData.audience) ? tData(pageData.audience) : pageData.audience
+    const translatedAudience = pageData.audience === 'Everyone' ? t('allAges') : tData.has(pageData.audience) ? tData(pageData.audience) : pageData.audience
     const styleLabel = styleName(pageData.style)
     const styled = pageData.style.toLowerCase() !== 'standard'
     const translatedTitle = styled ? t('styleTitle', { style: styleLabel, subject: translatedSubject }) : tData('titlePattern', { subject: translatedSubject, audience: translatedAudience })
@@ -255,7 +255,7 @@ export default async function PrintablePage({ params }: { params: Promise<{ slug
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                         {relatedPages.map((page) => {
                             const pSubject = tData.has(subjectKey(page.subject)) ? tData(subjectKey(page.subject)) : page.subject
-                            const pAudience = tData.has(page.audience) ? tData(page.audience) : page.audience
+                            const pAudience = page.audience === 'Everyone' ? t('allAges') : tData.has(page.audience) ? tData(page.audience) : page.audience
                             const pTitle = page.style.toLowerCase() !== 'standard' ? t('styleTitle', { style: styleName(page.style), subject: pSubject }) : tData('titlePattern', { subject: pSubject, audience: pAudience })
                             return (
                                 <Link key={page.slug} href={`/printable/${page.slug}`} className="group block" prefetch={false}>

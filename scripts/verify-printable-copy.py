@@ -14,6 +14,9 @@ def check(path):
         source=response.read().decode();r.update(status=response.status,cache=response.headers.get('CF-Cache-Status'),age=response.headers.get('Age'),final_url=response.url)
         require=response.status==200 and response.url==base+path
         if not require:raise AssertionError('Unexpected status or redirect')
+        r['title']=html.unescape(re.search(r'<title>(.*?)</title>',source,re.S)[1])
+        r['description']=html.unescape(re.search(r'<meta name="description" content="([^"]*)"',source)[1])
+        r['raw_everyone_count']=source.count('Everyone')
         locale=path.split('/')[1];actual=copycheck.inspect(source,locale);expected=copycheck.inspect((ROOT/'.vercel/output/static'/(path.lstrip('/')+'.html')).read_text(),locale)
         r.update(actual);r['matches_build']=actual==expected
         if actual!=expected:raise AssertionError('Rendered copy does not match the verified build')

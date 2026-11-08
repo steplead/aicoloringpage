@@ -17,5 +17,9 @@
   "new_pages": 0,
   "url_changes": 0,
   "binding_secret_config_changes": 0,
-  "note": "All 12068 printable artifacts passed localized title/body/meta/alt/FAQ/related checks; five distinct style tip pairs per language. No claim that copy changes guarantee indexing."
+  "note": "All 12068 printable artifacts passed localized title/body/meta/alt/FAQ/related checks; five distinct style tip pairs per language. No claim that copy changes guarantee indexing.",
+  "transient_preview_attempt": {
+    "result": "failed before deployment",
+    "reason": "Rebuilding in the same artifact directory removed _worker.js/index.js while Wrangler was packaging; no successful deployment id, production unchanged. Final attempts run only after build completion."
+  }
 }
