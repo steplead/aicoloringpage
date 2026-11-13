@@ -9,6 +9,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { styleName } from '@/lib/styles'
 import { pageAlternates } from '@/lib/alternates'
 import { getPublishedPage, getPublishedPages, getRelatedPages } from '@/lib/seo-catalog'
+import { isIndexablePrintable } from '@/lib/index-policy'
 
 export const dynamic = 'force-static'
 export const dynamicParams = false
@@ -41,11 +42,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const title = styled ? t('styleTitle', { style: styleName(pageData.style), subject }) : tData('titlePattern', { subject, audience })
     const description = styled ? t('styleBody', { style: styleName(pageData.style), subject }) : t('plainDescription', { subject })
     const path = `/printable/${slug}`
+    const alternates = pageAlternates(locale, path)
+    const indexable = isIndexablePrintable(slug)
 
     return {
         title,
         description,
-        alternates: pageAlternates(locale, path),
+        // Thin audience variants: noindex,follow, self canonical, no hreflang cluster.
+        alternates: indexable ? alternates : { canonical: alternates.canonical },
+        ...(indexable ? {} : { robots: { index: false, follow: true } }),
         openGraph: {
             title,
             description,

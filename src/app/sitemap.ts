@@ -3,6 +3,7 @@ import fs from 'fs'
 import path from 'path'
 import { LOCALES, pageAlternates } from '@/lib/alternates'
 import { getPublishedPages } from '@/lib/seo-catalog'
+import { isIndexablePrintable } from '@/lib/index-policy'
 
 export const dynamic = 'force-static'
 
@@ -67,12 +68,13 @@ function printablePaths(): string[] {
     const published = getPublishedPages('en').map((page) => page.slug)
     const publishedSet = new Set(published)
     const { slugs, extraLimit } = loadAllowlist()
-    const base = slugs.filter((slug) => publishedSet.has(slug))
+    // batch-review-20261113: noindex audience variants never enter the sitemap.
+    const base = slugs.filter((slug) => publishedSet.has(slug) && isIndexablePrintable(slug))
     const seen = new Set(base)
     const extras: string[] = []
     if (extraLimit > 0) {
         for (const slug of published) {
-            if (seen.has(slug)) continue
+            if (seen.has(slug) || !isIndexablePrintable(slug)) continue
             extras.push(slug)
             seen.add(slug)
             if (extras.length >= extraLimit) break

@@ -1,0 +1,20 @@
+{
+  "note": "batch-review-20261113: Standard-style printable pages are 14 audience variants per subject with ~0.94 identical body text. Only the broad Kids/Adults variants stay indexable; other audience variants get noindex,follow, no hreflang, and stay out of the sitemap. Styled pages (one page per style x subject) are not audience duplicates and stay indexable. Slugs below keep index because GSC (sc-domain, 2026-08-13..2026-11-10, raw) showed impressions on some locale; keep is slug-level so hreflang clusters stay symmetric. Review 2026-11-27.",
+  "indexableAudiences": ["Kids", "Adults"],
+  "gscKeepSlugs": [
+    "alien-coloring-page-for-teens",
+    "boat-coloring-page-for-teens",
+    "desert-coloring-page-for-girls",
+    "fox-coloring-page-for-boys",
+    "mermaid-coloring-page-for-men",
+    "new-year-s-eve-coloring-page-for-women",
+    "penguin-coloring-page-for-preschoolers",
+    "penguin-coloring-page-for-women",
+    "queen-coloring-page-for-teens",
+    "submarine-coloring-page-for-men",
+    "sun-coloring-page-for-boys",
+    "vegetable-coloring-page-for-men",
+    "zombie-coloring-page-for-men",
+    "zombie-coloring-page-for-teens"
+  ]
+}
