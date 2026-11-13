@@ -1,0 +1,13 @@
+{
+  "todo": "batch-review-20261113",
+  "date": "2026-11-13 (Asia/Shanghai)",
+  "gsc": {"property": "sc-domain:ai-coloringpage.com", "window": "2026-08-13..2026-11-10", "type": "web/final", "site_impressions_raw": 16, "page_impression_rows": 31, "clicks": 0, "query_rows": 0, "cleaned_effective_impressions": 0, "invalid_flag": "all days: >=5 pages listed at positions 1..N with 1-5 property impressions, 0 clicks, anonymous queries -> suspected site:/rank-monitor; or malformed /www./ URL"},
+  "pre_change_live_audit": {"sitemap_urls": 832, "sitemap_printable": 576, "canonical_errors": 0, "hreflang_errors": 0, "html_lang_errors": 0, "offsitemap_sample": 60, "offsitemap_errors": 0, "non_printable_sitemap_urls_checked": 256, "non_printable_errors": 0, "en_audience_variant_text_similarity": {"min": 0.851, "median": 0.942, "max": 0.95}, "en_main_words": 121, "cross_language_similarity_median": {"es": 0.023, "pt": 0.016, "fr": 0.024}, "main_image_unique_per_slug": true, "same_image_across_locales": true},
+  "rule": "Standard style: keep Kids/Adults + 14 GSC-impression slugs indexable; other audience variants noindex,follow, no hreflang, not in sitemap. Styled pages (1 per style x subject) stay indexable.",
+  "result": {"per_locale_index": 1500, "per_locale_noindex": 1517, "total_index": 6000, "total_noindex": 6068, "sitemap_urls_after": 344, "sitemap_printable_after": 88},
+  "commit": "2ac06d0",
+  "deployment": {"production": "712e7424-6307-4a4b-83b6-beb56e9d92b7", "url": "https://712e7424.aicoloringpage.pages.dev", "rollback": "0ad9c996-7763-4c4d-b0d3-3f9acadfa478"},
+  "deployment_url_verification": {"printable_pages": 648, "index_ok": 156, "noindex_ok": 492, "bad": 0, "sitemap": 344, "sitemap_noindex_leaks": 0},
+  "apex_cache": "cache rule edge TTL 1 day; token purge returned 401. Uncached apex URLs already serve new HTML; cached sitemap and 576 printable URLs (warmed 08:36) stale until about 2026-11-14 09:00 Asia/Shanghai.",
+  "recheck": "2026-11-27"
+}
